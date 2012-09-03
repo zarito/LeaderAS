@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28 ao?t 2012 18:10:33 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.lds.vo.Tache" table="tache" schema="public">
+        <id name="numtache" type="string">
+            <column name="numtache" length="254" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="projet" class="com.lds.vo.Projet" fetch="select" lazy="false" >
+            <column name="idprojet" length="254" not-null="true" />
+        </many-to-one>
+        <property name="designationtache" type="string">
+            <column name="designationtache" length="254" />
+        </property>
+        <property name="durefabrication" type="java.lang.Integer">
+            <column name="durefabrication" />
+        </property>
+        <property name="lienimplementation" type="string">
+            <column name="lienimplementation" length="254" />
+        </property>
+        <property name="lienschema" type="string">
+            <column name="lienschema" length="254" />
+        </property>
+        <property name="lieutache" type="string">
+            <column name="lieutache" length="254" />
+        </property>
+        <property name="typetache" type="string">
+            <column name="typetache" length="254" />
+        </property>
+        <set name="bonsorties" inverse="true">
+            <key>
+                <column name="numtache" length="254" not-null="true" />
+            </key>
+            <one-to-many class="com.lds.vo.Bonsortie" />
+        </set>
+        <set name="soustaches" inverse="true">
+            <key>
+                <column name="numtache" length="254" not-null="true" />
+            </key>
+            <one-to-many class="com.lds.vo.Soustache" />
+        </set>
+        <set name="besoins" inverse="true">
+            <key>
+                <column name="numtache" length="254" not-null="true" />
+            </key>
+            <one-to-many class="com.lds.vo.Besoin" />
+        </set>
+        <set name="detailstachepersonnels" inverse="true">
+            <key>
+                <column name="numtache" length="254" not-null="true" />
+            </key>
+            <one-to-many class="com.lds.vo.Detailstachepersonnel" />
+        </set>
+    </class>
+</hibernate-mapping>

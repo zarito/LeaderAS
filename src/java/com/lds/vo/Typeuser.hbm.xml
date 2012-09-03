@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28 ao?t 2012 18:10:33 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.lds.vo.Typeuser" table="typeuser" schema="public">
+        <id name="typeuser" type="int">
+            <column name="typeuser" />
+            <generator class="assigned" />
+        </id>
+        <property name="nompriv" type="string">
+            <column name="nompriv" length="254" />
+        </property>
+        <set name="personnels" inverse="true">
+            <key>
+                <column name="typeuser" not-null="true" />
+            </key>
+            <one-to-many class="com.lds.vo.Personnel" />
+        </set>
+    </class>
+</hibernate-mapping>

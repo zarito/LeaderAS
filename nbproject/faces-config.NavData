@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scene Scope="Project" version="2">
+    <Scope Scope="Faces Configuration Only"/>
+    <Scope Scope="Project">
+        <Node id="vue/client-fournisseur/accueil.xhtml" x="150" y="300" zoom="true"/>
+        <Node id="*" x="1150" y="450" zoom="true"/>
+        <Node id="vue/personnel/accueil.xhtml?id=-1" x="-2" y="218" zoom="true"/>
+        <Node id="vue/personnel/ajout.xhtml" x="900" y="150" zoom="true"/>
+        <Node id="vue/paramCompte.xhtml?id=-1" x="1150" y="150" zoom="true"/>
+        <Node id="vue/client-fournisseur/modif.xhtml" x="650" y="750" zoom="true"/>
+        <Node id="vue/accueil.xhtml?id=-1" x="1180" y="73" zoom="true"/>
+        <Node id="vue/no-access.xhtml" x="400" y="300" zoom="true"/>
+        <Node id="vue/client-fournisseur/*" x="1400" y="300" zoom="true"/>
+        <Node id="vue/paramCompte.xhtml" x="150" y="600" zoom="true"/>
+        <Node id="vue/personnel/*" x="400" y="150" zoom="true"/>
+        <Node id="vue/client-fournisseur/ajout_four.xhtml" x="900" y="600" zoom="true"/>
+        <Node id="index.xhtml" x="900" y="300" zoom="true"/>
+        <Node id="vue/stats/accueil.xhtml" x="150" y="150" zoom="true"/>
+        <Node id="vue/personnel/droits.xhtml" x="150" y="900" zoom="true"/>
+        <Node id="vue/client-fournisseur/modif_four.xhtml" x="1900" y="150" zoom="true"/>
+        <Node id="vue/personnel/accueil.xhtml" x="400" y="450" zoom="true"/>
+        <Node id="vue/client-fournisseur/accueil_fourn.xhtml" x="900" y="450" zoom="true"/>
+        <Node id="vue/client-fournisseur/ajout.xhtml" x="650" y="600" zoom="true"/>
+        <Node id="vue/personnel/modif.xhtml" x="400" y="900" zoom="true"/>
+        <Node id="vue/access-denied.xhtml" x="650" y="150" zoom="true"/>
+        <Node id="vue/accueil.xhtml" x="1150" y="300" zoom="true"/>
+    </Scope>
+    <Scope Scope="All Faces Configurations"/>
+</Scene>

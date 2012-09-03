@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28 ao?t 2012 18:10:33 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.lds.vo.Fourniture" table="fourniture" schema="public">
+        <id name="numfourniture" type="string">
+            <column name="numfourniture" length="254" />
+            <generator class="assigned" />
+        </id>
+        <property name="descfourniture" type="string">
+            <column name="descfourniture" length="254" />
+        </property>
+        <property name="qntfourniture" type="java.lang.Integer">
+            <column name="qntfourniture" />
+        </property>
+        <set name="detailsfourniturebesoins" inverse="true">
+            <key>
+                <column name="numfourniture" length="254" not-null="true" />
+            </key>
+            <one-to-many class="com.lds.vo.Detailsfourniturebesoin" />
+        </set>
+        <set name="detailssortiefournitures" inverse="true">
+            <key>
+                <column name="numfourniture" length="254" not-null="true" />
+            </key>
+            <one-to-many class="com.lds.vo.Detailssortiefourniture" />
+        </set>
+    </class>
+</hibernate-mapping>

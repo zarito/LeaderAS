@@ -1,0 +1,324 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!-- =========== FULL CONFIGURATION FILE ================================== -->
+
+<faces-config version="2.0"
+              xmlns="http://java.sun.com/xml/ns/javaee" 
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+     
+    <navigation-rule> 
+        <from-view-id>index.xhtml</from-view-id> 
+        <navigation-case> 
+            <from-outcome>Accepted</from-outcome> 
+            <to-view-id>vue/accueil.xhtml?id=-1</to-view-id> 
+            <redirect />
+        </navigation-case> 
+        <navigation-case> 
+            <from-outcome>Rejected</from-outcome> 
+            <to-view-id>/index.xhtml</to-view-id> 
+        </navigation-case> 
+    </navigation-rule> 
+    
+    <navigation-rule> 
+        <from-view-id>/vue/paramCompte.xhtml?id=-1</from-view-id> 
+        <navigation-case> 
+            <from-outcome>changePwd</from-outcome> 
+            <to-view-id>vue/accueil.xhtml?id=-1</to-view-id> 
+            <redirect />
+        </navigation-case>         
+    </navigation-rule> 
+    
+    <navigation-rule> 
+        <from-view-id>*</from-view-id> 
+        <navigation-case> 
+            <from-outcome>logout</from-outcome> 
+            <to-view-id>/index.xhtml</to-view-id> 
+            <redirect />
+        </navigation-case>     
+        <navigation-case> 
+            <from-outcome>paramCompte</from-outcome> 
+            <to-view-id>vue/paramCompte.xhtml?id=-1</to-view-id> 
+            <redirect />
+        </navigation-case> 
+    </navigation-rule> 
+    
+    <navigation-rule> 
+        <from-view-id>/vue/personnel/*</from-view-id> 
+        <navigation-case> 
+            <from-outcome>succesAjout</from-outcome> 
+            <to-view-id>vue/personnel/accueil.xhtml?id=-1</to-view-id> 
+            <redirect />
+        </navigation-case> 
+        <navigation-case> 
+            <from-outcome>echecAjout</from-outcome> 
+            <to-view-id>/vue/personnel/ajout.xhtml</to-view-id> 
+            <redirect />
+        </navigation-case> 
+        <navigation-case> 
+            <from-outcome>details</from-outcome> 
+            <to-view-id>/vue/personnel/droits.xhtml</to-view-id> 
+            <redirect />
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>priv_insert</from-outcome> 
+            <to-view-id>/vue/personnel/accueil.xhtml</to-view-id> 
+            <redirect />
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>modif</from-outcome> 
+            <to-view-id>/vue/personnel/modif.xhtml</to-view-id> 
+            <redirect />
+        </navigation-case>
+    </navigation-rule> 
+    
+    <navigation-rule> 
+        <from-view-id>/vue/client-fournisseur/*</from-view-id> 
+        <navigation-case> 
+            <from-outcome>succesAjout</from-outcome> 
+            <to-view-id>vue/client-fournisseur/accueil.xhtml?id=4</to-view-id> 
+            <redirect />
+        </navigation-case> 
+        <navigation-case> 
+            <from-outcome>echecAjout</from-outcome> 
+            <to-view-id>/vue/client-fournisseur/ajout.xhtml?id=4</to-view-id> 
+            <redirect />
+        </navigation-case>            
+        <navigation-case> 
+            <from-outcome>modif</from-outcome> 
+            <to-view-id>/vue/client-fournisseur/modif.xhtml?id=4</to-view-id> 
+            <redirect />
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>succesAjoutFour</from-outcome> 
+            <to-view-id>vue/client-fournisseur/accueil_fourn.xhtml?id=4</to-view-id> 
+            <redirect />
+        </navigation-case> 
+        <navigation-case> 
+            <from-outcome>four_ajout</from-outcome> 
+            <to-view-id>/vue/client-fournisseur/ajout_four.xhtml?id=4</to-view-id> 
+            <redirect />
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>modif_four</from-outcome> 
+            <to-view-id>/vue/client-fournisseur/modif_four.xhtml?id=4</to-view-id> 
+            <redirect />
+        </navigation-case>
+    </navigation-rule> 
+    
+    <navigation-rule> 
+        <from-view-id>/vue/magasin/*</from-view-id> 
+        <navigation-case> 
+            <from-outcome>succesAjoutArticle</from-outcome> 
+            <to-view-id>vue/magasin/accueil.xhtml?id=3</to-view-id> 
+            <redirect />
+        </navigation-case>               
+        <navigation-case> 
+            <from-outcome>sortie_ajout</from-outcome> 
+            <to-view-id>/vue/magasin/ajout_bonsortie.xhtml?id=3</to-view-id> 
+            <redirect />
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>modif_sortie</from-outcome> 
+            <to-view-id>/vue/magasin/modif_bonsortie.xhtml?id=3</to-view-id> 
+            <redirect />
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>details_sortie</from-outcome> 
+            <to-view-id>/vue/magasin/details_bonsortie.xhtml?id=3</to-view-id> 
+            <redirect />
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>input_ajout</from-outcome> 
+            <to-view-id>/vue/magasin/ajout_bonreception.xhtml?id=3</to-view-id> 
+            <redirect />
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>modif_input</from-outcome> 
+            <to-view-id>/vue/magasin/modif_bonreception.xhtml?id=3</to-view-id> 
+            <redirect />
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>details_input</from-outcome> 
+            <to-view-id>/vue/magasin/details_bonreception.xhtml?id=3</to-view-id> 
+            <redirect />
+        </navigation-case>       
+    </navigation-rule>
+    
+    
+    <navigation-rule> 
+        <from-view-id>/vue/commercial/*</from-view-id> 
+        <navigation-case> 
+            <from-outcome>succesAjout</from-outcome> 
+            <to-view-id>vue/commercial/accueil.xhtml?id=1</to-view-id> 
+            <redirect />
+        </navigation-case>         
+        <navigation-case> 
+            <from-outcome>boncommande_ajout</from-outcome> 
+            <to-view-id>vue/commercial/ajout_bc.xhtml?id=1</to-view-id> 
+            <redirect />
+        </navigation-case>     
+        <navigation-case> 
+            <from-outcome>echecAjout</from-outcome> 
+            <to-view-id>vue/commercial/ajout_dp.xhtml?id=1</to-view-id> 
+            <redirect />
+        </navigation-case>     
+        <navigation-case> 
+            <from-outcome>ajoutAff</from-outcome> 
+            <to-view-id>vue/commercial/ajout_aff.xhtml?id=1</to-view-id> 
+            <redirect />
+        </navigation-case>   
+        <navigation-case> 
+            <from-outcome>details_bc</from-outcome> 
+            <to-view-id>vue/commercial/details_bc.xhtml?id=1</to-view-id> 
+            <redirect />
+        </navigation-case>     
+        <navigation-case> 
+            <from-outcome>details_dp</from-outcome> 
+            <to-view-id>vue/commercial/details_dp.xhtml?id=1</to-view-id> 
+            <redirect />
+        </navigation-case>     
+        <navigation-case> 
+            <from-outcome>modif</from-outcome> 
+            <to-view-id>vue/commercial/modif_bc.xhtml?id=1</to-view-id> 
+            <redirect />
+        </navigation-case>      
+        <navigation-case> 
+            <from-outcome>modif_aff</from-outcome> 
+            <to-view-id>vue/commercial/modif_aff.xhtml?id=1</to-view-id> 
+            <redirect />
+        </navigation-case>
+    </navigation-rule>                 
+    
+    <navigation-rule> 
+        <from-view-id>/vue/technique/*</from-view-id> 
+        <navigation-case> 
+            <from-outcome>succesAjout</from-outcome> 
+            <to-view-id>vue/technique/accueil.xhtml?id=2</to-view-id> 
+            <redirect />
+        </navigation-case>         
+        <navigation-case> 
+            <from-outcome>echecAjout</from-outcome> 
+            <to-view-id>vue/technique/ajout_besoin.xhtml?id=2</to-view-id> 
+            <redirect />
+        </navigation-case> 
+        <navigation-case> 
+            <from-outcome>article_ajout</from-outcome> 
+            <to-view-id>vue/technique/ajout_stock.xhtml?id=2</to-view-id> 
+            <redirect />
+        </navigation-case> 
+        <navigation-case> 
+            <from-outcome>article_ajout_four</from-outcome> 
+            <to-view-id>vue/technique/ajout_stock_four.xhtml?id=2</to-view-id> 
+            <redirect />
+        </navigation-case> 
+        <navigation-case> 
+            <from-outcome>interv_ajout</from-outcome> 
+            <to-view-id>vue/technique/ajout_interv.xhtml?id=2</to-view-id> 
+            <redirect />
+        </navigation-case> 
+        <navigation-case> 
+            <from-outcome>details</from-outcome> 
+            <to-view-id>vue/technique/details_besoin.xhtml?id=2</to-view-id> 
+            <redirect />
+        </navigation-case> 
+        <navigation-case> 
+            <from-outcome>modif</from-outcome> 
+            <to-view-id>vue/technique/modif_besoin.xhtml?id=2</to-view-id> 
+            <redirect />
+        </navigation-case> 
+        <navigation-case> 
+            <from-outcome>modif_stock</from-outcome> 
+            <to-view-id>vue/technique/modif_stock.xhtml?id=2</to-view-id> 
+            <redirect />
+        </navigation-case> 
+        <navigation-case> 
+            <from-outcome>modif_stock_four</from-outcome> 
+            <to-view-id>vue/technique/modif_stock_four.xhtml?id=2</to-view-id> 
+            <redirect />
+        </navigation-case> 
+         <navigation-case> 
+            <from-outcome>modif_interv</from-outcome> 
+            <to-view-id>vue/technique/modif_interv.xhtml?id=2</to-view-id> 
+            <redirect />
+        </navigation-case>
+    </navigation-rule> 
+    
+    
+    <managed-bean> 
+        <managed-bean-name>personBean</managed-bean-name> 
+        <managed-bean-class>com.lds.beans.PersonBean</managed-bean-class> 
+        <managed-bean-scope>session</managed-bean-scope> 
+    </managed-bean> 
+    
+    <managed-bean> 
+        <managed-bean-name>droitBean</managed-bean-name> 
+        <managed-bean-class>com.lds.beans.DroitBean</managed-bean-class> 
+        <managed-bean-scope>session</managed-bean-scope> 
+    </managed-bean> 
+    
+    <managed-bean> 
+        <managed-bean-name>personnelBean</managed-bean-name> 
+        <managed-bean-class>com.lds.beans.PersonnelBean</managed-bean-class> 
+        <managed-bean-scope>session</managed-bean-scope> 
+    </managed-bean>
+    <managed-bean> 
+        <managed-bean-name>clientBean</managed-bean-name> 
+        <managed-bean-class>com.lds.beans.ClientBean</managed-bean-class> 
+        <managed-bean-scope>session</managed-bean-scope> 
+    </managed-bean>
+    <managed-bean> 
+        <managed-bean-name>fournisseurBean</managed-bean-name> 
+        <managed-bean-class>com.lds.beans.FournisseurBean</managed-bean-class> 
+        <managed-bean-scope>session</managed-bean-scope> 
+    </managed-bean>
+    <managed-bean> 
+        <managed-bean-name>articleBean</managed-bean-name> 
+        <managed-bean-class>com.lds.beans.ArticleBean</managed-bean-class> 
+        <managed-bean-scope>session</managed-bean-scope> 
+    </managed-bean>
+    <managed-bean> 
+        <managed-bean-name>fournitureBean</managed-bean-name> 
+        <managed-bean-class>com.lds.beans.FournitureBean</managed-bean-class> 
+        <managed-bean-scope>session</managed-bean-scope> 
+    </managed-bean>
+    <managed-bean> 
+        <managed-bean-name>sortieBean</managed-bean-name> 
+        <managed-bean-class>com.lds.beans.SortieBean</managed-bean-class> 
+        <managed-bean-scope>session</managed-bean-scope> 
+    </managed-bean>
+    <managed-bean> 
+        <managed-bean-name>boninputBean</managed-bean-name> 
+        <managed-bean-class>com.lds.beans.BoninputBean</managed-bean-class> 
+        <managed-bean-scope>session</managed-bean-scope> 
+    </managed-bean>
+    <managed-bean> 
+        <managed-bean-name>besoinBean</managed-bean-name> 
+        <managed-bean-class>com.lds.beans.BesoinBean</managed-bean-class> 
+        <managed-bean-scope>session</managed-bean-scope> 
+    </managed-bean>
+    <managed-bean> 
+        <managed-bean-name>bcBean</managed-bean-name> 
+        <managed-bean-class>com.lds.beans.BcBean</managed-bean-class> 
+        <managed-bean-scope>session</managed-bean-scope> 
+    </managed-bean>
+    <managed-bean> 
+        <managed-bean-name>dprixBean</managed-bean-name> 
+        <managed-bean-class>com.lds.beans.DPrixBean</managed-bean-class> 
+        <managed-bean-scope>session</managed-bean-scope> 
+    </managed-bean>
+    <managed-bean> 
+        <managed-bean-name>projetBean</managed-bean-name> 
+        <managed-bean-class>com.lds.beans.ProjetBean</managed-bean-class> 
+        <managed-bean-scope>session</managed-bean-scope> 
+    </managed-bean>
+    
+    <converter>
+        <converter-id>clientConverter</converter-id>
+        <converter-class>com.lds.beans.ClientConverter</converter-class>
+    </converter>
+    <converter>
+        <converter-id>fournisseurConverter</converter-id>
+        <converter-class>com.lds.beans.FournisseurConverter</converter-class>
+    </converter>
+</faces-config>

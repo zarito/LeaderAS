@@ -1,0 +1,307 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p ="http://primefaces.org/ui">
+
+    <f:event listener="#{droitBean.authorize()}" type="preRenderView" />
+
+    <h:head>
+        <title>LDS/accueil</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <link  rel="stylesheet" type="text/css" href="../../default.css" />
+    </h:head>
+    <h:body>
+        <div id="menu">
+            <ul>
+                <li><a href="../accueil.xhtml" accesskey="1">Accueil</a></li>
+                <li class="active"><a href="accueil.xhtml?id=2" accesskey="2">Section Vue</a></li>
+                <li><a href="../paramCompte.xhtml" accesskey="3">Compte</a></li>
+                <li><a href="../help.xhtml" accesskey="4">Aide</a></li>
+
+            </ul>
+        </div>
+        <div id="header">
+            <h1>Leader Automation Systems</h1>
+            <h2>Une passion pour un m&eacute;tier , Un travail de Qualit&eacute; !</h2>
+        </div>
+        <div id="links">
+            <ul>
+                <li>
+                    <h2>Compte</h2>
+                    <ul>
+                        <li><img src="../../images/user2.png" id="user1" /></li>
+                        <li>    <h:form>
+                                <p:commandLink id="ajax"  action="#{personBean.logout()}" style="margin-right:20px;">  
+                                    <h:outputText value="Déconnexion" />  
+                                </p:commandLink>  </h:form> </li>
+                        <li><a href="paramCompte.xhtml">Paramètres du Compte</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <h2>MENU</h2>
+                    <ul>
+                        <ui:repeat var="menu" value="#{droitBean.chargeMenu()}" varStatus="status">
+                            <li><a href="#{menu.lienpriv}">#{menu.nompriv}</a></li>
+                        </ui:repeat>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div id="wrapper">
+            <div id="content">
+                <h2 class="title">Gestion Technique: </h2><br/>
+                <p:accordionPanel id="tabView"> 
+
+                    <p:tab title="Gestion Articles">  
+                        <h:form id="form">
+                            <!--  <h:panelGrid columns="2" cellpadding="10">  -->
+                            <p:growl id="growl" showDetail="true"  /> 
+                            <p:dataTable  var="article" value="#{articleBean.mediumArticlesModel}" rowKey="#{article.idarticle}" paginator="true" rows="10"   
+                                          selection="#{articleBean.selectedArticle}"  lazy="true" selectionMode="single"  id="articleTable"  >                             
+
+                                <p:column headerText="N° Article " sortBy="#{article.idarticle}" id="idarticle" filterBy="#{article.idarticle}" >  
+                                    <h:outputText value="#{article.idarticle}"  />
+                                </p:column> 
+                                <p:column headerText="Désignation  " sortBy="#{article.descarticle}" id="nom" filterBy="#{article.descarticle}" >  
+                                    <h:outputText value="#{article.descarticle}" />
+                                </p:column>  
+
+                                <p:column headerText="Quantité " sortBy="#{article.qntarticle}"  id="email" filterBy="#{article.qntarticle}">  
+                                    <h:outputText value="#{article.qntarticle}" />
+                                </p:column>  
+
+                                <p:column headerText="Marque" sortBy="#{article.marque}"  id="tel" filterBy="#{article.marque}">  
+                                    <h:outputText value="#{article.marque}"  />
+                                </p:column> 
+
+                                <p:column headerText="Réf. commercial" sortBy="#{article.refcommerciale}"  id="refcommerciale" filterBy="#{article.refcommerciale}">  
+                                    <h:outputText value="#{article.refcommerciale}"  />
+                                </p:column>
+                                <p:column headerText="Réf. commande" sortBy="#{article.refcommande}"  id="refcommande" filterBy="#{article.refcommande}">  
+                                    <h:outputText value="#{article.refcommande}"  />
+                                </p:column>
+                                <p:column headerText="Prix U" sortBy="#{article.unite}"  id="unite" filterBy="#{article.unite}">  
+                                    <h:outputText value="#{article.unite}"  />
+                                </p:column>
+                                <p:column headerText="catégorie" sortBy="#{article.categorie}"  id="categorie" filterBy="#{article.categorie}">  
+                                    <h:outputText value="#{article.categorie}"  />
+                                </p:column>
+                                <f:facet name="footer">                              
+                                    <p:commandButton id="viewCommand" value="Ajouter" icon="ui-icon-add"  action="article_ajout" /> 
+
+                                    <p:commandButton id="ModifButton" value="Modifier" icon="ui-icon-search" action="#{articleBean.modif()}" update="growl" ajax="false"/> 
+
+
+
+                                    <p:commandButton id="showDialogButton1" value="Supprimer" onclick="confirmation1.show()" type="button" icon="ui-icon-close" />  
+
+                                    <p:confirmDialog id="confirmDialog1" message="Etes vous sûr de supprimer cet employé ?"  
+                                                     header="Confirmation1" severity="alert" widgetVar="confirmation1">                                                                  
+
+                                        <p:commandButton id="confirm1" value="OUI" oncomplete="confirmation1.hide()" actionListener="#{articleBean.supprimer}" ajax="false" update="growl1"/>
+                                        <p:commandButton id="decline1" value="NON" onclick="confirmation1.hide()" type="button" />   
+
+
+                                    </p:confirmDialog>
+                                </f:facet> 
+                            </p:dataTable>                                         
+                        </h:form>
+                        <!-- </h:panelGrid>  -->
+                    </p:tab>                     
+
+                    <p:tab title="Gestion des Fournitures ">  
+                        <h:form id="form1">
+                            <!-- <h:panelGrid columns="2" cellpadding="10">  -->
+                            <p:growl id="growlf" showDetail="true"  /> 
+                            <p:dataTable  var="fourniture" value="#{fournitureBean.mediumFournituresModel}" rowKey="#{fourniture.numfourniture}" paginator="true" rows="10"   
+                                          selection="#{fournitureBean.selectedFourniture}"  lazy="true" selectionMode="single"  id="fournitureTable"  >                             
+
+                                <p:column headerText="N° Fourniture " sortBy="#{fourniture.numfourniture}" id="idarticlef" filterBy="#{fourniture.numfourniture}" >  
+                                    <h:outputText value="#{fourniture.numfourniture}"  />
+                                </p:column> 
+                                <p:column headerText="Désignation  " sortBy="#{fourniture.descfourniture}" id="nomf" filterBy="#{fourniture.descfourniture}" >  
+                                    <h:outputText value="#{fourniture.descfourniture}" />
+                                </p:column>  
+
+                                <p:column headerText="Quantité " sortBy="#{fourniture.qntfourniture}"  id="emailf" filterBy="#{fourniture.qntfourniture}">  
+                                    <h:outputText value="#{fourniture.qntfourniture}" />
+                                </p:column>  
+                                <f:facet name="footer">                              
+                                    <p:commandButton id="viewCommandf" value="Ajouter" icon="ui-icon-add"  action="article_ajout_four" /> 
+
+                                    <p:commandButton id="ModifButtonf" value="Modifier" icon="ui-icon-search" action="#{fournitureBean.modif()}" update="growlf" ajax="false"/> 
+
+
+
+                                    <p:commandButton id="showDialogButton3" value="Supprimer" onclick="confirmation3.show()" type="button" icon="ui-icon-close" />  
+
+                                    <p:confirmDialog id="confirmDialog3" message="Etes vous sûr de supprimer cette fourniture ?"  
+                                                     header="Confirmation3" severity="alert" widgetVar="confirmation3">                                                                  
+
+                                        <p:commandButton id="confirm3" value="OUI" oncomplete="confirmation3.hide()" actionListener="#{fournitureBean.supprimer}" ajax="false" />
+                                        <p:commandButton id="decline3" value="NON" onclick="confirmation3.hide()" type="button" />   
+
+
+                                    </p:confirmDialog>
+                                </f:facet>
+                            </p:dataTable>
+                            <!-- </h:panelGrid>  -->
+                        </h:form>
+                    </p:tab> 
+
+                    <p:tab title="Gestion des Besoins">  
+                        <!-- <h:panelGrid columns="2" cellpadding="10">  -->
+                        <h:form id="form2">  
+                            <p:growl id="growlb" showDetail="true"  /> 
+
+                            <p:dataTable id="personnels" var="besoin" value="#{besoinBean.mediumBesoinsModel}" paginator="true" rows="10"  
+                                         selection="#{besoinBean.selectedBesoin}"   sortBy="#{besoin.idbesoin}" >  
+
+
+                                <f:facet name="header">  
+                                    Liste du Besoin 
+                                </f:facet>  
+
+                                <p:column selectionMode="single" style="width:18px" />
+
+                                <p:column headerText="N° Besoin" id="idbesoin" sortBy="#{besoin.idbesoin}" filterBy="#{besoin.idbesoin}">  
+                                    #{besoin.idbesoin}  
+                                </p:column>  
+
+                                <p:column headerText="N° Projet" id="num_projet" sortBy=" #{besoin.tache.projet.idprojet}" filterBy="#{besoin.tache.projet.idprojet}">  
+                                    #{besoin.tache.projet.idprojet} 
+                                </p:column>  
+                                <p:column headerText="Nom de la Tache" id="num_tache" sortBy=" #{besoin.tache.designationtache}" filterBy="#{besoin.tache.designationtache}">  
+                                    #{besoin.tache.designationtache} 
+                                </p:column>
+                                <p:column headerText="Décription :" id="desc" sortBy="#{besoin.descbesoin}" filterBy="#{besoin.descbesoin}">  
+                                    #{besoin.descbesoin}  
+                                </p:column>  
+
+                                <p:column headerText="Date " id="date" sortBy="#{besoin.datebesoin}" filterBy="#{besoin.datebesoin}">  
+                                    #{besoin.datebesoin}  
+                                </p:column>  
+
+                                <f:facet name="footer">                              
+                                    <p:commandButton id="viewCommandb" value="Ajouter" icon="ui-icon-add"  action="echecAjout" /> 
+
+                                    <p:commandButton id="droitsButtonb" value="Détails" icon="ui-icon-bookmark" action="#{besoinBean.details}" update="growl" ajax="false" /> 
+
+                                    <p:commandButton id="ModifButtonb" value="Modifier" icon="ui-icon-search" action="#{besoinBean.modif()}" update="growl" ajax="false"/> 
+
+
+                                    <p:commandButton id="showDialogButtonb" value="Supprimer" onclick="confirmation.show()" type="button" icon="ui-icon-close" />  
+
+                                    <p:confirmDialog id="confirmDialogb" message="Etes vous sûr de supprimer cet employé ?"  
+                                                     header="Confirmation" severity="alert" widgetVar="confirmation">                                                                  
+
+                                        <p:commandButton id="confirmb" value="OUI" oncomplete="confirmation.hide()" actionListener="#{besoinBean.supprimer}" ajax="false" update="growlb"/>
+                                        <p:commandButton id="declineb" value="NON" onclick="confirmation.hide()" type="button" />   
+
+
+                                    </p:confirmDialog>
+                                </f:facet>   
+
+
+                            </p:dataTable>   
+
+                        </h:form>  
+                        <!-- </h:panelGrid>  -->
+                    </p:tab>  
+
+                    <p:tab title="Gestion Tâches et Sous-tâches ">  
+                        <h:panelGrid columns="2" cellpadding="10">  
+
+                        </h:panelGrid>  
+                    </p:tab>  
+                    <p:tab title="Gestion des Interventions">  
+                        <h:form id="form3">  
+
+                            <p:growl id="growl3" showDetail="true"  /> 
+
+                            <p:dataTable var="intervention" value="#{projetBean.mediumInterventionsModel}"  paginator="true" rows="10"   
+                                         selection="#{projetBean.selectedIntervention}" selectionMode="single"  id="interventionTable"   >                             
+
+                                <f:facet name="header">  
+                                    Liste des Interventions  
+                                </f:facet>
+
+                                <p:column headerText="N° Intervention " sortBy="#{intervention.idprojet}" id="id" filterBy="#{intervention.idprojet}" >  
+                                    <h:outputText value="#{intervention.idprojet}" />
+                                </p:column> 
+                                
+                                <p:column headerText="Client" sortBy="#{intervention.client.nomclient}"  id="client" filterBy="#{intervention.client.nomclient}">  
+                                    <h:outputText value="#{intervention.client.nomclient}"  />
+                                </p:column> 
+                                
+                                <p:column headerText="Date" sortBy="#{intervention.dateintervention}"  id="date3" filterBy="#{intervention.dateintervention}">  
+                                    <h:outputText value="#{intervention.dateintervention}"  />
+                                </p:column> 
+                                
+                                <p:column headerText="Lieu" sortBy="#{intervention.lieuintervention}"  id="lieu" filterBy="#{intervention.lieuintervention}">  
+                                    <h:outputText value="#{intervention.lieuintervention}"  />
+                                </p:column> 
+
+                                <p:column headerText="Description" sortBy="#{intervention.descprojet}" id="desc3" filterBy="#{intervention.descprojet}" >  
+                                    <h:outputText value="#{client.nomclient}" />
+                                </p:column>  
+                                       
+
+                                <p:column headerText="Matériels" style="width:4%">  
+                                    <p:commandButton id="selectButton" update=":tabView:form3:display" oncomplete="carDialog.show()" icon="ui-icon-search" title="Voir">  
+                                        <f:setPropertyActionListener value="#{intervention}" target="#{projetBean.selectedIntervention}" />  
+                                    </p:commandButton>  
+                                </p:column> 
+
+                                <f:facet name="footer">                              
+                                    <p:commandButton id="viewCommandi" value="Ajouter" icon="ui-icon-add"  action="interv_ajout" />                                                         
+
+                                    <p:commandButton id="ModifButtoni" value="Détails" icon="ui-icon-search" action="#{projetBean.modifIntervention()}" update="growl" ajax="false"/> 
+
+                                    <p:commandButton id="showDialogButtoni" value="Supprimer" onclick="confirmation.show()" type="button" icon="ui-icon-trash" />  
+
+                                    <p:confirmDialog id="confirmDialogi" message="Etes vous sûr de supprimer cette intervention ?"  
+                                                     header="Confirmation" severity="alert" widgetVar="confirmation">                                                                  
+
+                                        <p:commandButton id="confirmi" value="OUI" oncomplete="confirmation.hide()" actionListener="#{projetBean.supprimerIntervention}" ajax="false" update="growl"/>
+                                        <p:commandButton id="declinei" value="NON" onclick="confirmation.hide()" type="button" />   
+
+
+                                    </p:confirmDialog>
+                                </f:facet>   
+
+                            </p:dataTable>   
+                            <p:dialog header="Car Detail" widgetVar="carDialog" resizable="false" id="carDlg" modal="true">  
+
+                                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+
+                                    <f:facet name="header">  
+                                         <h:outputText value="#{projetBean.selectedIntervention.idprojet}" style="font-weight:bold"/>  
+                                    </f:facet>  
+                                    
+                                    <h:outputText value="Client:" />  
+                                    <h:outputText value="#{projetBean.selectedIntervention.client.nomclient}" style="font-weight:bold"/>  
+
+                                    <h:outputText value="Matériels:" />  
+                                    <h:outputText  style="font-weight:bold"/>  
+
+                                </h:panelGrid>  
+
+                            </p:dialog> 
+                        </h:form>           
+                    </p:tab>                  
+                </p:accordionPanel>  
+            </div>
+
+            <div style="clear: both;">&nbsp;</div>
+        </div>
+        <div id="footer">
+            <p id="legal">Copyright &copy; 2012 Leader Automation Systems. Designed by <a href="http://www.facebook.com/elkaoumi">ELKAOUMI / ZARE</a></p>
+            <p id="brand">Leader Automation Systems</p>
+        </div>
+    </h:body>
+</html>
+

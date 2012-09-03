@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28 ao?t 2012 18:10:33 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.lds.vo.Projet" table="projet" schema="public">
+        <id name="idprojet" type="string">
+            <column name="idprojet" length="254" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="client" class="com.lds.vo.Client" fetch="select" lazy="false">
+            <column name="idclient" length="254" not-null="true" />
+        </many-to-one>
+        <property name="datedebutaffaire" type="date">
+            <column name="datedebutaffaire" length="13" />
+        </property>        
+        <property name="descprojet" type="string">
+            <column name="descprojet" length="254" />
+        </property>       
+        <property name="dateintervention" type="date">
+            <column name="dateintervention" length="13" />
+        </property>
+        <property name="lieuintervention" type="string">
+            <column name="lieuintervention" length="254" />
+        </property>
+        <property name="typeprojet" type="string">
+            <column name="typeprojet" length="254" />
+        </property>
+        <property name="numfacture" type="string">
+            <column name="numfacture" length="254" />
+        </property> 
+         <property name="datefacture" type="date">
+            <column name="datefacture" length="13" />
+        </property>       
+        <property name="montantfacture" type="big_decimal">
+            <column name="montantfacture" precision="131089" scale="0" />
+        </property>
+        <property name="lienfacture" type="string">
+            <column name="lienfacture" length="254" />
+        </property>
+        <property name="numdevis" type="string">
+            <column name="numdevis" length="254" />
+        </property> 
+        <property name="datedevis" type="date">
+            <column name="datedevis" length="13" />
+        </property>
+        <property name="liendevis" type="string">
+            <column name="liendevis" length="254" />
+        </property>
+        <property name="montantdevis" type="big_decimal">
+            <column name="montantdevis" precision="131089" scale="0" />
+        </property>
+        <set name="boncommandes" inverse="true">
+            <key>
+                <column name="idprojet" length="254" not-null="true" />
+            </key>
+            <one-to-many class="com.lds.vo.Boncommande" />
+        </set>
+        <set name="taches" inverse="true">
+            <key>
+                <column name="idprojet" length="254" not-null="true" />
+            </key>
+            <one-to-many class="com.lds.vo.Tache" />
+        </set>
+    </class>
+</hibernate-mapping>
