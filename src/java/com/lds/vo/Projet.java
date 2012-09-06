@@ -192,7 +192,11 @@ public class Projet  implements java.io.Serializable {
         this.taches = taches;
     }
 
-
+    public boolean equals(Object object) {
+        return (object instanceof Projet) && (idprojet != null) 
+             ? idprojet.equals(((Projet) object).idprojet) 
+             : (object == this);
+    }
 
 
 }

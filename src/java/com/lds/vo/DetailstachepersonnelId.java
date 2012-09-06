@@ -36,16 +36,18 @@ public class DetailstachepersonnelId  implements java.io.Serializable {
     }
 
 
+    @Override
    public boolean equals(Object other) {
          if ( (this == other ) ) return true;
 		 if ( (other == null ) ) return false;
 		 if ( !(other instanceof DetailstachepersonnelId) ) return false;
 		 DetailstachepersonnelId castOther = ( DetailstachepersonnelId ) other; 
          
-		 return ( (this.getNumtache()==castOther.getNumtache()) || ( this.getNumtache()!=null && castOther.getNumtache()!=null && this.getNumtache().equals(castOther.getNumtache()) ) )
- && ( (this.getIdpersonnel()==castOther.getIdpersonnel()) || ( this.getIdpersonnel()!=null && castOther.getIdpersonnel()!=null && this.getIdpersonnel().equals(castOther.getIdpersonnel()) ) );
+		 return ( (this.getNumtache().equals(castOther.getNumtache())) || ( this.getNumtache()!=null && castOther.getNumtache()!=null && this.getNumtache().equals(castOther.getNumtache()) ) )
+ && ( ( this.getIdpersonnel().equals(castOther.getIdpersonnel())) || ( this.getIdpersonnel()!=null && castOther.getIdpersonnel()!=null && this.getIdpersonnel().equals(castOther.getIdpersonnel()) ) );
    }
    
+    @Override
    public int hashCode() {
          int result = 17;
          

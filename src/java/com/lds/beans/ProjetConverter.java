@@ -4,9 +4,9 @@
  */
 package com.lds.beans;
 
-import com.lds.persistance.ClientDao;
-import com.lds.persistance.ClientHDao;
-import com.lds.vo.Client;
+import com.lds.persistance.ProjetDao;
+import com.lds.persistance.ProjetHDao;
+import com.lds.vo.Projet;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -15,16 +15,16 @@ import javax.faces.convert.Converter;
  *
  * @author zarito
  */
-public class ClientConverter implements Converter {
+public class ProjetConverter implements Converter {
 
-    public ClientConverter() {
+    public ProjetConverter() {
     }
     
-    ClientDao cd = new ClientHDao();
+    ProjetDao cd = new ProjetHDao();
 
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String string) {            
-        return cd.getClient(string);    
+        return cd.getProjet(string)    ;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class ClientConverter implements Converter {
         if (o == null || o.equals("")) {
             return "";
         } else {
-            return ((Client) o).getIdclient().toString();
+            return ((Projet) o).getIdprojet().toString();
         }
     }
 }

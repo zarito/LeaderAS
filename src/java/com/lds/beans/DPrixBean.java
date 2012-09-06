@@ -245,6 +245,7 @@ public class DPrixBean implements Serializable {
 
     public String btnAjouter() {
         ddarticles = new ArrayList<Detailsdemandearticle>();
+        mediumArtModel = new DetailsDemandeArticleDataModel(ddarticles);
         return "echecAjout";
     }
 
@@ -264,15 +265,16 @@ public class DPrixBean implements Serializable {
         Integer i = 1;
         //Pour chaque fournisseur
         while (li.hasNext()) {
-            //Recupération de l'objet            
-            String idfo = (String) li.next();
+            //Recupération de l'objet      
+            Fournisseur fo = (Fournisseur) li.next();
+           /* String idfo = (String) li.next();
             FournisseurHDao ad = new FournisseurHDao();
-            Fournisseur fo;
+            Fournisseur fo;*/
             dprix.setNumdemandeprix(num + i);
-            fo = ad.getFournisseur(idfo);
+            //fo = ad.getFournisseur(idfo);            
             dprix.setFournisseur(fo);
             //pour les articles
-            Set<Detailsdemandearticle> sdda = new HashSet();            //System.out.println("flk,klgkgffkgkdl" + fo.getIdfournisseur());            
+            Set<Detailsdemandearticle> sdda = new HashSet();          
             Iterator lia = ddarticles.iterator();
             while (lia.hasNext()) {
                 Detailsdemandearticle dda1 = (Detailsdemandearticle) lia.next();
@@ -290,7 +292,7 @@ public class DPrixBean implements Serializable {
         //initialisation        
         dprix = new Demandeprix();
         demandeprixs = dao.getAllDevis();
-        mediumDPrixModel = new DPrixDataModel(this.getAllReference());
+        mediumDPrixModel = new DPrixDataModel(this.getAllReference());        
         return "succesAjout";
 
     }
@@ -382,16 +384,7 @@ public class DPrixBean implements Serializable {
         return "succesAjout";
 
     }
-
-    public Boolean print() {
-
-        if (selectedDemandeprix != null) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
+ 
 
     public void enleverArt() {
         System.out.println("hhhh");

@@ -12,10 +12,10 @@
                 <column name="idpersonnel" length="254" />
             </key-property>
         </composite-id>
-        <many-to-one name="tache" class="com.lds.vo.Tache" update="false" insert="false" fetch="select">
+        <many-to-one name="tache" class="com.lds.vo.Tache" update="false" insert="false" fetch="select" lazy="false">
             <column name="numtache" length="254" not-null="true" />
         </many-to-one>
-        <many-to-one name="personnel" class="com.lds.vo.Personnel" update="false" insert="false" fetch="select">
+        <many-to-one name="personnel" class="com.lds.vo.Personnel" update="false" insert="false" fetch="select" lazy="false">
             <column name="idpersonnel" length="254" not-null="true" />
         </many-to-one>
         <property name="datedebut" type="date">

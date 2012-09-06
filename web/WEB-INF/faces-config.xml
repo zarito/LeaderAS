@@ -41,6 +41,11 @@
             <to-view-id>vue/paramCompte.xhtml?id=-1</to-view-id> 
             <redirect />
         </navigation-case> 
+        <navigation-case> 
+            <from-outcome>help</from-outcome> 
+            <to-view-id>vue/help.xhtml?id=-1</to-view-id> 
+            <redirect />
+        </navigation-case> 
     </navigation-rule> 
     
     <navigation-rule> 
@@ -213,6 +218,11 @@
             <redirect />
         </navigation-case> 
         <navigation-case> 
+            <from-outcome>tache_ajout</from-outcome> 
+            <to-view-id>vue/technique/ajout_tache.xhtml?id=2</to-view-id> 
+            <redirect />
+        </navigation-case> 
+        <navigation-case> 
             <from-outcome>interv_ajout</from-outcome> 
             <to-view-id>vue/technique/ajout_interv.xhtml?id=2</to-view-id> 
             <redirect />
@@ -240,6 +250,11 @@
          <navigation-case> 
             <from-outcome>modif_interv</from-outcome> 
             <to-view-id>vue/technique/modif_interv.xhtml?id=2</to-view-id> 
+            <redirect />
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>details_tache</from-outcome> 
+            <to-view-id>vue/technique/details_tache.xhtml?id=2</to-view-id> 
             <redirect />
         </navigation-case>
     </navigation-rule> 
@@ -312,6 +327,11 @@
         <managed-bean-class>com.lds.beans.ProjetBean</managed-bean-class> 
         <managed-bean-scope>session</managed-bean-scope> 
     </managed-bean>
+     <managed-bean> 
+        <managed-bean-name>tacheBean</managed-bean-name> 
+        <managed-bean-class>com.lds.beans.TacheBean</managed-bean-class> 
+        <managed-bean-scope>session</managed-bean-scope> 
+    </managed-bean>
     
     <converter>
         <converter-id>clientConverter</converter-id>
@@ -321,4 +341,13 @@
         <converter-id>fournisseurConverter</converter-id>
         <converter-class>com.lds.beans.FournisseurConverter</converter-class>
     </converter>
+    <converter>
+        <converter-id>personnelConverter</converter-id>
+        <converter-class>com.lds.beans.PersonnelConverter</converter-class>
+    </converter>
+     <converter>
+        <converter-id>projetConverter</converter-id>
+        <converter-class>com.lds.beans.ProjetConverter</converter-class>
+    </converter>
+    
 </faces-config>

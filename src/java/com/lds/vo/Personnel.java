@@ -151,6 +151,11 @@ public class Personnel  implements java.io.Serializable {
         this.detailstachepersonnels = detailstachepersonnels;
     }
 
+     public boolean equals(Object object) {
+        return (object instanceof Personnel) && (idpersonnel != null) 
+             ? idpersonnel.equals(((Personnel) object).idpersonnel) 
+             : (object == this);
+    }
 
 
 

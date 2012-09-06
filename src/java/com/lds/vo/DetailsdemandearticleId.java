@@ -36,16 +36,18 @@ public class DetailsdemandearticleId  implements java.io.Serializable {
     }
 
 
+    @Override
    public boolean equals(Object other) {
          if ( (this == other ) ) return true;
 		 if ( (other == null ) ) return false;
 		 if ( !(other instanceof DetailsdemandearticleId) ) return false;
 		 DetailsdemandearticleId castOther = ( DetailsdemandearticleId ) other; 
          
-		 return ( (this.getNumdemandeprix()==castOther.getNumdemandeprix()) || ( this.getNumdemandeprix()!=null && castOther.getNumdemandeprix()!=null && this.getNumdemandeprix().equals(castOther.getNumdemandeprix()) ) )
- && ( (this.getIdarticle()==castOther.getIdarticle()) || ( this.getIdarticle()!=null && castOther.getIdarticle()!=null && this.getIdarticle().equals(castOther.getIdarticle()) ) );
+		 return ( (this.getNumdemandeprix().equals(castOther.getNumdemandeprix())) || ( this.getNumdemandeprix()!=null && castOther.getNumdemandeprix()!=null && this.getNumdemandeprix().equals(castOther.getNumdemandeprix()) ) )
+ && ( ( this.getIdarticle().equals(castOther.getIdarticle())) || ( this.getIdarticle()!=null && castOther.getIdarticle()!=null && this.getIdarticle().equals(castOther.getIdarticle()) ) );
    }
    
+    @Override
    public int hashCode() {
          int result = 17;
          

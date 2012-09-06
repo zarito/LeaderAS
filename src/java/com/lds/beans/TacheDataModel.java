@@ -1,10 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.lds.beans;
 
-import com.lds.vo.Detailsdemandearticle;
+import com.lds.vo.Tache;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,44 +9,44 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 /**
- *
- * @author zarito
+ * Dummy implementation of LazyDataModel that uses a list to mimic a real datasource like a database.
  */
-public class DetailsDemandeArticleDataModel extends LazyDataModel<Detailsdemandearticle> {
-    private List<Detailsdemandearticle> datasource;
+public class TacheDataModel extends LazyDataModel<Tache> {
+    
+    private List<Tache> datasource;
        
-    public DetailsDemandeArticleDataModel(List<Detailsdemandearticle> datasource) {
+    public TacheDataModel(List<Tache> datasource) {
         this.datasource = datasource;
     }
     
     @Override
-    public Detailsdemandearticle getRowData(String rowKey) {
-        for(Detailsdemandearticle article : datasource) {
-            if(rowKey.equals(article.getId().getIdarticle()))
-                return article;
+    public Tache getRowData(String rowKey) {
+        for(Tache tache : datasource) {
+            if(tache.getNumtache().equals(rowKey))
+                return tache;
         }
 
         return null;
     }
 
     @Override
-    public Object getRowKey(Detailsdemandearticle article) {
-        return article.getId().getIdarticle();
+    public Object getRowKey(Tache tache) {
+        return tache.getNumtache();
     }
 
     @Override
-    public List<Detailsdemandearticle> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
-        List<Detailsdemandearticle> data = new ArrayList<Detailsdemandearticle>();
+    public List<Tache> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
+        List<Tache> data = new ArrayList<Tache>();
 
         //filter
-        for(Detailsdemandearticle article : datasource) {
+        for(Tache tache : datasource) {
             boolean match = true;
 
             for(Iterator<String> it = filters.keySet().iterator(); it.hasNext();) {
                 try {
                     String filterProperty = it.next();
                     String filterValue = filters.get(filterProperty);
-                    String fieldValue = String.valueOf(article.getClass().getField(filterProperty).get(article));
+                    String fieldValue = String.valueOf(tache.getClass().getField(filterProperty).get(tache));
 
                     if(filterValue == null || fieldValue.startsWith(filterValue)) {
                         match = true;
@@ -65,7 +61,7 @@ public class DetailsDemandeArticleDataModel extends LazyDataModel<Detailsdemande
             }
 
             if(match) {
-                data.add(article);
+                data.add(tache);
             }
         }
 

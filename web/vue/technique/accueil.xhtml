@@ -17,7 +17,7 @@
         <div id="menu">
             <ul>
                 <li><a href="../accueil.xhtml" accesskey="1">Accueil</a></li>
-                <li class="active"><a href="accueil.xhtml?id=2" accesskey="2">Section Vue</a></li>
+                <li class="active"><a href="accueil.xhtml?id=2" accesskey="2">Actualiser</a></li>
                 <li><a href="../paramCompte.xhtml" accesskey="3">Compte</a></li>
                 <li><a href="../help.xhtml" accesskey="4">Aide</a></li>
 
@@ -99,9 +99,9 @@
                                     <p:commandButton id="showDialogButton1" value="Supprimer" onclick="confirmation1.show()" type="button" icon="ui-icon-close" />  
 
                                     <p:confirmDialog id="confirmDialog1" message="Etes vous sûr de supprimer cet employé ?"  
-                                                     header="Confirmation1" severity="alert" widgetVar="confirmation1">                                                                  
+                                                     header="Confirmation" severity="alert" widgetVar="confirmation1">                                                                  
 
-                                        <p:commandButton id="confirm1" value="OUI" oncomplete="confirmation1.hide()" actionListener="#{articleBean.supprimer}" ajax="false" update="growl1"/>
+                                        <p:commandButton id="confirm1" value="OUI" oncomplete="confirmation1.hide()" actionListener="#{articleBean.supprimer}" ajax="false" update="growl"/>
                                         <p:commandButton id="decline1" value="NON" onclick="confirmation1.hide()" type="button" />   
 
 
@@ -114,8 +114,7 @@
 
                     <p:tab title="Gestion des Fournitures ">  
                         <h:form id="form1">
-                            <!-- <h:panelGrid columns="2" cellpadding="10">  -->
-                            <p:growl id="growlf" showDetail="true"  /> 
+                            <p:growl id="growlf" showDetail="true"  />                     
                             <p:dataTable  var="fourniture" value="#{fournitureBean.mediumFournituresModel}" rowKey="#{fourniture.numfourniture}" paginator="true" rows="10"   
                                           selection="#{fournitureBean.selectedFourniture}"  lazy="true" selectionMode="single"  id="fournitureTable"  >                             
 
@@ -131,17 +130,12 @@
                                 </p:column>  
                                 <f:facet name="footer">                              
                                     <p:commandButton id="viewCommandf" value="Ajouter" icon="ui-icon-add"  action="article_ajout_four" /> 
-
                                     <p:commandButton id="ModifButtonf" value="Modifier" icon="ui-icon-search" action="#{fournitureBean.modif()}" update="growlf" ajax="false"/> 
-
-
-
                                     <p:commandButton id="showDialogButton3" value="Supprimer" onclick="confirmation3.show()" type="button" icon="ui-icon-close" />  
 
                                     <p:confirmDialog id="confirmDialog3" message="Etes vous sûr de supprimer cette fourniture ?"  
-                                                     header="Confirmation3" severity="alert" widgetVar="confirmation3">                                                                  
-
-                                        <p:commandButton id="confirm3" value="OUI" oncomplete="confirmation3.hide()" actionListener="#{fournitureBean.supprimer}" ajax="false" />
+                                                     header="Confirmation" severity="alert" widgetVar="confirmation3">                                                                  
+                                        <p:commandButton id="confirm3" value="OUI" oncomplete="confirmation3.hide()" actionListener="#{fournitureBean.supprimer}" ajax="false" update="growlf" />
                                         <p:commandButton id="decline3" value="NON" onclick="confirmation3.hide()" type="button" />   
 
 
@@ -154,9 +148,8 @@
 
                     <p:tab title="Gestion des Besoins">  
                         <!-- <h:panelGrid columns="2" cellpadding="10">  -->
-                        <h:form id="form2">  
+                        <h:form id="form2">                              
                             <p:growl id="growlb" showDetail="true"  /> 
-
                             <p:dataTable id="personnels" var="besoin" value="#{besoinBean.mediumBesoinsModel}" paginator="true" rows="10"  
                                          selection="#{besoinBean.selectedBesoin}"   sortBy="#{besoin.idbesoin}" >  
 
@@ -188,17 +181,17 @@
                                 <f:facet name="footer">                              
                                     <p:commandButton id="viewCommandb" value="Ajouter" icon="ui-icon-add"  action="echecAjout" /> 
 
-                                    <p:commandButton id="droitsButtonb" value="Détails" icon="ui-icon-bookmark" action="#{besoinBean.details}" update="growl" ajax="false" /> 
+                                    <p:commandButton id="droitsButtonb" value="Détails" icon="ui-icon-bookmark" action="#{besoinBean.details}" update="growlb" ajax="false" /> 
 
-                                    <p:commandButton id="ModifButtonb" value="Modifier" icon="ui-icon-search" action="#{besoinBean.modif()}" update="growl" ajax="false"/> 
+                                    <p:commandButton id="ModifButtonb" value="Modifier" icon="ui-icon-search" action="#{besoinBean.modif()}" update="growlb" ajax="false"/> 
 
 
-                                    <p:commandButton id="showDialogButtonb" value="Supprimer" onclick="confirmation.show()" type="button" icon="ui-icon-close" />  
+                                    <p:commandButton id="showDialogButtonb" value="Supprimer" onclick="confirmationb.show()" type="button" icon="ui-icon-close" />  
 
                                     <p:confirmDialog id="confirmDialogb" message="Etes vous sûr de supprimer cet employé ?"  
-                                                     header="Confirmation" severity="alert" widgetVar="confirmation">                                                                  
+                                                     header="Confirmation" severity="alert" widgetVar="confirmationb">                                                                  
 
-                                        <p:commandButton id="confirmb" value="OUI" oncomplete="confirmation.hide()" actionListener="#{besoinBean.supprimer}" ajax="false" update="growlb"/>
+                                        <p:commandButton id="confirmb" value="OUI" oncomplete="confirmationb.hide()" actionListener="#{besoinBean.supprimer}" ajax="false" update="growlb"/>
                                         <p:commandButton id="declineb" value="NON" onclick="confirmation.hide()" type="button" />   
 
 
@@ -213,15 +206,77 @@
                     </p:tab>  
 
                     <p:tab title="Gestion Tâches et Sous-tâches ">  
-                        <h:panelGrid columns="2" cellpadding="10">  
+                        <h:form id="formt">  
+                            <p:growl id="growlt" showDetail="true"  /> 
+                            <p:dataTable id="dataTable" var="tach" value="#{tacheBean.mediumTacheModel}" rowKey="#{tach.numtache}" paginator="true" rows="10" selection="#{tacheBean.selectedTache}" selectionMode="single" lazy="true">  
 
-                        </h:panelGrid>  
+                                <p:column id="numColumn" filterBy="#{tach.numtache}" headerText="N° Tâche" >  
+                                    <h:outputText value="#{tach.numtache}" />  
+                                </p:column>  
+
+                                <p:column id="desColumn" filterBy="#{tach.designationtache}" headerText="Désignation" >  
+                                    <h:outputText value="#{tach.designationtache}" />  
+                                </p:column>  
+
+                                <p:column id="projetColumn" filterBy="#{tach.projet.idprojet}" headerText="Affaire" filterOptions="#{projetBean.options}" filterMatchMode="exact">  
+                                    <h:outputText value="#{tach.projet.idprojet}" />  
+                                </p:column>  
+
+                                <p:column id="lienColumn" filterBy="#{tach.lienschema}" headerText="Lien Schema">  
+                                    <h:outputText value="#{tach.lienschema}" />  
+                                </p:column>                              
+
+                                <p:column id="typeColumn" filterBy="#{tach.typetache}" headerText="Type Tâche">  
+                                    <h:outputText value="#{tach.typetache}" />  
+                                </p:column>                              
+
+                                <p:column headerText="Détails" style="width:4%">  
+                                    <p:commandButton id="selectButtont" update=":tabView:formt:displayt" oncomplete="carDialogt.show()" icon="ui-icon-search" title="Voir">  
+                                        <f:setPropertyActionListener value="#{tach}" target="#{tacheBean.selectedTache}" />  
+                                    </p:commandButton>  
+                                </p:column> 
+
+                                <f:facet name="footer">                              
+                                    <p:commandButton id="viewCommandt" value="Ajouter" icon="ui-icon-add"  action="#{tacheBean.btnAjouter()}" />                                                         
+
+                                    <p:commandButton id="ModifButtont" value="Modifier" icon="ui-icon-search" action="#{tacheBean.details()}" update="growlt" ajax="false"/> 
+
+                                    <p:commandButton id="showDialogButtont" value="Supprimer" onclick="confirmationt.show()" type="button" icon="ui-icon-trash" />  
+
+                                    <p:confirmDialog id="confirmDialogt" message="Etes vous sûr de supprimer cette tâche ?"  
+                                                     header="Confirmation" severity="alert" widgetVar="confirmationt">                                                                  
+
+                                        <p:commandButton id="confirmt" value="OUI" oncomplete="confirmationt.hide()" actionListener="#{tacheBean.supprimer}" ajax="false" update="growlt"/>
+                                        <p:commandButton id="declinet" value="NON" onclick="confirmationt.hide()" type="button" />   
+
+
+                                    </p:confirmDialog>
+                                </f:facet>   
+
+                            </p:dataTable>   
+                            <p:dialog header="Matériels" widgetVar="carDialogt" resizable="false" id="carDlgt" modal="true">  
+
+                                <h:panelGrid id="displayt" columns="2" cellpadding="4" style="margin:0 auto;">  
+
+                                    <f:facet name="header">  
+                                        <h:outputText value="#{tacheBean.selectedTache.numtache}" style="font-weight:bold"/>  
+                                    </f:facet>  
+
+                                    <h:outputText value="Désignation:" />  
+                                    <h:outputText value="#{tacheBean.selectedTache.designationtache}" style="font-weight:bold"/>  
+
+                                    <h:outputText value="Matériels:" />  
+                                    <h:outputText  style="font-weight:bold"/>  
+
+                                </h:panelGrid>  
+
+                            </p:dialog> 
+                        </h:form>
                     </p:tab>  
+
                     <p:tab title="Gestion des Interventions">  
-                        <h:form id="form3">  
-
-                            <p:growl id="growl3" showDetail="true"  /> 
-
+                        <h:form id="form3">                              
+                            <p:growl id="growli" showDetail="true"  /> 
                             <p:dataTable var="intervention" value="#{projetBean.mediumInterventionsModel}"  paginator="true" rows="10"   
                                          selection="#{projetBean.selectedIntervention}" selectionMode="single"  id="interventionTable"   >                             
 
@@ -232,15 +287,15 @@
                                 <p:column headerText="N° Intervention " sortBy="#{intervention.idprojet}" id="id" filterBy="#{intervention.idprojet}" >  
                                     <h:outputText value="#{intervention.idprojet}" />
                                 </p:column> 
-                                
+
                                 <p:column headerText="Client" sortBy="#{intervention.client.nomclient}"  id="client" filterBy="#{intervention.client.nomclient}">  
                                     <h:outputText value="#{intervention.client.nomclient}"  />
                                 </p:column> 
-                                
+
                                 <p:column headerText="Date" sortBy="#{intervention.dateintervention}"  id="date3" filterBy="#{intervention.dateintervention}">  
                                     <h:outputText value="#{intervention.dateintervention}"  />
                                 </p:column> 
-                                
+
                                 <p:column headerText="Lieu" sortBy="#{intervention.lieuintervention}"  id="lieu" filterBy="#{intervention.lieuintervention}">  
                                     <h:outputText value="#{intervention.lieuintervention}"  />
                                 </p:column> 
@@ -248,10 +303,10 @@
                                 <p:column headerText="Description" sortBy="#{intervention.descprojet}" id="desc3" filterBy="#{intervention.descprojet}" >  
                                     <h:outputText value="#{client.nomclient}" />
                                 </p:column>  
-                                       
+
 
                                 <p:column headerText="Matériels" style="width:4%">  
-                                    <p:commandButton id="selectButton" update=":tabView:form3:display" oncomplete="carDialog.show()" icon="ui-icon-search" title="Voir">  
+                                    <p:commandButton id="selectButton" update=":tabView:form3:display" oncomplete="carDialogi.show()" icon="ui-icon-search" title="Voir">  
                                         <f:setPropertyActionListener value="#{intervention}" target="#{projetBean.selectedIntervention}" />  
                                     </p:commandButton>  
                                 </p:column> 
@@ -259,7 +314,7 @@
                                 <f:facet name="footer">                              
                                     <p:commandButton id="viewCommandi" value="Ajouter" icon="ui-icon-add"  action="interv_ajout" />                                                         
 
-                                    <p:commandButton id="ModifButtoni" value="Détails" icon="ui-icon-search" action="#{projetBean.modifIntervention()}" update="growl" ajax="false"/> 
+                                    <p:commandButton id="ModifButtoni" value="Détails" icon="ui-icon-search" action="#{projetBean.modifIntervention()}" update="growli" ajax="false"/> 
 
                                     <p:commandButton id="showDialogButtoni" value="Supprimer" onclick="confirmation.show()" type="button" icon="ui-icon-trash" />  
 
@@ -274,14 +329,14 @@
                                 </f:facet>   
 
                             </p:dataTable>   
-                            <p:dialog header="Car Detail" widgetVar="carDialog" resizable="false" id="carDlg" modal="true">  
+                            <p:dialog header="Car Detail" widgetVar="carDialogi" resizable="false" id="carDlgi" modal="true">  
 
                                 <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
 
                                     <f:facet name="header">  
-                                         <h:outputText value="#{projetBean.selectedIntervention.idprojet}" style="font-weight:bold"/>  
+                                        <h:outputText value="#{projetBean.selectedIntervention.idprojet}" style="font-weight:bold"/>  
                                     </f:facet>  
-                                    
+
                                     <h:outputText value="Client:" />  
                                     <h:outputText value="#{projetBean.selectedIntervention.client.nomclient}" style="font-weight:bold"/>  
 

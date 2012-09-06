@@ -35,7 +35,7 @@
             </key>
             <one-to-many class="com.lds.vo.Bonsortie" />
         </set>
-        <set name="soustaches" inverse="true">
+        <set name="soustaches" inverse="true" cascade="save-update,delete">
             <key>
                 <column name="numtache" length="254" not-null="true" />
             </key>
@@ -47,7 +47,7 @@
             </key>
             <one-to-many class="com.lds.vo.Besoin" />
         </set>
-        <set name="detailstachepersonnels" inverse="true">
+        <set name="detailstachepersonnels" inverse="true" cascade="save-update,delete">
             <key>
                 <column name="numtache" length="254" not-null="true" />
             </key>

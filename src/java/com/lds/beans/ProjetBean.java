@@ -13,11 +13,13 @@ import java.util.Iterator;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import org.primefaces.model.UploadedFile;
 
 public class ProjetBean implements Serializable {
 
     private List<Projet> filteredProjets;
+    private SelectItem[] options;
     private List<Projet> projets;
     private Projet selectedAffaire;
     private Projet selectedIntervention;
@@ -31,7 +33,7 @@ public class ProjetBean implements Serializable {
     private UploadedFile filed; 
 
       public ProjetBean() {
-        
+                
         affaire = new Projet();
         intervention = new Projet();
         projets = new ArrayList<Projet>();         
@@ -39,6 +41,7 @@ public class ProjetBean implements Serializable {
         projets = dao.getAllProjet();
         mediumAffairesModel = new ProjetDataModel(this.getAllAffaire());
         mediumInterventionsModel = new ProjetDataModel(this.getAllIntervention());
+        options = this.createFilterOptions();
     }
             
     public void setId_projet(String id_projet) {
@@ -49,6 +52,15 @@ public class ProjetBean implements Serializable {
         return id_projet;
     }
 
+    public SelectItem[] getOptions() {
+        return options;
+    }
+
+    public void setOptions(SelectItem[] options) {
+        this.options = options;
+    }
+
+    
     public Projet getSelectedAffaire() {
         return selectedAffaire;
     }
@@ -272,4 +284,17 @@ public class ProjetBean implements Serializable {
         return allRef;     
      }            
             
+      private SelectItem[] createFilterOptions()  {  
+          
+        SelectItem[] options1 = new SelectItem[this.getAllAffaire().size() + 1];   
+        options1[0] = new SelectItem("", "Select");  
+        Iterator li = this.getAllAffaire().iterator();
+        Integer i =0;
+        while(li.hasNext()) {  
+            Projet po = (Projet) li.next();
+            options1[i + 1] = new SelectItem(po.getIdprojet());              
+        }  
+  
+        return options1;  
+    } 
 }

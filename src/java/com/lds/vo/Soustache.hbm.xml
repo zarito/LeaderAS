@@ -8,7 +8,7 @@
             <column name="idsousprojet" length="254" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="tache" class="com.lds.vo.Tache" fetch="select">
+        <many-to-one name="tache" class="com.lds.vo.Tache" fetch="select" lazy="false">
             <column name="numtache" length="254" not-null="true" />
         </many-to-one>
         <property name="descsousprojet" type="string">
