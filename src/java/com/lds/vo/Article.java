@@ -19,6 +19,7 @@ public class Article  implements java.io.Serializable {
      private String refcommande;
      private String unite;
      private String categorie;
+     private String fourniture;
      private Set detailssortiearticles = new HashSet(0);
      private Set detailsbcarticles = new HashSet(0);
      private Set detailsbrarticles = new HashSet(0);
@@ -44,6 +45,14 @@ public class Article  implements java.io.Serializable {
        this.detailsbcarticles = detailsbcarticles;
        this.detailsbrarticles = detailsbrarticles;
        this.detailsdemandearticles = detailsdemandearticles;
+    }
+
+    public String getFourniture() {
+        return fourniture;
+    }
+
+    public void setFourniture(String fourniture) {
+        this.fourniture = fourniture;
     }
    
     public String getIdarticle() {

@@ -20,12 +20,6 @@
         <property name="descsortie" type="string">
             <column name="descsortie" length="254" />
         </property>
-        <set name="detailssortiefournitures" inverse="true">
-            <key>
-                <column name="idsortie" length="254" not-null="true" />
-            </key>
-            <one-to-many class="com.lds.vo.Detailssortiefourniture" />
-        </set>
         <set name="detailssortiearticles" inverse="true">
             <key>
                 <column name="idsortie" length="254" not-null="true" />

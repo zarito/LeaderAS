@@ -57,7 +57,7 @@
 
         <div id="wrapper">
             <div id="content">
-                <h2 class="title">Gestion du Personnel : </h2><br/> <br/> 
+                <h2 class="title">Gestion du Besoin : </h2><br/> <br/> 
                 <h:form  id="formid">  
 
                     <p:panel id="panelGroupId">  
@@ -74,7 +74,7 @@
                             <p:inputText value="#{besoinBean.besoin.idbesoin}" required="true" requiredMessage="Veuillez saisir un login!" >  
                                <f:ajax render="@form"/>
                             </p:inputText>
-                            <h:outputText value="Déscription : " />  
+                            <h:outputText value="Description : " />  
                             <p:inputText value="#{besoinBean.besoin.descbesoin}" > 
                                   <f:ajax render="@form"/>
                             </p:inputText>
@@ -86,7 +86,7 @@
                                   <f:ajax render="@form" />
                             </p:selectOneMenu>  
                               
-                            <h:outputText value="Nom de la tache " />  
+                            <h:outputText value="Nom de la tâche " />  
                             <p:selectOneMenu  value="#{besoinBean.id_tache}" required="true" requiredMessage="Veuillez choisir un N° de projet" >  
                                 <f:selectItem itemLabel="Choisir" itemValue="" />  
                                  <f:selectItems id="out1" value="#{besoinBean.alltache()}"  > 

@@ -18,6 +18,8 @@ public class Client  implements java.io.Serializable {
      private String fax;
      private String adresse;
      private String description;
+     private String contact;
+     private String fcontact;
      private Set projets = new HashSet(0);
 
     public Client() {
@@ -27,7 +29,7 @@ public class Client  implements java.io.Serializable {
     public Client(String idclient) {
         this.idclient = idclient;
     }
-    public Client(String idclient, String nomclient, String email, String tel, String fax, String adresse, String description, Set projets) {
+    public Client(String idclient, String nomclient, String email, String tel, String fax, String adresse,String contact,String fcontact, String description, Set projets) {
        this.idclient = idclient;
        this.nomclient = nomclient;
        this.email = email;
@@ -36,6 +38,8 @@ public class Client  implements java.io.Serializable {
        this.adresse = adresse;
        this.description = description;
        this.projets = projets;
+       this.contact = contact;
+       this.fcontact = fcontact;
     }
    
     public String getIdclient() {
@@ -87,6 +91,23 @@ public class Client  implements java.io.Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+    
+    public String getFcontact() {
+        return fcontact;
+    }
+
+    public void setFcontact(String fcontact) {
+        this.fcontact = fcontact;
+    }
+    
     public Set getProjets() {
         return this.projets;
     }

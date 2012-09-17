@@ -12,10 +12,10 @@
                 <column name="idarticle" length="254" />
             </key-property>
         </composite-id>
-        <many-to-one name="boncommande" class="com.lds.vo.Boncommande" update="false" insert="false" fetch="select">
+        <many-to-one name="boncommande" class="com.lds.vo.Boncommande" update="false" insert="false" fetch="select" lazy="false"  >
             <column name="numbc" length="254" not-null="true" />
         </many-to-one>
-        <many-to-one name="article" class="com.lds.vo.Article" update="false" insert="false" fetch="select">
+        <many-to-one name="article" class="com.lds.vo.Article" update="false" insert="false" fetch="select" lazy="false" >
             <column name="idarticle" length="254" not-null="true" />
         </many-to-one>
         <property name="prixunitaire" type="java.lang.Double">

@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import org.primefaces.model.LazyDataModel;
@@ -74,10 +75,15 @@ public class ClientBean implements Serializable {
         if (selectedClient == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir un client", "Selectionnez une ligne !"));
         }
-        
+        try{
         dao.delete(selectedClient.getIdclient());
         clients = dao.getAllClients();
         mediumClientsModel = new ClientDataModel(clients);
+        }
+        catch(Exception e)
+        {
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Impossible de supprimer le client", "le client Déja utilisé !")); 
+        }
 
     }
 
@@ -86,8 +92,8 @@ public class ClientBean implements Serializable {
 
         for (Client client : clients) {
             if (client.getIdclient().equals(clt.getIdclient())) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Ce client existe dejà !", "Veuillez changer le Code du client."));
-                return "echecAjout";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Ce client existe déjà!", "Veuillez changer le Code du client."));
+                return "";
             }
         }
         //sinon
@@ -102,14 +108,10 @@ public class ClientBean implements Serializable {
     
     
 
-    public String modif() {
-        if (selectedClient == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir un client", "Selectionnez une ligne !"));
-        return "";      
-        }
-        else
-        {                 
-            return "modif";}
+    public void modif() {
+       FacesContext fc = FacesContext.getCurrentInstance();
+        ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) fc.getApplication().getNavigationHandler();
+        nav.performNavigation("modif");
     }
     
     public String enrModif(){

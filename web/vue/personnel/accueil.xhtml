@@ -16,7 +16,7 @@
     <h:body>
         <div id="menu">
             <ul>
-                 <li><a href="../accueil.xhtml" accesskey="1">Accueil</a></li>
+                <li><a href="../accueil.xhtml" accesskey="1">Accueil</a></li>
                 <li class="active"><a href="accueil.xhtml" accesskey="2">Actualiser</a></li>
                 <li><a href="../paramCompte.xhtml" accesskey="3">Compte</a></li>
                 <li><a href="../help.xhtml" accesskey="4">Aide</a></li>
@@ -31,18 +31,18 @@
             <ul>
                 <li>
                     <h2>Compte</h2>
-                 <ul>
-                           <li><img src="../../images/user2.png" id="user1" /></li>
-                            <li>  
-                                <h:form>
+                    <ul>
+                        <li><img src="../../images/user2.png" id="user1" /></li>
+                        <li>  
+                            <h:form>
                                 <p:commandLink id="ajax"  action="#{personBean.logout()}" style="margin-right:20px;">  
-                                         <h:outputText value="Déconnexion" />  
-                                    </p:commandLink>  </h:form></li>
-                             <li> <h:form>
+                                    <h:outputText value="Déconnexion" />  
+                                </p:commandLink>  </h:form></li>
+                        <li> <h:form>
                                 <p:commandLink id="ajax1"  action="paramCompte" style="margin-right:20px;" >  
-                                         <h:outputText value="Paramètres du Compte" />  
-                                    </p:commandLink>  </h:form></li>
-                        </ul>
+                                    <h:outputText value="Paramètres du Compte" />  
+                                </p:commandLink>  </h:form></li>
+                    </ul>
                 </li>
                 <li>
                     <h2>MENU</h2>
@@ -62,15 +62,14 @@
                 <h:form id="form">  
                     <p:growl id="growl" showDetail="true"  /> 
 
-                    <p:dataTable id="personnels" var="personnel" value="#{personnelBean.mediumPersonnelsModel}" paginator="true" rows="5"  
-                                 selection="#{personnelBean.selectedPersonnel}"  lazy="true" sortBy="#{personnel.idpersonnel}" >  
-                       
+                    <p:dataTable id="personnels" var="personnel" value="#{personnelBean.mediumPersonnelsModel}" paginator="true" rows="5" 
+                                 selection="#{personnelBean.selectedPersonnel}"  lazy="true" sortBy="#{personnel.idpersonnel}" selectionMode="single" >                                             
+
+                        <p:ajax event="rowDblselect" listener="#{personnelBean.modif()}"   />
 
                         <f:facet name="header">  
                             Liste du Personnel  
-                        </f:facet>  
-                        
-                         <p:column selectionMode="single" style="width:18px" />
+                        </f:facet>                         
 
                         <p:column headerText="Login">  
                             #{personnel.idpersonnel}  
@@ -92,29 +91,29 @@
                             #{personnel.tel}  
                         </p:column>
 
+                        <p:column headerText="Droits" style="width:4%">  
+                            <p:commandButton id="selectButton" icon="ui-icon-bookmark" title="droits" action="#{personnelBean.droits()}">  
+                                <f:setPropertyActionListener value="#{personnel}" target="#{personnelBean.selectedPersonnel}" />  
+                            </p:commandButton>  
+                        </p:column> 
+
                         <f:facet name="footer">                              
-                            <p:commandButton id="viewCommand" value="Ajouter" icon="ui-icon-add"  action="echecAjout" /> 
-                            
-                            <p:commandButton id="droitsButton" value="Droits" icon="ui-icon-bookmark" action="#{personnelBean.droits}" update="growl" ajax="false" /> 
-                           
-                            <p:commandButton id="ModifButton" value="Modifier" icon="ui-icon-search" action="#{personnelBean.modif()}" update="growl" ajax="false"/> 
-                            
-                            
+                            <p:commandButton id="viewCommand" value="Ajouter" icon="ui-icon-add"  action="echecAjout" />                           
+
                             <p:commandButton id="showDialogButton" value="Supprimer" onclick="confirmation.show()" type="button" icon="ui-icon-close" />  
 
                             <p:confirmDialog id="confirmDialog" message="Etes vous sûr de supprimer cet employé ?"  
                                              header="Confirmation" severity="alert" widgetVar="confirmation">                                                                  
-                                
+
                                 <p:commandButton id="confirm" value="OUI" oncomplete="confirmation.hide()" actionListener="#{personnelBean.supprimer}" ajax="false" update="growl"/>
                                 <p:commandButton id="decline" value="NON" onclick="confirmation.hide()" type="button" />   
-                        
+
 
                             </p:confirmDialog>
                         </f:facet>   
 
 
-                    </p:dataTable>   
-
+                    </p:dataTable>    
                 </h:form>  
 
             </div>

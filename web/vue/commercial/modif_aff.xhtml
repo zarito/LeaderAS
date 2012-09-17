@@ -88,12 +88,12 @@
                             <p:inputText value="#{projetBean.selectedAffaire.numdevis}"  />                                                            
 
                             <h:outputText value="Date Devis: " />  
-                            <p:calendar value="#{projetBean.selectedAffaire.datedebutaffaire}" id="popupCald" locale="fr" pattern="dd/MM/yyyy" >                               
+                            <p:calendar value="#{projetBean.selectedAffaire.datedevis}" id="popupCald" locale="fr" pattern="dd/MM/yyyy" >                               
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </p:calendar>
 
                             <h:outputText value="Montant Devis : " />  
-                            <p:inputMask value="#{projetBean.selectedAffaire.montantdevis}" mask="999 999,99"  />                                                            
+                            <p:inputText value="#{projetBean.selectedAffaire.montantdevis}"  />                                                            
                             
                             <h:outputText value="Lien Devis : " />
                             <p:fileUpload value="#{projetBean.filed}" mode="simple"/>
@@ -102,12 +102,12 @@
                             <p:inputText value="#{projetBean.selectedAffaire.numfacture}"  />
 
                             <h:outputText value="Date Facture: " />  
-                            <p:calendar value="#{projetBean.selectedAffaire.datedebutaffaire}" id="popupCalf" locale="fr" pattern="dd/MM/yyyy" >                               
+                            <p:calendar value="#{projetBean.selectedAffaire.datefacture}" id="popupCalf" locale="fr" pattern="dd/MM/yyyy" >                               
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </p:calendar>
                             
                             <h:outputText value="Montant Facture : " />  
-                            <p:inputMask value="#{projetBean.selectedAffaire.montantfacture}" mask="999 999,99"  />                                                            
+                            <p:inputText value="#{projetBean.selectedAffaire.montantfacture}"   />                                                            
                             
                             <h:outputText value="Lien Facture : " />
                             <p:fileUpload value="#{projetBean.filef}" mode="simple"/>

@@ -31,18 +31,18 @@
             <ul>
                 <li>
                     <h2>Compte</h2>
-                   <ul>
-                           <li><img src="../../images/user2.png" id="user1" /></li>
-                            <li>  
-                                <h:form>
+                    <ul>
+                        <li><img src="../../images/user2.png" id="user1" /></li>
+                        <li>  
+                            <h:form>
                                 <p:commandLink id="ajax"  action="#{personBean.logout()}" style="margin-right:20px;">  
-                                         <h:outputText value="Déconnexion" />  
-                                    </p:commandLink>  </h:form></li>
-                             <li> <h:form>
+                                    <h:outputText value="Déconnexion" />  
+                                </p:commandLink>  </h:form></li>
+                        <li> <h:form>
                                 <p:commandLink id="ajax1"  action="paramCompte" style="margin-right:20px;" >  
-                                         <h:outputText value="Paramètres du Compte" />  
-                                    </p:commandLink>  </h:form></li>
-                        </ul>
+                                    <h:outputText value="Paramètres du Compte" />  
+                                </p:commandLink>  </h:form></li>
+                    </ul>
                 </li>
                 <li>
                     <h2>MENU</h2>
@@ -67,7 +67,7 @@
                             </f:facet>  
                         </p:dataTable> 
 
-                         <p:messages id="messages" />
+                        <p:messages id="messages" />
 
                         <h:panelGrid columns="2" cellpadding="5" >  
                             <h:outputText value="Numéro du client : *" />  
@@ -75,18 +75,24 @@
 
                             <h:outputText value="Désignation : " />  
                             <p:inputText value="#{clientBean.selectedClient.nomclient}" />                             
-                            
+
                             <h:outputText value="Téléphone : " />  
                             <p:inputMask value="#{clientBean.selectedClient.tel}" mask="9999999999" />    
-                            
+
                             <h:outputText value="Fax : " />  
                             <p:inputMask value="#{clientBean.selectedClient.fax}" mask="9999999999" />  
-                            
+
                             <h:outputText value="Adresse : " />  
                             <p:inputText value="#{clientBean.selectedClient.adresse}" />                                                                                                                                              
 
                             <h:outputText value="Email: " />  
                             <p:inputText value="#{clientBean.selectedClient.email}"  />
+
+                            <h:outputText value="Contact: " />  
+                            <p:inputText value="#{clientBean.selectedClient.contact}"  />
+
+                            <h:outputText value="Fonction contact: " />  
+                            <p:inputText value="#{clientBean.selectedClient.fcontact}"  />
 
                             <h:outputText value="Description : " /> 
                             <p:inputTextarea rows="5" cols="30" maxlength="50"  value="#{clientBean.selectedClient.description}" autoResize="false" /> 

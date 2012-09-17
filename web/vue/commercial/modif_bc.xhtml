@@ -4,26 +4,26 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p ="http://primefaces.org/ui" >
+      xmlns:p ="http://primefaces.org/ui"    >
 
     <f:event listener="#{droitBean.authorize()}" type="preRenderView" />
 
     <h:head>
         <title>LDS/accueil</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <link  rel="stylesheet" type="text/css" href="../../style.css" />
+        <link  rel="stylesheet" type="text/css" href="../../default.css" />
     </h:head>
     <h:body>
         <div id="menu">
             <ul>
                 <li><a href="../accueil.xhtml" accesskey="1">Accueil</a></li>
-                <li class="active"><a href="modif_dp.xhtml" accesskey="2">Section Vue</a></li>
+                <li class="active"><a href="ajout_dp.xhtml?id=1" accesskey="2">Actualiser</a></li>
                 <li><a href="../paramCompte.xhtml" accesskey="3">Compte</a></li>
-                <li><a href="../vue/about.xhtml" accesskey="4">About</a></li>
+                <li><a href="../help.xhtml" accesskey="4">Aide</a></li>
 
             </ul>
         </div>
-        <div id="header1">
+        <div id="header">
             <h1>Leader Automation Systems</h1>
             <h2>Une passion pour un m&eacute;tier , Un travail de Qualit&eacute; !</h2>
         </div>
@@ -31,18 +31,18 @@
             <ul>
                 <li>
                     <h2>Compte</h2>
-                   <ul>
-                           <li><img src="../images/user2.png" id="user1" /></li>
-                            <li>  
-                                <h:form>
+                    <ul>
+                        <li><img src="../../images/user2.png" id="user1" /></li>
+                        <li>  
+                            <h:form>
                                 <p:commandLink id="ajax"  action="#{personBean.logout()}" style="margin-right:20px;">  
-                                         <h:outputText value="Déconnexion" />  
-                                    </p:commandLink>  </h:form></li>
-                             <li> <h:form>
+                                    <h:outputText value="Déconnexion" />  
+                                </p:commandLink>  </h:form></li>
+                        <li> <h:form>
                                 <p:commandLink id="ajax1"  action="paramCompte" style="margin-right:20px;" >  
-                                         <h:outputText value="Paramètres du Compte" />  
-                                    </p:commandLink>  </h:form></li>
-                        </ul>
+                                    <h:outputText value="Paramètres du Compte" />  
+                                </p:commandLink>  </h:form></li>
+                    </ul>
                 </li>
                 <li>
                     <h2>MENU</h2>
@@ -57,13 +57,12 @@
 
         <div id="wrapper">
             <div id="content">
-                <h2 class="title">Gestion du Personnel : </h2><br/> <br/> 
-                <h:form >  
-
+                <h2 class="title">Gestion de Bon commande : </h2><br/> <br/> 
+                <h:form  >  
                     <p:panel>  
                         <p:dataTable transient="true" emptyMessage="" >
                             <f:facet name="header">  
-                                Modification d'un Personnel  
+                                Modification d'un Bon Commande
                             </f:facet>  
                         </p:dataTable> 
 
@@ -77,7 +76,12 @@
                             <p:calendar value="#{bcBean.selectedBoncommande.dateboncommande}" id="popupCal" locale="fr" pattern="dd/MM/yyyy" >                               
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </p:calendar>
-                             
+                             <h:outputText value="Urgent :"  />  
+                            <p:selectOneMenu value="#{bcBean.selectedBoncommande.urgent}" required="true" requiredMessage="Veuillez choisir type de Bon" >  
+                                <f:selectItem itemLabel="Choisir" itemValue="" />  
+                             <f:selectItem itemLabel="oui" itemValue="true" />  
+                             <f:selectItem itemLabel="non" itemValue="false" /> 
+                            </p:selectOneMenu>
 
                             <h:outputText value="Nom fournisseur  " />  
                            <p:selectOneMenu value="#{bcBean.id_fournisseur}" required="true" requiredMessage="Veuillez choisir un N° de fournisseur" >  
@@ -98,6 +102,7 @@
 
                     </p:panel> 
 
+       
                 </h:form>  
 
             </div>

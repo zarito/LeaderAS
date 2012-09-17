@@ -11,6 +11,8 @@ public class Detailsarticlbesoin  implements java.io.Serializable {
 
      private DetailsarticlbesoinId id;
      private Integer qntbesoin;
+     private String nom_article;
+     private Integer qntarticle;
 
     public Detailsarticlbesoin() {
     }
@@ -24,6 +26,11 @@ public class Detailsarticlbesoin  implements java.io.Serializable {
        this.qntbesoin = qntbesoin;
     }
    
+    public Detailsarticlbesoin(DetailsarticlbesoinId id, Integer qntbesoin, String nom_article) {
+       this.id = id;
+       this.qntbesoin = qntbesoin;
+       this.nom_article=nom_article;
+    }
     public DetailsarticlbesoinId getId() {
         return this.id;
     }
@@ -38,6 +45,24 @@ public class Detailsarticlbesoin  implements java.io.Serializable {
     public void setQntbesoin(Integer qntbesoin) {
         this.qntbesoin = qntbesoin;
     }
+
+    public String getNom_article() {
+        return nom_article;
+    }
+
+    public void setNom_article(String nom_article) {
+        this.nom_article = nom_article;
+    }
+
+    public Integer getQntarticle() {
+        return qntarticle;
+    }
+
+    public void setQntarticle(Integer qntarticle) {
+        this.qntarticle = qntarticle;
+    }
+
+ 
 
 
 

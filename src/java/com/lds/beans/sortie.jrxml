@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="69"/>
+	<parameter name="id_sortie" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="id_projet" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="type_projet" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nom_tache" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="desc_sortie" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date_sortie" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nom_pers" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="lien_image" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     detailssortiearticle."qntsortie" AS detailssortiearticle_qntsortie,
+     article."idarticle" AS article_idarticle,
+     article."descarticle" AS article_descarticle,
+     article."refcommerciale" AS article_refcommerciale,
+     article."refcommande" AS article_refcommande
+FROM
+     "public"."bonsortie" bonsortie INNER JOIN "public"."detailssortiearticle" detailssortiearticle ON bonsortie."idsortie" = detailssortiearticle."idsortie"
+     INNER JOIN "public"."article" article ON detailssortiearticle."idarticle" = article."idarticle"
+WHERE
+     bonsortie."idsortie" = $P{id_sortie}]]>
+	</queryString>
+	<field name="detailssortiearticle_qntsortie" class="java.lang.Integer"/>
+	<field name="article_idarticle" class="java.lang.String"/>
+	<field name="article_descarticle" class="java.lang.String"/>
+	<field name="article_refcommerciale" class="java.lang.String"/>
+	<field name="article_refcommande" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="216" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="228" height="62"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{lien_image}]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement x="338" y="136" width="210" height="80"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="353" y="136" width="54" height="20"/>
+				<textElement/>
+				<text><![CDATA[N° Bon :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="156" width="54" height="20"/>
+				<textElement/>
+				<text><![CDATA[Déscription :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="176" width="54" height="20"/>
+				<textElement/>
+				<text><![CDATA[Date :]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="28" y="132" width="206" height="84"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="43" y="132" width="85" height="20"/>
+				<textElement/>
+				<text><![CDATA[N° projet :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="43" y="152" width="85" height="20"/>
+				<textElement/>
+				<text><![CDATA[Type de projet :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="43" y="172" width="85" height="20"/>
+				<textElement/>
+				<text><![CDATA[Nom de la tache :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="196" width="95" height="20"/>
+				<textElement/>
+				<text><![CDATA[Nom de Personnel :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="128" y="132" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{id_projet}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="128" y="152" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{type_projet}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="128" y="172" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{nom_tache}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="448" y="136" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{id_sortie}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="448" y="156" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{desc_sortie}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="448" y="176" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{date_sortie}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="448" y="196" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{nom_pers}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="212" y="77" width="169" height="38"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Bon de  Sortie]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="62" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="41" width="59" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="59" y="41" width="169" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="228" y="41" width="90" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="316" y="41" width="78" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="42" width="59" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[N° Article]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="59" y="41" width="169" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Déscription d'article]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="228" y="42" width="90" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Réf.commercial]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="318" y="42" width="76" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Qnté sortie]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="59" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="59" y="0" width="169" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="228" y="0" width="90" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="316" y="0" width="78" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement x="0" y="0" width="59" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{article_idarticle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="59" y="0" width="169" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{article_descarticle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="228" y="0" width="90" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{article_refcommerciale}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="318" y="0" width="76" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{detailssortiearticle_qntsortie}.toString()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

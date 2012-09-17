@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="demande" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="2" isFloatColumnFooter="true">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="89"/>
+	<property name="ireport.y" value="65"/>
 	<parameter name="id_refrence" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -15,7 +15,6 @@
 	<queryString>
 		<![CDATA[SELECT
      demandeprix."numdemandeprix" AS demandeprix_numdemandeprix,
-     demandeprix."idfournisseur" AS demandeprix_idfournisseur,
      demandeprix."referencedemandeprix" AS demandeprix_referencedemandeprix,
      demandeprix."datedemandeprix" AS demandeprix_datedemandeprix,
      article."idarticle" AS article_idarticle,
@@ -25,21 +24,19 @@
      detailsdemandearticle."numdemandeprix" AS detailsdemandearticle_numdemandeprix,
      detailsdemandearticle."idarticle" AS detailsdemandearticle_idarticle,
      detailsdemandearticle."qntdemande" AS detailsdemandearticle_qntdemande,
-     fournisseur."idfournisseur" AS fournisseur_idfournisseur,
      fournisseur."nom" AS fournisseur_nom,
-     fournisseur."email" AS fournisseur_email,
-     fournisseur."tel" AS fournisseur_tel,
-     fournisseur."fax" AS fournisseur_fax,
-     fournisseur."adresse" AS fournisseur_adresse,
-     fournisseur."description" AS fournisseur_description
+     article."unite" AS article_unite,
+     article."refcommerciale" AS article_refcommerciale,
+     fournisseur."contact" AS fournisseur_contact
 FROM
      "public"."article" article INNER JOIN "public"."detailsdemandearticle" detailsdemandearticle ON article."idarticle" = detailsdemandearticle."idarticle"
      INNER JOIN "public"."demandeprix" demandeprix ON detailsdemandearticle."numdemandeprix" = demandeprix."numdemandeprix"
      INNER JOIN "public"."fournisseur" fournisseur ON demandeprix."idfournisseur" = fournisseur."idfournisseur"
-where demandeprix."referencedemandeprix"=$P{id_refrence} and  demandeprix."idfournisseur"=$P{id_fournisseur}]]>
+WHERE
+     demandeprix."referencedemandeprix" = $P{id_refrence}
+     and demandeprix."idfournisseur" = $P{id_fournisseur}]]>
 	</queryString>
 	<field name="demandeprix_numdemandeprix" class="java.lang.String"/>
-	<field name="demandeprix_idfournisseur" class="java.lang.String"/>
 	<field name="demandeprix_referencedemandeprix" class="java.lang.String"/>
 	<field name="demandeprix_datedemandeprix" class="java.sql.Date"/>
 	<field name="article_idarticle" class="java.lang.String"/>
@@ -49,13 +46,10 @@ where demandeprix."referencedemandeprix"=$P{id_refrence} and  demandeprix."idfou
 	<field name="detailsdemandearticle_numdemandeprix" class="java.lang.String"/>
 	<field name="detailsdemandearticle_idarticle" class="java.lang.String"/>
 	<field name="detailsdemandearticle_qntdemande" class="java.lang.Integer"/>
-	<field name="fournisseur_idfournisseur" class="java.lang.String"/>
 	<field name="fournisseur_nom" class="java.lang.String"/>
-	<field name="fournisseur_email" class="java.lang.String"/>
-	<field name="fournisseur_tel" class="java.lang.String"/>
-	<field name="fournisseur_fax" class="java.lang.String"/>
-	<field name="fournisseur_adresse" class="java.lang.String"/>
-	<field name="fournisseur_description" class="java.lang.String"/>
+	<field name="article_unite" class="java.lang.String"/>
+	<field name="article_refcommerciale" class="java.lang.String"/>
+	<field name="fournisseur_contact" class="java.lang.String"/>
 	<group name="detailsdemandearticle_idarticle">
 		<groupExpression><![CDATA[$F{detailsdemandearticle_idarticle}]]></groupExpression>
 	</group>
@@ -63,7 +57,7 @@ where demandeprix."referencedemandeprix"=$P{id_refrence} and  demandeprix."idfou
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="306" splitType="Stretch">
+		<band height="310" splitType="Stretch">
 			<rectangle>
 				<reportElement x="290" y="107" width="248" height="51"/>
 			</rectangle>
@@ -99,17 +93,13 @@ where demandeprix."referencedemandeprix"=$P{id_refrence} and  demandeprix."idfou
 				<textElement/>
 				<text><![CDATA[Nous vous prions de bien vouloir nous faire parvenir votre meilleure offre de prix et de disponibilité pour les articles suivantes :]]></text>
 			</staticText>
-			<image>
-				<reportElement x="0" y="0" width="257" height="107"/>
-				<imageExpression class="java.lang.String"><![CDATA["C:\\Users\\EL$P{lien_image}]]></imageExpression>
-			</image>
 			<textField>
 				<reportElement x="71" y="171" width="100" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{id_refrence}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="257" y="222" width="162" height="20"/>
+				<reportElement x="220" y="242" width="99" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{fournisseur_nom}]]></textFieldExpression>
 			</textField>
@@ -118,116 +108,141 @@ where demandeprix."referencedemandeprix"=$P{id_refrence} and  demandeprix."idfou
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{demandeprix_datedemandeprix}.toString()]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement x="0" y="0" width="276" height="65"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{lien_image}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="257" y="222" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{fournisseur_contact}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<columnHeader>
-		<band height="21" splitType="Stretch">
+		<band height="28" splitType="Stretch">
 			<rectangle>
-				<reportElement x="0" y="0" width="238" height="20"/>
+				<reportElement x="0" y="7" width="179" height="20"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="238" y="0" width="71" height="20"/>
+				<reportElement x="179" y="7" width="97" height="20"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="309" y="0" width="81" height="20"/>
+				<reportElement x="276" y="7" width="89" height="20"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="390" y="0" width="39" height="20"/>
+				<reportElement x="406" y="7" width="50" height="20"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="429" y="0" width="59" height="20"/>
+				<reportElement x="365" y="7" width="41" height="20"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="488" y="0" width="67" height="20"/>
+				<reportElement x="456" y="7" width="39" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="495" y="7" width="43" height="20"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="0" y="1" width="238" height="20"/>
+				<reportElement x="0" y="8" width="179" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Désignation]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="238" y="1" width="71" height="20"/>
+				<reportElement x="179" y="8" width="100" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Marque]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="309" y="1" width="81" height="20"/>
+				<reportElement x="276" y="8" width="89" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Réference]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="388" y="1" width="41" height="20"/>
+				<reportElement x="365" y="8" width="41" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[unité]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="405" y="8" width="51" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Qté]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="429" y="1" width="59" height="20"/>
+				<reportElement x="456" y="7" width="39" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[PU]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="488" y="1" width="67" height="20"/>
+				<reportElement x="495" y="8" width="43" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[PT]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="21" splitType="Stretch">
+		<band height="22" splitType="Stretch">
 			<rectangle>
-				<reportElement x="0" y="0" width="238" height="20"/>
+				<reportElement x="0" y="-1" width="179" height="22"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="309" y="0" width="81" height="20"/>
+				<reportElement x="179" y="-1" width="97" height="22"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="390" y="0" width="39" height="20"/>
+				<reportElement x="276" y="-1" width="89" height="22"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="429" y="0" width="59" height="20"/>
+				<reportElement x="365" y="-1" width="41" height="22"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="488" y="0" width="67" height="20"/>
+				<reportElement x="406" y="-1" width="50" height="22"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="238" y="0" width="71" height="20"/>
+				<reportElement x="495" y="-1" width="43" height="22"/>
 			</rectangle>
 			<textField>
-				<reportElement x="0" y="0" width="238" height="20"/>
+				<reportElement x="0" y="1" width="179" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{article_descarticle}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="238" y="0" width="71" height="20"/>
+				<reportElement x="179" y="1" width="97" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{article_marque}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="309" y="1" width="79" height="20"/>
+				<reportElement x="279" y="3" width="86" height="19"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{article_idarticle}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{article_refcommerciale}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="390" y="1" width="39" height="20"/>
+				<reportElement x="365" y="2" width="40" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{article_unite}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="406" y="0" width="50" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{detailsdemandearticle_qntdemande}.toString()]]></textFieldExpression>
 			</textField>
+			<rectangle>
+				<reportElement x="456" y="0" width="39" height="21"/>
+			</rectangle>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="105">
+		<band height="131">
 			<staticText>
 				<reportElement x="41" y="15" width="100" height="20"/>
 				<textElement/>
 				<text><![CDATA[Signature :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="276" y="35" width="229" height="29"/>
+				<reportElement x="276" y="73" width="229" height="29"/>
 				<textElement/>
 				<text><![CDATA[Zone A,N° 397 - QI - Ait Mellol - Agadir- Maroc Tel :+2012(0) 528 249 666  FAX :+212 (0) 528 240 665]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="238" y="64" width="318" height="28"/>
+				<reportElement x="257" y="102" width="299" height="28"/>
 				<textElement/>
 				<text><![CDATA[info@leader-automation.com - www.leader-automation.com RC.6653/Agadir - TP:49835660 - IF : 40191694 -CNSS :8291122]]></text>
 			</staticText>

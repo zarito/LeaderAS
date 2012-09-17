@@ -8,10 +8,10 @@
             <column name="numbc" length="254" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="fournisseur" class="com.lds.vo.Fournisseur" fetch="select">
+        <many-to-one name="fournisseur" class="com.lds.vo.Fournisseur" fetch="select" lazy="false">
             <column name="idfournisseur" length="254" not-null="true" />
         </many-to-one>
-        <many-to-one name="projet" class="com.lds.vo.Projet" fetch="select">
+        <many-to-one name="projet" class="com.lds.vo.Projet" fetch="select" lazy="false">
             <column name="idprojet" length="254" not-null="true" />
         </many-to-one>
         <property name="dateboncommande" type="date">
@@ -20,6 +20,10 @@
         <property name="prixht" type="java.lang.Double">
             <column name="prixht" precision="17" scale="17" />
         </property>
+           <property name="urgent" type="java.lang.Boolean">
+            <column name="urgent" precision="17" scale="17" />
+        </property>
+        
         <set name="detailsbcarticles" inverse="true">
             <key>
                 <column name="numbc" length="254" not-null="true" />

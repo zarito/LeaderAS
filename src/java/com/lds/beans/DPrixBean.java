@@ -6,14 +6,14 @@ package com.lds.beans;
 
 import com.lds.persistance.*;
 import com.lds.vo.*;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.*;
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +21,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import org.postgresql.Driver;
 import org.primefaces.model.DualListModel;
 import org.primefaces.model.LazyDataModel;
 
@@ -245,7 +244,6 @@ public class DPrixBean implements Serializable {
 
     public String btnAjouter() {
         ddarticles = new ArrayList<Detailsdemandearticle>();
-        mediumArtModel = new DetailsDemandeArticleDataModel(ddarticles);
         return "echecAjout";
     }
 
@@ -261,20 +259,19 @@ public class DPrixBean implements Serializable {
         //sinon
         Iterator li = fournisseurs_add.getTarget().iterator();
         //variables pour construire le num ki es identifiant
-        String num = dprix.getReferencedemandeprix();
+        String num = dprix.getReferencedemandeprix()+"-";
         Integer i = 1;
         //Pour chaque fournisseur
         while (li.hasNext()) {
-            //Recupération de l'objet      
-            Fournisseur fo = (Fournisseur) li.next();
-           /* String idfo = (String) li.next();
+            //Recupération de l'objet            
+            String idfo = (String) li.next();
             FournisseurHDao ad = new FournisseurHDao();
-            Fournisseur fo;*/
+            Fournisseur fo;
             dprix.setNumdemandeprix(num + i);
-            //fo = ad.getFournisseur(idfo);            
+            fo = ad.getFournisseur(idfo);
             dprix.setFournisseur(fo);
             //pour les articles
-            Set<Detailsdemandearticle> sdda = new HashSet();          
+            Set<Detailsdemandearticle> sdda = new HashSet();            //System.out.println("flk,klgkgffkgkdl" + fo.getIdfournisseur());            
             Iterator lia = ddarticles.iterator();
             while (lia.hasNext()) {
                 Detailsdemandearticle dda1 = (Detailsdemandearticle) lia.next();
@@ -292,15 +289,15 @@ public class DPrixBean implements Serializable {
         //initialisation        
         dprix = new Demandeprix();
         demandeprixs = dao.getAllDevis();
-        mediumDPrixModel = new DPrixDataModel(this.getAllReference());        
+        mediumDPrixModel = new DPrixDataModel(this.getAllReference());
         return "succesAjout";
 
     }
 
-    public String details() {
+    public void details() {
         if (selectedDemandeprix == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir une demande", "Selectionnez une ligne !"));
-            return "";
+           
         } else {
 
             //Affichage des fournisseurs
@@ -321,15 +318,17 @@ public class DPrixBean implements Serializable {
             Iterator<Detailsdemandearticle> li = l.iterator();
             while (li.hasNext()) {
                 //Recupération objet
-                Detailsdemandearticle dda = (Detailsdemandearticle) li.next();
-                if (dda.getDemandeprix().getNumdemandeprix().equals(selectedDemandeprix.getNumdemandeprix())) {
-                    arto.add(dda);
+                Detailsdemandearticle dda1 = (Detailsdemandearticle) li.next();
+                if (dda1.getDemandeprix().getNumdemandeprix().equals(selectedDemandeprix.getNumdemandeprix())) {
+                    arto.add(dda1);
                 }
             }
             ddarticles = arto;
             mediumArtModel1 = new DetailsDemandeArticleDataModel(arto);
 
-            return "details_dp";
+               FacesContext fc = FacesContext.getCurrentInstance();
+        ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) fc.getApplication().getNavigationHandler();
+        nav.performNavigation("details_dp");
         }
     }
 
@@ -384,7 +383,16 @@ public class DPrixBean implements Serializable {
         return "succesAjout";
 
     }
- 
+
+    public Boolean print() {
+
+        if (selectedDemandeprix != null) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 
     public void enleverArt() {
         System.out.println("hhhh");
@@ -448,90 +456,31 @@ public class DPrixBean implements Serializable {
         return allRef;
     }
 
-    public String etat_demandeprix() throws ClassNotFoundException, SQLException, JRException {
-        /*
-         * if (selectedFournisseur == null) {
-         * FacesContext.getCurrentInstance().addMessage(null, new
-         * FacesMessage("Veuillez choisir un fournisseur", "Selectionnez une
-         * ligne !")); //System.out.println("nulllllllllllllllllllllll");
+    public void etat_demandeprix() throws ClassNotFoundException, SQLException, JRException, IOException {
+        if (selectedFournisseur == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir un fournisseur", "Selectionnez une ligne !"));
         }
-         */
         Class.forName("org.postgresql.Driver");
         Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/lds_db", "postgres", "lds");
 
 
         java.io.InputStream in = getClass().getResourceAsStream("demande.jasper");
-        //System.out.println(getClass().getResourceAsStream("demande.jasper"));
         Map paramettres = new HashMap();
         paramettres.put("id_refrence", selectedDemandeprix.getReferencedemandeprix());
-        paramettres.put("id_fournisseur", selectedFournisseur.getIdfournisseur());
-//paramettres.put("id_refrence","1");
-//paramettres.put("id_fournisseur","1");
+        paramettres.put("id_fournisseur",selectedFournisseur.getIdfournisseur());
         URL in3 = getClass().getResource("demande.jrxml");
         String url11 = in3.getPath();
         String url2[] = url11.split("demande.jrxml");
 
         paramettres.put("lien_image", url2[0] + "logo.png");
-
-//Execution du rapport
-//JasperPrint editer=JasperFillManager.fillReport(rapport, paramettres, con);
-        URL in1 = getClass().getResource("demande.jrxml");
-        String url = in1.getPath();
-        System.out.println(url);
-        String url1[] = url.split("/build/web/WEB-INF/classes/");
-        System.out.println(url1[0]);
-        //C:\Users\ELKAOUMI\Desktop\PFA\web\Etat
-        url1[0] = url1[0].concat("/web/vue/Etat/demande_" + selectedDemandeprix.getReferencedemandeprix() + selectedFournisseur.getIdfournisseur() + ".pdf");
-        //   url1[0]=url1[0].concat("/web/vue/Etat/demande_11.pdf");
-        JasperPrint editer = null;
-
-        editer = JasperFillManager.fillReport(in, paramettres, con);
-        //Creation du rappport au format PDF
-
-
-        JasperExportManager.exportReportToPdfFile(editer, url1[0]);
-        return url1[0];
-//JasperExportManager.exportReportToPdfFile(editer, "reports/bon_commande.pdf");
-    }
-
-    public String viewReportPDF() throws Exception {
-        //String reportId = "Person";
-        Driver mDriver = new Driver();
-        DriverManager.registerDriver(mDriver);
-        Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/lds_db", "postgres", "lds");
-        //java.io.InputStream in = getClass().getResourceAsStream("demande.jasper");
-        //File file = new File(in);
-        Map paramettres = new HashMap();
-//paramettres.put("id_refrence",selectedDemandeprix.getReferencedemandeprix());
-//paramettres.put("id_fournisseur",selectedFournisseur.getIdfournisseur());
-        paramettres.put("id_refrence", "1");
-        paramettres.put("id_fournisseur", "1");
-        URL in3 = getClass().getResource("report1.jrxml");
-        String url11 = in3.getPath();
-        String url2[] = url11.split("report1.jrxml");
-
-        paramettres.put("lien_image", url2[0] + "logo.png");
-        URL in1 = getClass().getResource("report1.jrxml");
-        String url = in1.getPath();
-        JasperPrint jasperPrint = JasperFillManager.fillReport(
-                new FileInputStream(new File(url)),
-                paramettres, con);
-        byte[] bytes = JasperExportManager.exportReportToPdf(jasperPrint);
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-        /**
-         * *********************************************************************
-         * Pour afficher une boîte de dialogue pour enregistrer le fichier sous
-         * le nom rapport.pdf
-		 *********************************************************************
-         */
-        response.addHeader("Content-disposition",
-                "attachment;filename=rapport.pdf");
-        response.setContentLength(bytes.length);
-        response.getOutputStream().write(bytes);
-        response.setContentType("application/pdf");
-        context.responseComplete();
-        return null;
+        JasperPrint editer = JasperFillManager.fillReport(in, paramettres, con);
+        HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+        httpServletResponse.addHeader("Content-disposition", "attachment; filename=demande_" + selectedDemandeprix.getReferencedemandeprix() + selectedFournisseur.getIdfournisseur() + ".pdf");
+        //ServletOutputStream servletOutputStream=httpServletResponse.getOutputStream();
+        try {
+            JasperExportManager.exportReportToPdfStream(editer, httpServletResponse.getOutputStream());
+        } catch (Exception e) {
+        }
     }
 
     public static void main(String args[]) throws Exception {

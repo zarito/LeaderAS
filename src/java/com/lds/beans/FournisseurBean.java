@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import org.primefaces.model.LazyDataModel;
@@ -76,10 +77,14 @@ public class FournisseurBean implements Serializable {
         if (selectedFournisseur == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir un fournisseur", "Selectionnez une ligne !"));
         }
-        
+        try{
         dao.delete(selectedFournisseur.getIdfournisseur());
         fournisseurs = dao.getAllFournisseur();
         mediumFournisseursModel = new FournisseurDataModel(fournisseurs);
+        }catch(Exception e)
+        {
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Impossible de supprimer le fournisseur", "le fournisseur Déja utilisé !")); 
+        }
 
     }
 
@@ -88,8 +93,8 @@ public class FournisseurBean implements Serializable {
 
         for (Fournisseur fournisseur : fournisseurs) {
             if (fournisseur.getIdfournisseur().equals(four.getIdfournisseur())) {
-               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Ce fournisseur existe dejà !", "Veuillez changer le Code de fournisseur."));
-                return "four_ajout";
+               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Ce fournisseur existe déjà !", "Veuillez changer le Code de fournisseur."));
+                return "";
             }
         }
         
@@ -103,15 +108,10 @@ public class FournisseurBean implements Serializable {
     
     
 
-    public String modif() {
-        if (selectedFournisseur == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir un fournisseur", "Selectionnez une ligne !"));
-        return "";      
-        }
-        else
-        {
-           //typeUser=selectedFournisseur.getTypeuser().getTypeuser();
-        return "modif_four";}
+    public void modif() {
+       FacesContext fc = FacesContext.getCurrentInstance();
+        ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) fc.getApplication().getNavigationHandler();
+        nav.performNavigation("modif_four");
     }
     
     public String enrModif(){

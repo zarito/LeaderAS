@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import org.primefaces.model.LazyDataModel;
 
 public class PersonnelBean implements Serializable {
@@ -133,10 +135,21 @@ public class PersonnelBean implements Serializable {
         if (selectedPersonnel == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir un employé", "Selectionnez une ligne avec les cercles!"));
         }
-        
-        dao.delete(selectedPersonnel.getIdpersonnel());
-        personnels = dao.getAllPersonnels();
-        mediumPersonnelsModel = new PersonnelDataModel(personnels);
+
+        try {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+            Personnel p = (Personnel) facesContext.getExternalContext().getSessionMap().get("pers");
+            if (p.getIdpersonnel().equals(selectedPersonnel.getIdpersonnel())) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Impossible de supprimer l'employé ", "veuillez changé la session pour supprimer l'employé !"));
+            } else {
+                dao.delete(selectedPersonnel.getIdpersonnel());
+                personnels = dao.getAllPersonnels();
+                mediumPersonnelsModel = new PersonnelDataModel(personnels);
+            }
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Impossible de supprimer l'employé", "l'employé déja utilisé!"));
+        }
 
     }
 
@@ -146,76 +159,67 @@ public class PersonnelBean implements Serializable {
         for (Personnel personnel : personnels) {
             if (personnel.getIdpersonnel().equals(pers.getIdpersonnel())) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Cet employé existe dejà !", "Veuillez changer le login."));
-                return "echecAjout";
+                return "";
             }
         }
         //sinon
-        
-       
+
+
         pers.setTypeuser(new Typeuser(typeUser));
         dao.insert(pers);
-          pers = new Personnel(); 
+        pers = new Personnel();
         personnels = dao.getAllPersonnels();
         mediumPersonnelsModel = new PersonnelDataModel(personnels);
         return "succesAjout";
 
     }
-    
-    
 
-    public String modif() {
-        if (selectedPersonnel == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir un employé", "Selectionnez une ligne avec les cercles!"));
-        return "";      
-        }
-        else
-        {
-           typeUser=selectedPersonnel.getTypeuser().getTypeuser();
-        return "modif";}
+    public void modif() {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) fc.getApplication().getNavigationHandler();
+        nav.performNavigation("modif");
     }
-    
-    public String enrModif(){
+
+    public String enrModif() {
         selectedPersonnel.setTypeuser(new Typeuser(typeUser));
         dao.update(selectedPersonnel);
         personnels = dao.getAllPersonnels();
         mediumPersonnelsModel = new PersonnelDataModel(personnels);
         return "succesAjout";
     }
-    
-     public String droits() {
-         
-          if (selectedPersonnel == null) {
+
+    public String droits() {
+
+        if (selectedPersonnel == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir un employé", "Selectionnez une ligne avec les cercles!"));
             return "";
-            }
-          
-          else {
-        favNumber2 = new String[3];
-        favNumber3 = new String[2];
-        DetailsPrivUserDao privUser = new DetailsPrivUserHDao();
+        } else {
+            favNumber2 = new String[3];
+            favNumber3 = new String[2];
+            DetailsPrivUserDao privUser = new DetailsPrivUserHDao();
 
-        ArrayList<Detailsprivuser> l = (ArrayList<Detailsprivuser>) privUser.getAllDetailsPrivUsers();
-        Iterator li = l.iterator();
-        while (li.hasNext()) {
-            //Recupération objet
-            Detailsprivuser pu = (Detailsprivuser) li.next();
-  // System.out.println(pu.getPrivilege().getNompriv()+"hhh");
-      
-            if (pu.getId().getIdpersonnel().equals(selectedPersonnel.getIdpersonnel())) {
-                //traitement de l'objet
-                if (new Integer(pu.getPrivilege().getIdpriv()) <= 3) {
-                    favNumber2[new Integer(pu.getPrivilege().getIdpriv()) - 1] = pu.getPrivilege().getNompriv();
-                } else {
-                    favNumber3[new Integer(pu.getPrivilege().getIdpriv()) - 4] = pu.getPrivilege().getNompriv();
+            ArrayList<Detailsprivuser> l = (ArrayList<Detailsprivuser>) privUser.getAllDetailsPrivUsers();
+            Iterator li = l.iterator();
+            while (li.hasNext()) {
+                //Recupération objet
+                Detailsprivuser pu = (Detailsprivuser) li.next();
+                // System.out.println(pu.getPrivilege().getNompriv()+"hhh");
+
+                if (pu.getId().getIdpersonnel().equals(selectedPersonnel.getIdpersonnel())) {
+                    //traitement de l'objet
+                    if (new Integer(pu.getPrivilege().getIdpriv()) <= 3) {
+                        favNumber2[new Integer(pu.getPrivilege().getIdpriv()) - 1] = pu.getPrivilege().getNompriv();
+                    } else {
+                        favNumber3[new Integer(pu.getPrivilege().getIdpriv()) - 4] = pu.getPrivilege().getNompriv();
+                    }
+
                 }
 
             }
-
+            return "details";
         }
-        return "details";
-          }
 
-        
+
     }
 
     public String Enregistrer_priv() {
@@ -229,35 +233,30 @@ public class PersonnelBean implements Serializable {
 
             if (pu.getId().getIdpersonnel().equals(selectedPersonnel.getIdpersonnel())) {
                 //traitement de l'objet
-               DetailsprivuserId id=new DetailsprivuserId(selectedPersonnel.getIdpersonnel(),pu.getPrivilege().getIdpriv()); 
-           privUser.delete(id);
+                DetailsprivuserId id = new DetailsprivuserId(selectedPersonnel.getIdpersonnel(), pu.getPrivilege().getIdpriv());
+                privUser.delete(id);
             }
         }
-        int i=0;
-        while(i<favNumber2.length)
-        {
-        if(!favNumber2[i].equals(""))
-        {     
-            PrivilegeHDao privhdao=new PrivilegeHDao();
-            DetailsprivuserId id=new DetailsprivuserId(selectedPersonnel.getIdpersonnel(),privhdao.getnom_to_Privilege(favNumber2[i]).getIdpriv());
-            Detailsprivuser priv_user=new Detailsprivuser(id,privhdao.getnom_to_Privilege(favNumber2[i]),selectedPersonnel,favNumber2[i]);
-           privUser.insert(priv_user); 
+        int i = 0;
+        while (i < favNumber2.length) {
+            if (!favNumber2[i].equals("")) {
+                PrivilegeHDao privhdao = new PrivilegeHDao();
+                DetailsprivuserId id = new DetailsprivuserId(selectedPersonnel.getIdpersonnel(), privhdao.getnom_to_Privilege(favNumber2[i]).getIdpriv());
+                Detailsprivuser priv_user = new Detailsprivuser(id, privhdao.getnom_to_Privilege(favNumber2[i]), selectedPersonnel, favNumber2[i]);
+                privUser.insert(priv_user);
+            }
+            i++;
         }
-        i++;
-        }
-         i=0;
-        while(i<favNumber3.length)
-        {
-        if(!favNumber3[i].equals(""))
-        {     
-            PrivilegeHDao privhdao=new PrivilegeHDao();
-            DetailsprivuserId id=new DetailsprivuserId(selectedPersonnel.getIdpersonnel(),privhdao.getnom_to_Privilege(favNumber3[i]).getIdpriv());
-            Detailsprivuser priv_user=new Detailsprivuser(id,privhdao.getnom_to_Privilege(favNumber3[i]),selectedPersonnel,favNumber3[i]);
-           privUser.insert(priv_user); 
-        }
-        i++;
+        i = 0;
+        while (i < favNumber3.length) {
+            if (!favNumber3[i].equals("")) {
+                PrivilegeHDao privhdao = new PrivilegeHDao();
+                DetailsprivuserId id = new DetailsprivuserId(selectedPersonnel.getIdpersonnel(), privhdao.getnom_to_Privilege(favNumber3[i]).getIdpriv());
+                Detailsprivuser priv_user = new Detailsprivuser(id, privhdao.getnom_to_Privilege(favNumber3[i]), selectedPersonnel, favNumber3[i]);
+                privUser.insert(priv_user);
+            }
+            i++;
         }
         return "priv_insert";
     }
-   
 }

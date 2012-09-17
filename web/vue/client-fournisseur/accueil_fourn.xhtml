@@ -15,7 +15,7 @@
     </h:head>
     <h:body>
         <div id="menu">
-           <ul>
+            <ul>
                 <li><a href="../accueil.xhtml" accesskey="1">Accueil</a></li>
                 <li class="active"><a href="accueil_fourn.xhtml?id=4" accesskey="2">Actualiser</a></li>
                 <li><a href="../paramCompte.xhtml" accesskey="3">Compte</a></li>
@@ -58,8 +58,8 @@
                         <h:selectOneMenu value="#{clientFournisseurBean.page}" onchange="submit()"
                                          valueChangeListener="#{clientFournisseurBean.change}" required="true" >
                             <f:selectItem itemLabel="Choisir une Gestion" />
-                            <f:selectItem itemLabel="Gestion des Fournisseurs" itemValue="accueil_fourn.xhtml?id=5" />
-                            <f:selectItem itemLabel="Gestion des Clients" itemValue="accueil.xhtml?id=5" />
+                            <f:selectItem itemLabel="Gestion des Fournisseurs" itemValue="accueil_fourn.xhtml?id=4" />
+                            <f:selectItem itemLabel="Gestion des Clients" itemValue="accueil.xhtml?id=4" />
                         </h:selectOneMenu>
                     </h:panelGrid> 
             
@@ -67,7 +67,10 @@
                 <h:form id="form"> 
                     <p:growl id="growl" showDetail="true"  /> 
                     <p:dataTable  var="fournisseur" value="#{fournisseurBean.mediumFournisseursModel}" rowKey="#{fournisseur.idfournisseur}" paginator="true" rows="10"   
-                                 selection="#{fournisseurBean.selectedFournisseur}"  selectionMode="single"  id="fournisseursTable"  >                             
+                                  selection="#{fournisseurBean.selectedFournisseur}"  selectionMode="single"  id="fournisseursTable" filteredValue="#{fournisseurBean.filteredFournisseurs}" lazy="true"  >                             
+                        
+                        <p:ajax  event="rowDblselect" listener="#{fournisseurBean.modif()}"   />     
+                        
                         <f:facet name="header">  
                             Liste des fournisseurs  
                         </f:facet>
@@ -87,19 +90,21 @@
                         </p:column>  
                         <p:column headerText="Fax" sortBy="#{fournisseur.fax}"  id="fax" filterBy="#{fournisseur.fax}">  
                             <h:outputText value="#{fournisseur.fax} " />
-                        </p:column>
+                        </p:column>                        
                         <p:column headerText="Adresse" sortBy="#{fournisseur.adresse}"  id="adresse" filterBy="#{fournisseur.adresse}">  
                             <h:outputText value="#{fournisseur.adresse} " />
-                        </p:column>  
+                        </p:column>
+                        <p:column headerText="Contact" sortBy="#{fournisseur.fax}"  id="contact" filterBy="#{fournisseur.contact}">  
+                            #{fournisseur.contact} , #{fournisseur.fcontact}
+                        </p:column>
+                        
 
                         <f:facet name="footer">                              
-                            <p:commandButton id="viewCommand" value="Ajouter" icon="ui-icon-add"  action="four_ajout" /> 
-                            
-                            <p:commandButton id="ModifButton" value="Modifier" icon="ui-icon-search" action="#{fournisseurBean.modif()}" update="growl" ajax="false"/> 
+                            <p:commandButton id="viewCommand" value="Ajouter" icon="ui-icon-add"  action="four_ajout" />                                                     
                             
                             <p:commandButton id="showDialogButton" value="Supprimer" onclick="confirmation.show()" type="button" icon="ui-icon-close" />  
 
-                            <p:confirmDialog id="confirmDialog" message="Etes vous sûr de supprimer cet employé ?"  
+                            <p:confirmDialog id="confirmDialog" message="Etes vous sûr de supprimer ce fournisseur ?"  
                                              header="Confirmation" severity="alert" widgetVar="confirmation">                                                                  
                                 
                                 <p:commandButton id="confirm" value="OUI" oncomplete="confirmation.hide()" actionListener="#{fournisseurBean.supprimer}" ajax="false" update="growl"/>
@@ -108,10 +113,7 @@
 
                             </p:confirmDialog>
                         </f:facet> 
-                    </p:dataTable>                                             
-                            <!--<f:facet name="header">  
-                                <p:graphicImage value="/images/cars/#{fournisseurBean.selectedFournisseur.nom}.jpg"/>  
-                            </f:facet>  -->                           
+                    </p:dataTable>                                                                                                 
                 </h:form> 
             </div>
             

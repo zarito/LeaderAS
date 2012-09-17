@@ -21,18 +21,14 @@
     <mapping resource="com/lds/vo/Detailsbcarticle.hbm.xml"/>
     <mapping resource="com/lds/vo/Audit.hbm.xml"/>
     <mapping resource="com/lds/vo/Detailsdemandearticle.hbm.xml"/>
-    <mapping resource="com/lds/vo/Detailsfourniturebesoin.hbm.xml"/>
-    <mapping resource="com/lds/vo/Tache.hbm.xml"/>
+       <mapping resource="com/lds/vo/Tache.hbm.xml"/>
     <mapping resource="com/lds/vo/Detailsprivuser.hbm.xml"/>    
-    <mapping resource="com/lds/vo/Detailsbcfourniture.hbm.xml"/>
-    <mapping resource="com/lds/vo/Detailssortiearticle.hbm.xml"/>
+       <mapping resource="com/lds/vo/Detailssortiearticle.hbm.xml"/>
     <mapping resource="com/lds/vo/Typeuser.hbm.xml"/>
-    <mapping resource="com/lds/vo/Detailssortiefourniture.hbm.xml"/>
-    <mapping resource="com/lds/vo/Fournisseur.hbm.xml"/>
+       <mapping resource="com/lds/vo/Fournisseur.hbm.xml"/>
     <mapping resource="com/lds/vo/Demandeprix.hbm.xml"/>
-    <mapping resource="com/lds/vo/Fourniture.hbm.xml"/>    
-    <mapping resource="com/lds/vo/Projet.hbm.xml"/>
+     <mapping resource="com/lds/vo/Projet.hbm.xml"/>
     <mapping resource="com/lds/vo/Detailstachepersonnel.hbm.xml"/>
-    <mapping resource="com/lds/vo/Detailsbrfourniture.hbm.xml"/>
-  </session-factory>
+    <mapping resource="com/lds/vo/Boncc.hbm.xml"/>
+       </session-factory>
 </hibernate-configuration>

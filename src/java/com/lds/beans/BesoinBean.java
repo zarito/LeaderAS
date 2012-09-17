@@ -4,39 +4,42 @@ import com.lds.persistance.*;
 import com.lds.vo.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import org.primefaces.model.LazyDataModel;
 
 public class BesoinBean implements Serializable {
 
-    private BesoinDao dao;
+    private BesoinHDao dao;
     private Besoin besoin;
     private List<Besoin> besoins;
+    private List<Besoin> filtredvesoins;
+    private List<Besoin> besoins_v;
     private Besoin selectedBesoin;
     private LazyDataModel<Besoin> mediumBesoinsModel;
+    private LazyDataModel<Besoin> mediumBesoinsModel_v;
     private String id_projet;
     private BesoinarticleDataModel mediumbesoindetailsModel;
     private DetailsBesoinArticleHDao1 details_article_dao;
-    private Detailsarticlbesoin  selecteddetailsbesoinarticle;
+    private Detailsarticlbesoin selecteddetailsbesoinarticle;
     private String id_article;
     private String qnt_besoin;
     private String id_fourniture;
     private ArticleHDao article_dao;
-    private FournitureHDao fourniture_dao;
-    private BesoinfournitureDataModel mediumbesoindetails_1Model;
-    private Detailsfourniturebesoin  selecteddetailsbesoinfourniture;
-    private DetailsBesoinFounitureHDao1 details_fourniture_dao;
     private String qnt_besoin2;
     private String id_tache;
     private String id_besoin;
+    private String choix_projet;
+    private String choix_trie;
+    private LazyDataModel<Detailsarticlbesoin> mediumarticle;
+    private LazyDataModel<Projet> mediumprojet;
+    private Projet selectprojet;
+    private Projet selectintervention;
 
-    
-    
-      public BesoinBean() {
+    public BesoinBean() {
 
         besoin = new Besoin();
         besoins = new ArrayList<Besoin>();
@@ -44,13 +47,121 @@ public class BesoinBean implements Serializable {
         //populateRandomCars(cars, 50);  
         dao = new BesoinHDao();
         besoins = dao.getAllBesoin();
-        mediumBesoinsModel = new BesoinDataModel(besoins);
-        article_dao=new ArticleHDao();
-        fourniture_dao=new FournitureHDao();
-        details_fourniture_dao= new DetailsBesoinFounitureHDao1();
-        details_article_dao =new DetailsBesoinArticleHDao1();
-        qnt_besoin="";
+        ArrayList<Besoin> all = new ArrayList<Besoin>();
+        Iterator li = besoins.iterator();
+        while (li.hasNext()) {
+            //Recupération objet
+            Besoin pu = (Besoin) li.next();
+            if (pu.getTache().getProjet().getTypeprojet().equals("1")) {
+                pu.setType("Projet");
+            } else {
+                pu.setType("Intervention");
             }
+            all.add(pu);
+        }
+        besoins = all;
+        all = new ArrayList<Besoin>();
+        besoins_v = dao.getAllBesoin_v();
+        li = besoins_v.iterator();
+        while (li.hasNext()) {
+            //Recupération objet
+            Besoin pu = (Besoin) li.next();
+            if (pu.getTache().getProjet().getTypeprojet().equals("1")) {
+                pu.setType("Projet");
+            } else {
+                pu.setType("Intervention");
+            }
+            all.add(pu);
+        }
+        besoins_v = all;
+        mediumBesoinsModel = new BesoinDataModel(besoins);
+        mediumBesoinsModel_v = new BesoinDataModel(besoins_v);
+        article_dao = new ArticleHDao();
+        details_article_dao = new DetailsBesoinArticleHDao1();
+        qnt_besoin = "";
+    }
+
+    public List<Besoin> affiche_type_projet(List<Besoin> bes) {
+        ArrayList<Besoin> all = new ArrayList<Besoin>();
+        Iterator li = bes.iterator();
+        while (li.hasNext()) {
+            //Recupération objet
+            Besoin pu = (Besoin) li.next();
+            if (pu.getTache().getProjet().getTypeprojet().equals("1")) {
+                pu.setType("Affaire");
+            } else {
+                pu.setType("Intervention");
+            }
+            all.add(pu);
+        }
+        return all;
+    }
+
+    public List<Besoin> getFiltredvesoins() {
+        return filtredvesoins;
+    }
+
+    public void setFiltredvesoins(List<Besoin> filtredvesoins) {
+        this.filtredvesoins = filtredvesoins;
+    }
+
+    public Projet getSelectintervention() {
+        return selectintervention;
+    }
+
+    public void setSelectintervention(Projet selectintervention) {
+        this.selectintervention = selectintervention;
+    }
+
+    public Projet getSelectprojet() {
+        return selectprojet;
+    }
+
+    public void setSelectprojet(Projet selectprojet) {
+        this.selectprojet = selectprojet;
+    }
+
+    public LazyDataModel<Projet> getMediumprojet() {
+        return mediumprojet;
+    }
+
+    public void setMediumprojet(LazyDataModel<Projet> mediumprojet) {
+        this.mediumprojet = mediumprojet;
+    }
+
+    public LazyDataModel<Detailsarticlbesoin> getMediumarticle() {
+        return mediumarticle;
+    }
+
+    public void setMediumarticle(LazyDataModel<Detailsarticlbesoin> mediumarticle) {
+        this.mediumarticle = mediumarticle;
+    }
+
+    public String getChoix_trie() {
+
+        return choix_trie;
+    }
+
+    public void setChoix_trie(String choix_trie) {
+
+        this.choix_trie = choix_trie;
+    }
+
+    public String getChoix_projet() {
+        return choix_projet;
+    }
+
+    public void setChoix_projet(String choix_projet) {
+        this.choix_projet = choix_projet;
+    }
+
+    public LazyDataModel<Besoin> getMediumBesoinsModel_v() {
+        return mediumBesoinsModel_v;
+    }
+
+    public void setMediumBesoinsModel_v(LazyDataModel<Besoin> mediumBesoinsModel_v) {
+        this.mediumBesoinsModel_v = mediumBesoinsModel_v;
+    }
 
     public String getId_besoin() {
         return id_besoin;
@@ -67,8 +178,8 @@ public class BesoinBean implements Serializable {
     public void setId_tache(String id_tache) {
         this.id_tache = id_tache;
     }
-      
-      public String getQnt_besoin2() {
+
+    public String getQnt_besoin2() {
         return qnt_besoin2;
     }
 
@@ -76,22 +187,7 @@ public class BesoinBean implements Serializable {
         this.qnt_besoin2 = qnt_besoin2;
     }
 
-       public BesoinfournitureDataModel getMediumbesoindetails_1Model() {
-        return mediumbesoindetails_1Model;
-    }
-
-    public Detailsfourniturebesoin getSelecteddetailsbesoinfourniture() {
-        return selecteddetailsbesoinfourniture;
-    }
-
-    public void setSelecteddetailsbesoinfourniture(Detailsfourniturebesoin selecteddetailsbesoinfourniture) {
-        this.selecteddetailsbesoinfourniture = selecteddetailsbesoinfourniture;
-    }
-
-    public void setMediumbesoindetails_1Model(BesoinfournitureDataModel mediumbesoindetails_1Model) {
-        this.mediumbesoindetails_1Model = mediumbesoindetails_1Model;
-    }
- public String getId_article() {
+    public String getId_article() {
         return id_article;
     }
 
@@ -108,17 +204,14 @@ public class BesoinBean implements Serializable {
     }
 
     public String getQnt_besoin() {
-         //System.out.println("GGGGGGGettttttttttttttttttttttttt");
         return qnt_besoin;
     }
 
     public void setQnt_besoin(String qnt_besoin) {
-       // System.out.println("settttttttttttttttttttttttt");
         this.qnt_besoin = qnt_besoin;
-         //System.out.println("settttttttttttttttttttttttt"+qnt_besoin);
     }
 
-      public BesoinarticleDataModel getMediumbesoindetailsModel() {
+    public BesoinarticleDataModel getMediumbesoindetailsModel() {
         return mediumbesoindetailsModel;
     }
 
@@ -133,6 +226,7 @@ public class BesoinBean implements Serializable {
     public void setSelecteddetailsbesoinarticle(Detailsarticlbesoin selecteddetailsbesoinarticle) {
         this.selecteddetailsbesoinarticle = selecteddetailsbesoinarticle;
     }
+
     public String getId_projet() {
         return id_projet;
     }
@@ -141,7 +235,6 @@ public class BesoinBean implements Serializable {
         this.id_projet = id_projet;
     }
 
-
     public List<Besoin> getBesoins() {
         return besoins;
     }
@@ -149,8 +242,6 @@ public class BesoinBean implements Serializable {
     public void setBesoins(List<Besoin> besoins) {
         this.besoins = besoins;
     }
- 
-  
 
     public Besoin getSelectedBesoin() {
         return selectedBesoin;
@@ -172,73 +263,104 @@ public class BesoinBean implements Serializable {
         this.besoin = pers;
     }
 
-  
     public void supprimer() {
         if (selectedBesoin == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir un besoin", "Selectionnez une ligne avec les cercles!"));
         }
-        List l=details_article_dao.getDetailsarticlbesoins_id(selectedBesoin.getIdbesoin());
-        if(!l.isEmpty())
-        details_article_dao.deleteAll(selectedBesoin.getIdbesoin());
-         dao.delete(selectedBesoin.getIdbesoin());
+        List l = details_article_dao.getDetailsarticlbesoins_id(selectedBesoin.getIdbesoin());
+        if (!l.isEmpty()) {
+            details_article_dao.deleteAll(selectedBesoin.getIdbesoin());
+        }
+        dao.delete(selectedBesoin.getIdbesoin());
         besoins = dao.getAllBesoin();
+        besoins = this.affiche_type_projet(besoins);
         mediumBesoinsModel = new BesoinDataModel(besoins);
+
+    }
+
+    public void valider() {
+        if (selectedBesoin == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir un besoin", "Selectionnez une ligne avec les cercles!"));
+        }
+        selectedBesoin.setValider("oui");
+        dao.update(selectedBesoin);
+        besoins = dao.getAllBesoin();
+        besoins_v = dao.getAllBesoin_v();
+        besoins = this.affiche_type_projet(besoins);
+        besoins_v = this.affiche_type_projet(besoins_v);
+        mediumBesoinsModel = new BesoinDataModel(besoins);
+        mediumBesoinsModel_v = new BesoinDataModel(besoins_v);
+
+    }
+
+    public void archiver() {
+        if (selectedBesoin == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir un besoin", "Selectionnez une ligne avec les cercles!"));
+        }
+        selectedBesoin.setValider("archiver");
+        dao.update(selectedBesoin);
+        besoins = dao.getAllBesoin();
+        besoins_v = dao.getAllBesoin_v();
+        besoins = this.affiche_type_projet(besoins);
+        besoins_v = this.affiche_type_projet(besoins_v);
+        mediumBesoinsModel = new BesoinDataModel(besoins);
+        mediumBesoinsModel_v = new BesoinDataModel(besoins_v);
 
     }
 
     public String ajouter() {
         //Si le login est dejà utilisé 
-
+        besoins = dao.getAllBesoin_total();
         for (Besoin b : besoins) {
             if (b.getIdbesoin().equals(besoin.getIdbesoin())) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Cet employé existe dejà !", "Veuillez changer le login."));
-                return "echecAjout";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Ce Bon existe déjà !", "Veuillez changer le N°."));
+                return "";
             }
         }
         //sinon
-        
-       
-       // besoin.setTypeuser(new Typeuser(typeUser));
+
+
+        // besoin.setTypeuser(new Typeuser(typeUser));
         TacheHDao tache_dao = new TacheHDao();
-        besoin.setTache(tache_dao.getTache_nom(id_tache,id_projet));
+        besoin.setTache(tache_dao.getTache_nom(id_tache, id_projet));
+        besoin.setValider("non");
         dao.insert(besoin);
-        besoin = new Besoin(); 
-        id_projet="";
-        id_tache="";
+        besoin = new Besoin();
+        id_projet = "";
+        id_tache = "";
         besoins = dao.getAllBesoin();
+        besoins = this.affiche_type_projet(besoins);
         mediumBesoinsModel = new BesoinDataModel(besoins);
         return "succesAjout";
 
     }
-    
-    
 
-    public String modif() {
-        if (selectedBesoin == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir un besoin", "Selectionnez une ligne avec les cercles!"));
-        return "";      
-        }
-        else
-        {
-           //typeUser=selectedBesoin.getTypeuser().getTypeuser();
-            id_tache=selectedBesoin.getTache().getDesignationtache();
-            id_projet=selectedBesoin.getTache().getProjet().getIdprojet();
-        return "modif";}
+    public void modif() {
+
+        id_tache = selectedBesoin.getTache().getDesignationtache();
+        id_projet = selectedBesoin.getTache().getProjet().getIdprojet();
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) fc.getApplication().getNavigationHandler();
+        nav.performNavigation("modif");
+
     }
-    public String enrModif(){
-        //selectedBesoin.setTypeuser(new Typeuser(typeUser));
+
+    public String enrModif() {
+
         TacheHDao tache_dao = new TacheHDao();
-        selectedBesoin.setTache(tache_dao.getTache_nom(id_tache,id_projet));
+        selectedBesoin.setTache(tache_dao.getTache_nom(id_tache, id_projet));
         dao.update(selectedBesoin);
         besoins = dao.getAllBesoin();
-        id_projet="";
-        id_tache="";
+        id_projet = "";
+        id_tache = "";
+        besoins = this.affiche_type_projet(besoins);
         mediumBesoinsModel = new BesoinDataModel(besoins);
         return "succesAjout";
     }
-     public List<String> allprojet() {
+
+    public List<String> allprojet() {
         List<String> all = new ArrayList<String>();
-       ProjetHDao projet_dao = new ProjetHDao();
+        ProjetHDao projet_dao = new ProjetHDao();
         ArrayList<Projet> l = (ArrayList<Projet>) projet_dao.getAllProjet();
         Iterator li = l.iterator();
         while (li.hasNext()) {
@@ -249,121 +371,322 @@ public class BesoinBean implements Serializable {
 
         return all;
     }
-       public List<String> alltache() {
+
+    public List<String> alltache() {
         List<String> all = new ArrayList<String>();
-       TacheHDao tache_dao = new TacheHDao();
+        TacheHDao tache_dao = new TacheHDao();
         ArrayList<Tache> l = (ArrayList<Tache>) tache_dao.getAllTache_id(id_projet);
         Iterator li = l.iterator();
         while (li.hasNext()) {
             //Recupération objet
             Tache pu = (Tache) li.next();
             all.add(pu.getDesignationtache());
-     
+
         }
         return all;
     }
-    public String details()
-     {
-     if (selectedBesoin == null) {
+
+    public void details() {
+        if (selectedBesoin == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir un besoin", "Selectionnez une ligne avec les cercles!"));            
+        } else {
+            //typeUser=selectedBesoin.getTypeuser().getTypeuser();
+            id_tache = selectedBesoin.getTache().getDesignationtache();
+            id_projet = selectedBesoin.getTache().getProjet().getIdprojet();
+            if (selectedBesoin.getTache().getProjet().getTypeprojet().equals("2")) {
+                choix_projet = "Inventaire";
+            } else {
+                choix_projet = "Projet";
+            }
+            mediumbesoindetailsModel = new BesoinarticleDataModel(details_article_dao.getDetailsarticlbesoins_id1(selectedBesoin.getIdbesoin()));
+            FacesContext fc = FacesContext.getCurrentInstance();
+            ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) fc.getApplication().getNavigationHandler();
+            nav.performNavigation("details");
+
+        }
+    }
+
+    public String details_affaire() {
+        if (selectprojet == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir un besoin", "Selectionnez une ligne avec les cercles!"));
-        return "";      
+            return "";
+        } else {
+            List<Besoin> valider = dao.getAllBesoin_v();
+            List<Detailsarticlbesoin> list_article = new ArrayList<Detailsarticlbesoin>();
+            List<Detailsarticlbesoin> Resultat = new ArrayList<Detailsarticlbesoin>();
+            int i = 0;
+            do {
+
+                list_article = details_article_dao.getDetailsarticlbesoins_id1(valider.get(i).getIdbesoin());
+                //ArrayList<Tache> l = (ArrayList<Tache>) tache_dao.getAllTache_id(id_projet);
+                Iterator li = list_article.iterator();
+                while (li.hasNext()) {
+                    //Recupération objet
+                    Detailsarticlbesoin pu = (Detailsarticlbesoin) li.next();
+
+                    Resultat.add(pu);
+                }
+                i++;
+            } while (i < valider.size());
+            //mediumarticle=new BesoinarticleDataModel(Resultat);
+            Iterator li = Resultat.iterator();
+
+            List<Detailsarticlbesoin> all = new ArrayList<Detailsarticlbesoin>();
+            while (li.hasNext()) {
+                Detailsarticlbesoin pu = (Detailsarticlbesoin) li.next();
+                Besoin besoin_v = dao.getBesoin(pu.getId().getIdbesoin());
+                if (besoin_v.getTache().getProjet().getIdprojet().equals(selectprojet.getIdprojet())) {
+                    all.add(pu);
+                }
+            }
+            List<Detailsarticlbesoin> all_1 = new ArrayList<Detailsarticlbesoin>();
+            li = all.iterator();
+            while (li.hasNext()) {
+                // Boolean Test = true;
+                //recupération de la demande de prix
+                Detailsarticlbesoin dp = (Detailsarticlbesoin) li.next();
+                Iterator li1 = all_1.iterator();
+                // && Test
+                while (li1.hasNext()) {
+                    //Recuperation de la demande enregistree
+                    Detailsarticlbesoin dp1 = (Detailsarticlbesoin) li1.next();
+                    if (dp.getId().getIdarticle().equals(dp1.getId().getIdarticle())) {
+                        // Test = false;
+                        dp.setQntbesoin(dp1.getQntbesoin() + dp.getQntbesoin());
+                        li1.remove();
+                        //Test=true;
+                    }
+                }
+                //if (Test == true) {
+                all_1.add(dp);
+                //}
+            }
+            mediumarticle = new BesoinarticleDataModel(all_1);
+            valider = dao.getAllBesoin_v();
+            return "details_affaire";
         }
-        else
-        {
-           //typeUser=selectedBesoin.getTypeuser().getTypeuser();
-            id_tache=selectedBesoin.getTache().getDesignationtache();
-            id_projet=selectedBesoin.getTache().getProjet().getIdprojet();
-          
-      mediumbesoindetails_1Model = new BesoinfournitureDataModel(details_fourniture_dao.getDetailsfourniturebesoins_id(selectedBesoin.getIdbesoin()));
-        mediumbesoindetailsModel = new BesoinarticleDataModel(details_article_dao.getDetailsarticlbesoins_id(selectedBesoin.getIdbesoin()));
-        return "details";
+    }
+
+    public String details_intevention() {
+        if (selectintervention == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir une Intervention ", "Selectionnez une ligne avec les cercles!"));
+            return "";
+        } else {
+            List<Besoin> valider = dao.getAllBesoin_v();
+            List<Detailsarticlbesoin> list_article = new ArrayList<Detailsarticlbesoin>();
+            List<Detailsarticlbesoin> Resultat = new ArrayList<Detailsarticlbesoin>();
+            int i = 0;
+            do {
+
+                list_article = details_article_dao.getDetailsarticlbesoins_id1(valider.get(i).getIdbesoin());
+                //ArrayList<Tache> l = (ArrayList<Tache>) tache_dao.getAllTache_id(id_projet);
+                Iterator li = list_article.iterator();
+                while (li.hasNext()) {
+                    //Recupération objet
+                    Detailsarticlbesoin pu = (Detailsarticlbesoin) li.next();
+
+                    Resultat.add(pu);
+                }
+                i++;
+            } while (i < valider.size());
+            //mediumarticle=new BesoinarticleDataModel(Resultat);
+            Iterator li = Resultat.iterator();
+
+            List<Detailsarticlbesoin> all = new ArrayList<Detailsarticlbesoin>();
+            while (li.hasNext()) {
+                Detailsarticlbesoin pu = (Detailsarticlbesoin) li.next();
+                Besoin besoin_v = dao.getBesoin(pu.getId().getIdbesoin());
+                if (besoin_v.getTache().getProjet().getIdprojet().equals(selectintervention.getIdprojet())) {
+                    all.add(pu);
+                }
+            }
+            List<Detailsarticlbesoin> all_1 = new ArrayList<Detailsarticlbesoin>();
+            li = all.iterator();
+            while (li.hasNext()) {
+                // Boolean Test = true;
+                //recupération de la demande de prix
+                Detailsarticlbesoin dp = (Detailsarticlbesoin) li.next();
+                Iterator li1 = all_1.iterator();
+                // && Test
+                while (li1.hasNext()) {
+                    //Recuperation de la demande enregistree
+                    Detailsarticlbesoin dp1 = (Detailsarticlbesoin) li1.next();
+                    if (dp.getId().getIdarticle().equals(dp1.getId().getIdarticle())) {
+                        // Test = false;
+                        dp.setQntbesoin(dp1.getQntbesoin() + dp.getQntbesoin());
+                        li1.remove();
+                        //Test=true;
+                    }
+                }
+                //if (Test == true) {
+                all_1.add(dp);
+                //}
+            }
+            mediumarticle = new BesoinarticleDataModel(all_1);
+            valider = dao.getAllBesoin_v();
+            return "details_intervention";
         }
-     }
-     public void supprimer_details() {
-    //System.out.println("mmmmmmmmmmm");
+    }
+
+    public void supprimer_details() {
         if (selecteddetailsbesoinarticle == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir une article", "Selectionnez une ligne !"));
-        System.out.println("gggggggg");
         }
-        //System.out.println("ggggggggggggggggggggg"+selecteddetailsbesoinarticle.getId().getIdarticle());
-        //dao.delete(selectedBonsortie.getIdsortie());
-        
+
         details_article_dao.delete(selecteddetailsbesoinarticle.getId());
-        mediumbesoindetailsModel = new BesoinarticleDataModel(details_article_dao.getDetailsarticlbesoins_id(selectedBesoin.getIdbesoin()));
+        mediumbesoindetailsModel = new BesoinarticleDataModel(details_article_dao.getDetailsarticlbesoins_id1(selectedBesoin.getIdbesoin()));
 
     }
-       public String enrDetails() {
-   //System.out.println("wakkkkkkkwakkkkkkk");
+
+    public String enrDetails() {
         Article article = article_dao.getArticle(id_article);
         if (article == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "N° article n'exist pas  !", "Veuillez changer le Code d'article."));
             System.err.println("ggg");
-            return "details";
-        }
-        else
-        {
-        Integer t = new Integer(0);
-        try {
-            System.out.println(qnt_besoin+"hhh");
-            t = new Integer(qnt_besoin);
-        } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "N° article n'exist pas  !", "Veuillez changer le Code d'article."));
-            System.err.println("aaaaaaaaa");
-            return "details";
-        }
-           // Article a = article_dao.getArticle(id_article);
-             Detailsarticlbesoin details = new Detailsarticlbesoin(new DetailsarticlbesoinId(selectedBesoin.getIdbesoin(),id_article),t);
-                details_article_dao.insert(details);
-               // Integer  = article_dao.getArticle(id_article);
-               mediumbesoindetailsModel = new BesoinarticleDataModel(details_article_dao.getDetailsarticlbesoins_id(selectedBesoin.getIdbesoin()));
-
-                return "details";
-            
-       }
-} 
-       public void supprimer_details_four()
-{
-//System.out.println("mmmmmmmmmmm");
-        if (selecteddetailsbesoinfourniture == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir une fourniture", "Selectionnez une ligne !"));
-       //System.out.println("gggggggg");
-        }
-        //System.out.println(selecteddetailssortiearticle.getId().getIdarticle());
-        //dao.delete(selectedBonsortie.getIdsortie());
-        details_fourniture_dao.delete(selecteddetailsbesoinfourniture.getId());
-        mediumbesoindetails_1Model = new BesoinfournitureDataModel(details_fourniture_dao.getDetailsfourniturebesoins_id(selectedBesoin.getIdbesoin()));
-
-   
-}
-       
-       public String enrDetails_four() {
-   //System.out.println("ddd");
-        Fourniture fourniture = fourniture_dao.getFourniture(id_fourniture);
-        if (fourniture == null) {
-            //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "", ""));
-           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("N° Fourniture n'existe pas  !", "Veuillez changer le Code de fourniture."));
-            //System.err.println("ggg");
             return "";
-        }
-        else
-        {
-        Integer t = new Integer(0);
-        try {
-            t = new Integer(qnt_besoin2);
-        } catch (Exception e) {
-           // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "N° article n'exist pas  !", "Veuillez changer le Code d'article."));
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("N° Fourniture n'existe pas  !", "Veuillez changer le Code de fourniture."));
-            //System.err.println("aaaaaaaaa");
-            return "details";
-        }
-           
-            Detailsfourniturebesoin details = new Detailsfourniturebesoin(new DetailsfourniturebesoinId(selectedBesoin.getIdbesoin(),id_fourniture),fourniture,selectedBesoin,t);
-                details_fourniture_dao.insert(details);
-               // Integer  = article_dao.getArticle(id_article);
-                mediumbesoindetails_1Model = new BesoinfournitureDataModel(details_fourniture_dao.getDetailsfourniturebesoins_id(selectedBesoin.getIdbesoin()));
+        } else {
+            Integer t = new Integer(0);
+            try {
+                t = new Integer(qnt_besoin);
+            } catch (Exception e) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Qnt doit étre numérique  !", "Veuillez changer la Qnt."));
+                //System.err.println("aaaaaaaaa");
+                return "";
+            }
+            // Article a = article_dao.getArticle(id_article);
+            Detailsarticlbesoin details = new Detailsarticlbesoin(new DetailsarticlbesoinId(selectedBesoin.getIdbesoin(), id_article), t);
+            details_article_dao.insert(details);
+            // Integer  = article_dao.getArticle(id_article);
+            mediumbesoindetailsModel = new BesoinarticleDataModel(details_article_dao.getDetailsarticlbesoins_id1(selectedBesoin.getIdbesoin()));
 
-                return "details";
-            
+            return "details";
+
         }
+    }
+
+    public String trier() {
+
+        if (choix_trie.equals("Affaire")) {
+            this.trier_affaire();
+            return "affaire";
+        }
+        if (choix_trie.equals("Intervention")) {
+            this.trier_intervention();
+            return "intervention";
+        }
+        if (choix_trie.equals("Article")) {
+            this.trie_article();
+            return "article";
+        }
+
+        return "";
+    }
+
+    public void trie_article() {
+        // ArticleHDao dao_article=new ArticleHDao();
+        List<Besoin> valider = dao.getAllBesoin_v();
+        List<Detailsarticlbesoin> details_article;
+        List<Detailsarticlbesoin> Resultat = new ArrayList<Detailsarticlbesoin>();
+        int i = 0;
+        do {
+
+            details_article = details_article_dao.getDetailsarticlbesoins_id1(valider.get(i).getIdbesoin());
+            //ArrayList<Tache> l = (ArrayList<Tache>) tache_dao.getAllTache_id(id_projet);
+            Iterator li = details_article.iterator();
+            while (li.hasNext()) {
+                //Recupération objet
+                Detailsarticlbesoin pu = (Detailsarticlbesoin) li.next();
+
+                Resultat.add(pu);
+            }
+            i++;
+        } while (i < valider.size());
+        //mediumarticle=new BesoinarticleDataModel(Resultat);
+        Iterator li = Resultat.iterator();
+        List<Detailsarticlbesoin> all = new ArrayList<Detailsarticlbesoin>();
+        while (li.hasNext()) {
+            // Boolean Test = true;
+            //recupération de la demande de prix
+            Detailsarticlbesoin dp = (Detailsarticlbesoin) li.next();
+            Iterator li1 = all.iterator();
+            // && Test
+            while (li1.hasNext()) {
+                //Recuperation de la demande enregistree
+                Detailsarticlbesoin dp1 = (Detailsarticlbesoin) li1.next();
+                if (dp.getId().getIdarticle().equals(dp1.getId().getIdarticle())) {
+                    // Test = false;
+                    dp.setQntbesoin(dp1.getQntbesoin() + dp.getQntbesoin());
+                    li1.remove();
+                    //Test=true;
+                }
+            }
+            //if (Test == true) {
+            all.add(dp);
+            //}
+        }
+        mediumarticle = new BesoinarticleDataModel(all);
+
+    }
+
+    public void trier_affaire() {
+        List<Besoin> valider = dao.getAllBesoin_v();
+        Iterator li = valider.iterator();
+        List<Projet> allRef = new ArrayList<Projet>();
+        while (li.hasNext()) {
+            Boolean Test = true;
+            //recupération de la demande de prix
+            Besoin dp1 = (Besoin) li.next();
+            Projet dp = dp1.getTache().getProjet();
+            Iterator li1 = allRef.iterator();
+            while (li1.hasNext() && Test) {
+                //Recuperation de la demande enregistree
+                Projet dp2 = (Projet) li1.next();
+                if (dp.getIdprojet().equals(dp2.getIdprojet())) {
+                    Test = false;
+                }
+            }
+            if (Test == true) {
+                allRef.add(dp);
+            }
+        }
+        li = allRef.iterator();
+        while (li.hasNext()) {
+            Projet dp2 = (Projet) li.next();
+            if (dp2.getTypeprojet().equals("2")) {
+                li.remove();
+            }
+        }
+        mediumprojet = new ProjetDataModel(allRef);
+    }
+
+    public void trier_intervention() {
+        List<Besoin> valider = dao.getAllBesoin_v();
+        Iterator li = valider.iterator();
+        List<Projet> allRef = new ArrayList<Projet>();
+        while (li.hasNext()) {
+            Boolean Test = true;
+            //recupération de la demande de prix
+            Besoin dp1 = (Besoin) li.next();
+            Projet dp = dp1.getTache().getProjet();
+            Iterator li1 = allRef.iterator();
+            while (li1.hasNext() && Test) {
+                //Recuperation de la demande enregistree
+                Projet dp2 = (Projet) li1.next();
+                if (dp.getIdprojet().equals(dp2.getIdprojet())) {
+                    Test = false;
+                }
+            }
+            if (Test == true) {
+                allRef.add(dp);
+            }
+        }
+        li = allRef.iterator();
+        while (li.hasNext()) {
+            Projet dp2 = (Projet) li.next();
+            if (dp2.getTypeprojet().equals("1")) {
+                li.remove();
+            }
+        }
+        mediumprojet = new ProjetDataModel(allRef);
     }
 }

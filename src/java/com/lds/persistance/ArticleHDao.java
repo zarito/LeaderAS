@@ -33,6 +33,20 @@ public class ArticleHDao implements ArticleDao {
             session.close();
         }
     }
+    
+        public List getAllArticle_four() {
+        Session session = HibernateUtil.getSession();
+        try {
+            session.beginTransaction();
+            articleList = session.createQuery("from Article where fourniture='oui'").list();
+            return articleList;
+        } catch (HibernateException e) {
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+
 
     @Override
     public Article getArticle(String id) {

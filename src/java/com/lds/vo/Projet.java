@@ -174,7 +174,8 @@ public class Projet  implements java.io.Serializable {
     public void setNumfacture(String numfacture) {
         this.numfacture = numfacture;
     }
-    
+
+  
     
   
     public Set getBoncommandes() {

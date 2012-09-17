@@ -76,7 +76,7 @@
                             <h:outputText value="Tache : " />  
                             <h:outputText value="#{besoinBean.selectedBesoin.tache.designationtache}" /> 
                             
-                            <h:outputText value="Projet : " />  
+                            <h:outputText value="#{besoinBean.choix_projet}" />  
                             <h:outputText value="#{besoinBean.selectedBesoin.tache.projet.idprojet}" /> 
 
                             <h:outputText value="Date : " />  
@@ -88,10 +88,16 @@
 
                                 <p:column headerText="N° Article "  id="idarticle"  >  
                                     <h:outputText value="#{details.id.idarticle}"  />
-                                </p:column> 
-                                <p:column headerText="Quantité "  id="email" >  
+                                </p:column>
+                                <p:column headerText="Nom d'article "  id="nom" >  
+                                    <h:outputText value="#{details.nom_article}" />
+                                </p:column>
+                                <p:column headerText="Quantité demandé "  id="email" >  
                                     <h:outputText value="#{details.qntbesoin}" />
-                                </p:column>  
+                                </p:column>
+                                <p:column headerText="Quantité d'article "  id="qntarticle" >  
+                                    <h:outputText value="#{details.qntarticle}" />
+                                </p:column> 
                             </p:dataTable> 
                             <f:facet name="footer"> 
 
@@ -107,67 +113,23 @@
 
                                 </p:confirmDialog>
                                 <p:dialog header="Ajouter une Article" widgetVar="dlg" resizable="false">  
-                                   <!-- <h:form id="form">  -->
+                                   
                                         <h:panelGrid columns="2" style="margin-bottom:10px">  
                                             <h:outputLabel for="id_article" value="N° article :" />  
-                                            <h:inputText id="id_article" value="#{besoinBean.id_article}" />
-                                            <h:outputLabel for="id_qnt" value="Qunatité :" /> 
+                                        <p:selectOneMenu id="id_article" value="#{besoinBean.id_article}" required="true" requiredMessage="Veuillez choisir une article" >  
+                                            <f:selectItem itemLabel="Choisir" itemValue="" />  
+                                            <f:selectItems value="#{articleBean.allNomArticles()}"  />  
+                                        </p:selectOneMenu>
+                                            <h:outputLabel for="id_qnt" value="Quantité :" /> 
                                             <h:inputText id="id_qnt" value="#{besoinBean.qnt_besoin}"  />
                                        </h:panelGrid>
 
                                         <p:commandButton id="submitButton" value="Enregistrer" action="#{besoinBean.enrDetails()}" oncomplete="dlg.hide();"/>  
-
-                                   <!-- </h:form> --> 
+                                   
                                 </p:dialog>
                             </f:facet>
                         </h:panelGrid> 
-                           <!-- </h:form>-->
-                        <br/>
-                       <!-- <h:form>-->
-                        <h:panelGrid columns="2" cellpadding="5" >
-                            <h:outputText value="List des fournitures: " /> <h:outputText value="" />
-
-                            <p:dataTable  var="details_four" value="#{besoinBean.mediumbesoindetails_1Model}" rowKey="#{details_four.id.numfourniture}"  rows="10"   
-                                          selection="#{besoinBean.selecteddetailsbesoinfourniture}"  lazy="true" selectionMode="single"  id="fournitureTable"  >                             
-
-                                <p:column headerText="N° Fourniture "  id="idfourniture"  >  
-                                    <h:outputText value="#{details_four.id.numfourniture}"  />
-                                </p:column> 
-                                <p:column headerText="Quantité "  id="qnt" >  
-                                    <h:outputText value="#{details_four.qntbesoin}" />
-                                </p:column>  
-                            </p:dataTable> 
-                            <f:facet name="footer"> 
-
-                                <p:commandButton value="Ajouter" id="showDialogButton_1" type="button" onclick="dlg_1.show()" icon="ui-icon-disk" />  
-                                <p:commandButton id="showDialogButton1_1" value="Supprimer" onclick="confirmation1_1.show()" type="button" icon="ui-icon-close" />  
-
-                                <p:confirmDialog id="confirmDialog1_1" message="Etes vous sûr de supprimer cet fourniture ?"  
-                                                 header="Confirmation" severity="alert" widgetVar="confirmation1_1">                                                                  
-
-                                    <p:commandButton id="confirm_1" value="OUI" oncomplete="confirmation1_1.hide()" actionListener="#{besoinBean.supprimer_details_four}" ajax="false" update="growl"/>
-                                    <p:commandButton id="decline_1" value="NON" onclick="confirmation1_1.hide()" type="button" />   
-
-
-                                </p:confirmDialog>
-                                <p:dialog header="Ajouter une Fourniture" widgetVar="dlg_1" resizable="false">  
-                                    <!--<h:form >  -->
-                                       
-                                        <h:panelGrid columns="2" style="margin-bottom:10px"> 
-                                            <h:outputLabel for="id_article_1" value="N° Fourniture :" />  
-                                            <h:inputText id="id_article_1" value="#{besoinBean.id_fourniture}" />
-                                            <h:outputLabel for="id_qnt_1" value="Qunatité :" /> 
-                                            <h:inputText id="id_qnt_1" value="#{besoinBean.qnt_besoin2}"  />
-                                       </h:panelGrid> 
-
-                                        <p:commandButton id="submitButton1" value="Enregistrer" action="#{besoinBean.enrDetails_four()}" oncomplete="dlg_1.hide();"/>  
-
-                                   <!-- </h:form>  -->
-                                </p:dialog>
-                            </f:facet>
-
-                       </h:panelGrid>
-                        
+                       
                     </p:panel>  
 
 

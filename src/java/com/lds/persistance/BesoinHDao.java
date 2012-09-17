@@ -25,7 +25,7 @@ public class BesoinHDao  implements BesoinDao{
        Session session = HibernateUtil.getSession();
         try {
             session.beginTransaction();
-            besoinList = session.createQuery("from Besoin").list();
+            besoinList = session.createQuery("from Besoin where valider='non'").list();
             return besoinList;
         } catch (HibernateException e) {
             throw e;
@@ -33,7 +33,42 @@ public class BesoinHDao  implements BesoinDao{
             session.close();
         }
     }
-
+        public List getAllBesoin_total() {
+       Session session = HibernateUtil.getSession();
+        try {
+            session.beginTransaction();
+            besoinList = session.createQuery("from Besoin ").list();
+            return besoinList;
+        } catch (HibernateException e) {
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+    public List getAllBesoin_v() {
+       Session session = HibernateUtil.getSession();
+        try {
+            session.beginTransaction();
+            besoinList = session.createQuery("from Besoin where valider='oui'").list();
+            return besoinList;
+        } catch (HibernateException e) {
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+    public List getAllBesoin_projet(String id_projet) {
+       Session session = HibernateUtil.getSession();
+        try {
+            session.beginTransaction();
+            besoinList = session.createQuery("from Besoin where valider='oui' and idprojet='"+id_projet+"'").list();
+            return besoinList;
+        } catch (HibernateException e) {
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
     @Override
     public Besoin getBesoin(String id) {
         Session session = HibernateUtil.getSession();

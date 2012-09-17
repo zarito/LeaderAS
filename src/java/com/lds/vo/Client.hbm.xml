@@ -26,6 +26,12 @@
         <property name="description" type="string">
             <column name="description" length="254" />
         </property>
+        <property name="contact" type="string">
+            <column name="contact" length="254" />
+        </property>
+        <property name="fcontact" type="string">
+            <column name="fcontact" length="254" />
+        </property>
         <set name="projets" inverse="true">
             <key>
                 <column name="idclient" length="254" not-null="true" />

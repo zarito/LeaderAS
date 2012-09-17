@@ -13,6 +13,9 @@ public class Detailsbrarticle  implements java.io.Serializable {
      private Bonreception bonreception;
      private Article article;
      private Integer qntlivre;
+     private Integer total_qntlivre;
+     private Integer qnt_commander;
+
 
     public Detailsbrarticle() {
     }
@@ -37,6 +40,24 @@ public class Detailsbrarticle  implements java.io.Serializable {
     public void setId(DetailsbrarticleId id) {
         this.id = id;
     }
+    
+    public Integer getQnt_commander() {
+        return qnt_commander;
+    }
+
+    public void setQnt_commander(Integer qnt_commander) {
+        this.qnt_commander = qnt_commander;
+    }
+
+    public Integer getTotal_qntlivre() {
+        return total_qntlivre;
+    }
+
+    public void setTotal_qntlivre(Integer total_qntlivre) {
+        this.total_qntlivre = total_qntlivre;
+    }
+    
+
     public Bonreception getBonreception() {
         return this.bonreception;
     }

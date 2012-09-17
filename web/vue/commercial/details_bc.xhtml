@@ -16,7 +16,7 @@
     <h:body>
         <div id="menu">
             <ul>
-                 <li><a href="../accueil.xhtml" accesskey="1">Accueil</a></li>
+                <li><a href="../accueil.xhtml" accesskey="1">Accueil</a></li>
                 <li class="active"><a href="details_bc.xhtml?id=1" accesskey="2">Actualiser</a></li>
                 <li><a href="../paramCompte.xhtml" accesskey="3">Compte</a></li>
                 <li><a href="../help.xhtml" accesskey="4">Aide</a></li>
@@ -32,17 +32,17 @@
                 <li>
                     <h2>Compte</h2>
                     <ul>
-                           <li><img src="../../images/user2.png" id="user1" /></li>
-                            <li>  
-                                <h:form>
+                        <li><img src="../../images/user2.png" id="user1" /></li>
+                        <li>  
+                            <h:form>
                                 <p:commandLink id="ajax"  action="#{personBean.logout()}" style="margin-right:20px;">  
-                                         <h:outputText value="Déconnexion" />  
-                                    </p:commandLink>  </h:form></li>
-                             <li> <h:form>
+                                    <h:outputText value="Déconnexion" />  
+                                </p:commandLink>  </h:form></li>
+                        <li> <h:form>
                                 <p:commandLink id="ajax1"  action="paramCompte" style="margin-right:20px;" >  
-                                         <h:outputText value="Paramètres du Compte" />  
-                                    </p:commandLink>  </h:form></li>
-                        </ul>
+                                    <h:outputText value="Paramètres du Compte" />  
+                                </p:commandLink>  </h:form></li>
+                    </ul>
                 </li>
                 <li>
                     <h2>MENU</h2>
@@ -57,27 +57,32 @@
 
         <div id="wrapper">
             <div id="content">
-                <h2 class="title">Gestion du Besoin : </h2><br/> <br/>
+                <h2 class="title">Gestion Bon de Commande : </h2><br/> <br/>
 
                 <h:form id="form">  
-
+                    <p:messages id="messages" />
                     <p:panel>  
                         <p:dataTable transient="true" emptyMessage="" >
+
                             <f:facet name="header">  
                                 Détails du Bon  commande
                             </f:facet>  
-                        </p:dataTable> 
-                        <h:panelGrid columns="2">  
+                        </p:dataTable>
+
+                        <h:panelGrid columns="2"> 
+
                             <h:outputText value="N° BC " /> 
                             <h:outputText value="#{bcBean.selectedBoncommande.numbc}" />  
 
                             <h:outputText value="Date : " />  
                             <h:outputText value="#{bcBean.selectedBoncommande.dateboncommande}" /> 
-                            <h:outputText value="Nom Fournisseur " /> 
+                            <h:outputText value="Nom Fournisseur :" /> 
                             <h:outputText value="#{bcBean.id_fournisseur}" />
-                            <h:outputText value="N° Projet " /> 
+                            <h:outputText value="N° Projet :" /> 
                             <h:outputText value="#{bcBean.id_projet}" />
-                            <h:outputText value="Prix HT " /> 
+                            <h:outputText value="Type de projet :" /> 
+                            <h:outputText value="#{bcBean.selectedBoncommande.type_projet}" />
+                            <h:outputText value="Prix HT :" /> 
                             <h:outputText value="#{bcBean.selectedBoncommande.prixht}" />
                         </h:panelGrid> 
                         <h:panelGrid columns="2" cellpadding="5" > 
@@ -87,6 +92,9 @@
                                 <p:column headerText="N° Article "  id="idarticle"  >  
                                     <h:outputText value="#{details.id.idarticle}"  />
                                 </p:column> 
+                                <p:column headerText="Désignation d'article "  id="des"  >  
+                                    <h:outputText value="#{details.article.descarticle}"  />
+                                </p:column>
                                 <p:column headerText="Quantité "  id="email" >  
                                     <h:outputText value="#{details.qntcommande}" />
                                 </p:column>  
@@ -107,75 +115,24 @@
 
 
                                 </p:confirmDialog>
-                                <p:dialog header="Ajouter une Article" widgetVar="dlg" resizable="false">  
-                                   <!-- <h:form id="form">  -->
-                                        <h:panelGrid columns="2" style="margin-bottom:10px">  
-                                            <h:outputLabel for="id_article" value="N° article :" />  
-                                            <h:inputText id="id_article" value="#{bcBean.id_article}" />
-                                            <h:outputLabel for="id_qnt" value="Qunatité :" /> 
-                                            <h:inputText id="id_qnt" value="#{bcBean.qnt_commande}"  />
-                                            <h:outputLabel for="id_qnt_" value="Prix Unitaire :" /> 
-                                            <h:inputText id="id_qnt_" value="#{bcBean.prix_unitaire}"  />
-                                       </h:panelGrid>
+                                <p:dialog header="Ajouter une Article" widgetVar="dlg" resizable="false">                                      
+                                    <h:panelGrid columns="2" style="margin-bottom:10px">  
+                                        <h:outputLabel for="id_article" value="N° article :" />  
+                                        <p:selectOneMenu id="id_article" value="#{bcBean.id_article}" required="true" requiredMessage="Veuillez choisir une article" >  
+                                            <f:selectItem itemLabel="Choisir" itemValue="" />  
+                                            <f:selectItems value="#{articleBean.allNomArticles()}"  />  
+                                        </p:selectOneMenu>
+                                        <h:outputLabel for="id_qnt" value="Quantité :" /> 
+                                        <h:inputText id="id_qnt" value="#{bcBean.qnt_commande}"  />
+                                        <h:outputLabel for="id_qnt_" value="Prix Unitaire :" /> 
+                                        <h:inputText id="id_qnt_" value="#{bcBean.prix_unitaire}"  />
+                                    </h:panelGrid>
 
-                                        <p:commandButton id="submitButton" value="Enregistrer" action="#{bcBean.enrDetails()}" oncomplete="dlg.hide();"/>  
-
-                                   <!-- </h:form> --> 
+                                    <p:commandButton id="submitButton" value="Enregistrer" action="#{bcBean.enrDetails()}" oncomplete="dlg.hide();"/>  
+                                    
                                 </p:dialog>
                             </f:facet>
                         </h:panelGrid> 
-                           <!-- </h:form>-->
-                        <br/>
-                       <!-- <h:form>-->
-                        <h:panelGrid columns="2" cellpadding="5" >
-                            <h:outputText value="List des fournitures: " /> <h:outputText value="" />
-
-                            <p:dataTable  var="details_four" value="#{bcBean.mediumBoncommandesModel_fourniture}" rowKey="#{details_four.id.numfourniture}"  rows="10"   
-                                          selection="#{bcBean.selectedBoncommande_fourniture}"  lazy="true" selectionMode="single"  id="fournitureTable"  >                             
-
-                                <p:column headerText="N° Fourniture "  id="idfourniture"  >  
-                                    <h:outputText value="#{details_four.id.numfourniture}"  />
-                                </p:column> 
-                                <p:column headerText="Quantité "  id="qnt" >  
-                                    <h:outputText value="#{details_four.qntCommande}" />
-                                </p:column>  
-                                <p:column headerText="Prix unitaire "  id="prix__" >  
-                                    <h:outputText value="#{details_four.prixUnitaire}" />
-                                </p:column>
-                                      </p:dataTable> 
-                            <f:facet name="footer"> 
-
-                                <p:commandButton value="Ajouter" id="showDialogButton_1" type="button" onclick="dlg_1.show()" icon="ui-icon-disk" />  
-                                <p:commandButton id="showDialogButton1_1" value="Supprimer" onclick="confirmation1_1.show()" type="button" icon="ui-icon-close" />  
-
-                                <p:confirmDialog id="confirmDialog1_1" message="Etes vous sûr de supprimer cet fourniture ?"  
-                                                 header="Confirmation" severity="alert" widgetVar="confirmation1_1">                                                                  
-
-                                    <p:commandButton id="confirm_1" value="OUI" oncomplete="confirmation1_1.hide()" actionListener="#{bcBean.supprimer_details_four}" ajax="false" update="growl"/>
-                                    <p:commandButton id="decline_1" value="NON" onclick="confirmation1_1.hide()" type="button" />   
-
-
-                                </p:confirmDialog>
-                                <p:dialog header="Ajouter une Fourniture" widgetVar="dlg_1" resizable="false">  
-                                    <!--<h:form >  -->
-                                       
-                                        <h:panelGrid columns="2" style="margin-bottom:10px"> 
-                                            <h:outputLabel for="id_article_1" value="N° Fourniture :" />  
-                                            <h:inputText id="id_article_1" value="#{bcBean.id_fourniture}" />
-                                            <h:outputLabel for="id_qnt_1" value="Qunatité :" /> 
-                                            <h:inputText id="id_qnt_1" value="#{bcBean.qnt_fourniture}"  />
-                                            <h:outputLabel for="prix_2" value="Prix Unitaire :" /> 
-                                            <h:inputText id="id_qnt_2" value="#{bcBean.prix_fourniture}"  />
-                                       </h:panelGrid> 
-
-                                        <p:commandButton id="submitButton1" value="Enregistrer" action="#{bcBean.enrDetails_four()}" oncomplete="dlg_1.hide();"/>  
-
-                                   <!-- </h:form>  -->
-                                </p:dialog>
-                            </f:facet>
-
-                       </h:panelGrid>
-                        
                     </p:panel>  
 
 

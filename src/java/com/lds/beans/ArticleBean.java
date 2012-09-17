@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import org.primefaces.model.LazyDataModel;
@@ -24,7 +25,8 @@ public class ArticleBean implements Serializable {
   
     private List<Article> articles;  
   
-    private Article selectedArticle;        
+    private Article selectedArticle;  
+  
     
     private  Article elt;
     private  ArticleHDao dao;
@@ -83,11 +85,15 @@ public class ArticleBean implements Serializable {
         if (selectedArticle == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir un article", "Selectionnez une ligne !"));
         }
-        
+        try{
         dao.delete(selectedArticle.getIdarticle());
         //dao1.delete(selectedArticle.getId().getIdarticle());
         articles = dao.getAllArticle();
         mediumArticlesModel = new ArticleDataModel(articles);
+        }catch(Exception e)
+        {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Imposible de supprimer l'article N° :"+selectedArticle.getIdarticle(), "Article déja utilisée")); 
+        }
 
     }
 
@@ -96,8 +102,8 @@ public class ArticleBean implements Serializable {
 
         for (Article article : articles) {
             if (article.getIdarticle().equals(elt.getIdarticle())) {
-               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Ce article existe dejà !", "Veuillez changer le Code de article."));
-                return "article_ajout";
+               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Cette article existe déjà !", "Veuillez changer le Code de article."));
+                return "";
             }
         }
         //elt.setIdarticle(id_article);
@@ -114,15 +120,10 @@ public class ArticleBean implements Serializable {
     
     
 
-    public String modif() {
-        if (selectedArticle == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir un article", "Selectionnez une ligne !"));
-        return "";      
-        }
-        else
-        {
-           //typeUser=selectedArticle.getTypeuser().getTypeuser();
-        return "modif_stock";}
+    public void modif() {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) fc.getApplication().getNavigationHandler();
+        nav.performNavigation("modif_stock");
     }
     
     public String enrModif(){

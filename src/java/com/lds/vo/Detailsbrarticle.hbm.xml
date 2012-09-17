@@ -12,10 +12,10 @@
                 <column name="numreception" length="254" />
             </key-property>
         </composite-id>
-        <many-to-one name="bonreception" class="com.lds.vo.Bonreception" update="false" insert="false" fetch="select">
+        <many-to-one name="bonreception" class="com.lds.vo.Bonreception" update="false" insert="false" fetch="select" lazy="false">
             <column name="numreception" length="254" not-null="true" />
         </many-to-one>
-        <many-to-one name="article" class="com.lds.vo.Article" update="false" insert="false" fetch="select">
+        <many-to-one name="article" class="com.lds.vo.Article" update="false" insert="false" fetch="select" lazy="false">
             <column name="idarticle" length="254" not-null="true" />
         </many-to-one>
         <property name="qntlivre" type="java.lang.Integer">

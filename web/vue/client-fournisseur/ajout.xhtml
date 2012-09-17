@@ -19,7 +19,7 @@
                 <li><a href="../accueil.xhtml" accesskey="1">Accueil</a></li>
                 <li class="active"><a href="ajout.xhtml?id=4" accesskey="2">Actualiser</a></li>
                 <li><a href="../paramCompte.xhtml" accesskey="3">Compte</a></li>
-                <li><a href="../about.xhtml" accesskey="4">About</a></li>
+                <li><a href="../help.xhtml" accesskey="4">Aide</a></li>
 
             </ul>
         </div>
@@ -87,6 +87,12 @@
 
                             <h:outputText value="Email: " />  
                             <p:inputText value="#{clientBean.clt.email}"  />
+                            
+                            <h:outputText value="Contact: " />  
+                            <p:inputText value="#{clientBean.clt.contact}"  />
+                            
+                            <h:outputText value="Fonction contact: " />  
+                            <p:inputText value="#{clientBean.clt.fcontact}"  />
 
                             <h:outputText value="Description : " /> 
                             <p:inputTextarea rows="5" cols="30" maxlength="50"  value="#{clientBean.clt.description}" autoResize="false" /> 

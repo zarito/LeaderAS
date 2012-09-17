@@ -76,25 +76,27 @@
 
                             <h:outputText value="Désignation: "  />  
                             <p:inputText value="#{tacheBean.tache.designationtache}" />      
-                            
-                             <h:outputText value="Durée Fabrication: "  />  
-                             <p:inputText value="#{tacheBean.tache.durefabrication}" />    
-                             
+
+                            <h:outputText value="Durée Fabrication: "  />  
+                            <p:inputText value="#{tacheBean.tache.durefabrication}" />    
+
                             <h:outputText value="Lien Schéma : " />
-                            <p:fileUpload value="#{projetBean.filed}" mode="simple"/>
-                            
+                            <h:form enctype="multipart/form-data">  
+
+                                <p:fileUpload fileUploadListener="#{tacheBean.handleFileUpload}"                                                                                               
+                                              auto="true"                                                  
+                                              allowTypes="/(\.|\/)(doc|pdf)$/"/>                                  
+
+                            </h:form>  
+
                             <h:outputText value="Affaire : " />  
                             <p:selectOneMenu value="#{tacheBean.tache.projet}" required="true" requiredMessage="Veuillez choisir un projet pour la tache" converter="projetConverter"  >  
                                 <f:selectItem itemLabel="Choisir" itemValue="" />  
                                 <f:selectItems value="#{projetBean.allAffaire}" var="si" itemLabel="#{si.idprojet}" itemValue="#{si}" />  
                             </p:selectOneMenu>          
-                            
+
                             <h:outputText value="Type Tache: " />  
-                            <p:selectOneMenu value="#{tacheBean.tache.typetache}" required="true" requiredMessage="Veuillez choisir un Type de Tache" >  
-                                <f:selectItem itemLabel="Choisir" itemValue="" />  
-                                <f:selectItem itemLabel="Tableau" itemValue="Tableau" />  
-                                <f:selectItem itemLabel="Chantier" itemValue="Chantier" />  
-                            </p:selectOneMenu>  
+                            <p:inputText value="#{tacheBean.tache.typetache}" />   
 
                             <h:outputText value="Sous-Taches : " />                              
                             <p:dataTable id="stTable" widgetVar="stTable" var="st" value="#{tacheBean.mediumStModel}" rows="10"   
@@ -117,7 +119,7 @@
 
                             <h:outputText value="Personnels : " />  
                             <p:pickList id="pickList1" value="#{tacheBean.personnels_add}" var="pers" 
-                                        itemValue="#{pers}" itemLabel="#{pers.nom}" converter="personnelConverter" >  
+                                        itemValue="#{pers}" itemLabel="#{pers.nom}" converter="personnelConverter" showSourceFilter="true" >  
 
                                 <f:facet name="sourceCaption">Disponibles</f:facet>  
                                 <f:facet name="targetCaption">Sélectionnés</f:facet>   
@@ -128,12 +130,12 @@
                                     #{pers.fonction}  
                                 </p:column>  
                             </p:pickList> 
-                            
+
                             <h:outputText value="Date de début: " />  
                             <p:calendar value="#{tacheBean.dtp.datedebut}" id="popupCal" locale="fr" pattern="dd/MM/yyyy" >                               
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </p:calendar>
-                            
+
                             <h:outputText value="Date de fin: " />  
                             <p:calendar value="#{tacheBean.dtp.datefin}" locale="fr" pattern="dd/MM/yyyy" >                               
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
@@ -160,7 +162,7 @@
                     </h:form>
 
                 </p:dialog>
-                            
+
 
 
             </div>

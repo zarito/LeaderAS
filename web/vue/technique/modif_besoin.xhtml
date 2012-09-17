@@ -4,7 +4,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p ="http://primefaces.org/ui" >
+      xmlns:p ="http://primefaces.org/ui"    >
 
     <f:event listener="#{droitBean.authorize()}" type="preRenderView" />
 
@@ -19,11 +19,11 @@
                 <li><a href="../accueil.xhtml" accesskey="1">Accueil</a></li>
                 <li class="active"><a href="modif_besoin.xhtml?id=2" accesskey="2">Actualiser</a></li>
                 <li><a href="../paramCompte.xhtml" accesskey="3">Compte</a></li>
-                <li><a href="../vue/help.xhtml" accesskey="4">Aide</a></li>
+                <li><a href="../help.xhtml" accesskey="4">Aide</a></li>
 
             </ul>
         </div>
-        <div id="header1">
+        <div id="header">
             <h1>Leader Automation Systems</h1>
             <h2>Une passion pour un m&eacute;tier , Un travail de Qualit&eacute; !</h2>
         </div>
@@ -31,7 +31,7 @@
             <ul>
                 <li>
                     <h2>Compte</h2>
-                   <ul>
+                    <ul>
                            <li><img src="../../images/user2.png" id="user1" /></li>
                             <li>  
                                 <h:form>
@@ -57,8 +57,8 @@
 
         <div id="wrapper">
             <div id="content">
-                <h2 class="title">Gestion du Personnel : </h2><br/> <br/> 
-                <h:form >  
+                <h2 class="title">Gestion du Besoin : </h2><br/> <br/> 
+                <h:form  id="formid">  
 
                     <p:panel>  
                         <p:dataTable transient="true" emptyMessage="" >
@@ -116,4 +116,6 @@
     </h:body>
 
 </html>
+
+
 

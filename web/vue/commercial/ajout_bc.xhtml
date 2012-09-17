@@ -32,17 +32,17 @@
                 <li>
                     <h2>Compte</h2>
                     <ul>
-                           <li><img src="../../images/user2.png" id="user1" /></li>
-                            <li>  
-                                <h:form>
+                        <li><img src="../../images/user2.png" id="user1" /></li>
+                        <li>  
+                            <h:form>
                                 <p:commandLink id="ajax"  action="#{personBean.logout()}" style="margin-right:20px;">  
-                                         <h:outputText value="Déconnexion" />  
-                                    </p:commandLink>  </h:form></li>
-                             <li> <h:form>
+                                    <h:outputText value="Déconnexion" />  
+                                </p:commandLink>  </h:form></li>
+                        <li> <h:form>
                                 <p:commandLink id="ajax1"  action="paramCompte" style="margin-right:20px;" >  
-                                         <h:outputText value="Paramètres du Compte" />  
-                                    </p:commandLink>  </h:form></li>
-                        </ul>
+                                    <h:outputText value="Paramètres du Compte" />  
+                                </p:commandLink>  </h:form></li>
+                    </ul>
                 </li>
                 <li>
                     <h2>MENU</h2>
@@ -57,7 +57,7 @@
 
         <div id="wrapper">
             <div id="content">
-                <h2 class="title">Gestion du Personnel : </h2><br/> <br/> 
+                <h2 class="title">Gestion de Bon commande : </h2><br/> <br/> 
                 <h:form  >  
 
                     <p:panel>  
@@ -77,21 +77,27 @@
                             <p:calendar value="#{bcBean.elt.dateboncommande}" id="popupCal" locale="fr" pattern="dd/MM/yyyy" >                               
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </p:calendar>
-                             
+
+                            <h:outputText value="Urgent :"  />  
+                            <p:selectOneMenu value="#{bcBean.elt.urgent}" required="true" requiredMessage="Veuillez choisir  type de Bon" >  
+                                <f:selectItem itemLabel="Choisir" itemValue="" />  
+                             <f:selectItem itemLabel="oui" itemValue="true" />  
+                             <f:selectItem itemLabel="non" itemValue="false" /> 
+                            </p:selectOneMenu> 
 
                             <h:outputText value="Nom fournisseur  " />  
-                           <p:selectOneMenu value="#{bcBean.id_fournisseur}" required="true" requiredMessage="Veuillez choisir un N° de fournisseur" >  
+                            <p:selectOneMenu value="#{bcBean.id_fournisseur}" required="true" requiredMessage="Veuillez choisir un N° de fournisseur" >  
                                 <f:selectItem itemLabel="Choisir" itemValue="" />  
-                                 <f:selectItems value="#{bcBean.allfournisseur()}"  />   
+                                <f:selectItems value="#{bcBean.allfournisseur()}"  />   
                             </p:selectOneMenu>
 
-                              <h:outputText value="N° projet: " />  
+                            <h:outputText value="N° projet: " />  
                             <p:selectOneMenu value="#{bcBean.id_projet}" required="true" requiredMessage="Veuillez choisir un N° de projet" >  
                                 <f:selectItem itemLabel="Choisir" itemValue="" />  
-                                 <f:selectItems value="#{bcBean.allprojet()}"  />   
+                                <f:selectItems value="#{bcBean.allprojet()}"  />   
                             </p:selectOneMenu>  
 
-                             <p:commandButton value="Réinitialiser" type="reset" icon="ui-icon-arrowrefresh-1-w" />  
+                            <p:commandButton value="Réinitialiser" type="reset" icon="ui-icon-arrowrefresh-1-w" />  
                             <p:commandButton value="Enregistrer" action="#{bcBean.ajouter}" ajax="false" type="submit" icon="ui-icon-disk" />  
 
                         </h:panelGrid>                           

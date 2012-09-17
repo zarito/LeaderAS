@@ -18,6 +18,8 @@ public class Fournisseur  implements java.io.Serializable {
      private String fax;
      private String adresse;
      private String description;
+     private String contact;
+     private String fcontact;
      private Set boncommandes = new HashSet(0);
      private Set demandeprixes = new HashSet(0);
 
@@ -28,7 +30,7 @@ public class Fournisseur  implements java.io.Serializable {
     public Fournisseur(String idfournisseur) {
         this.idfournisseur = idfournisseur;
     }
-    public Fournisseur(String idfournisseur, String nom, String email, String tel, String fax, String adresse, String description, Set boncommandes, Set demandeprixes) {
+    public Fournisseur(String idfournisseur, String nom, String email, String tel, String fax, String adresse, String description,String contact,String fcontact, Set boncommandes, Set demandeprixes) {
        this.idfournisseur = idfournisseur;
        this.nom = nom;
        this.email = email;
@@ -36,6 +38,8 @@ public class Fournisseur  implements java.io.Serializable {
        this.fax = fax;
        this.adresse = adresse;
        this.description = description;
+       this.contact = contact;
+       this.fcontact = fcontact;
        this.boncommandes = boncommandes;
        this.demandeprixes = demandeprixes;
     }
@@ -89,6 +93,24 @@ public class Fournisseur  implements java.io.Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+    
+    public String getFcontact() {
+        return fcontact;
+    }
+
+    public void setFcontact(String fcontact) {
+        this.fcontact = fcontact;
+    }
+    
+    
     public Set getBoncommandes() {
         return this.boncommandes;
     }

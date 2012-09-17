@@ -82,13 +82,16 @@
                              
                             <h:outputText value="Lien Schéma : " > #{tacheBean.selectedTache.lienschema}
                             </h:outputText>
-                            <p:fileUpload value="#{projetBean.filed}" mode="simple"/>
+                            <h:form enctype="multipart/form-data">  
+
+                                <p:fileUpload fileUploadListener="#{tacheBean.handleFileUpload}" label="Choisir un fichier ..." auto="true"  />                                  
+                            </h:form>  
                             
                             <h:outputText value="Affaire : " />  
                             <h:outputText value="#{tacheBean.selectedTache.projet.idprojet}" />           
                             
                             <h:outputText value="Type Tache: " />  
-                            <h:outputText value="#{tacheBean.selectedTache.typetache}" />           
+                            <h:inputText value="#{tacheBean.selectedTache.typetache}" />           
 
                             <h:outputText value="Sous-Taches : " />                              
                             <p:dataTable id="stTable" widgetVar="stTable" var="st" value="#{tacheBean.mediumStModel1}" rows="10"   
@@ -111,7 +114,7 @@
 
                             <h:outputText value="Fournisseurs : " />  
                                 <p:pickList id="pickList1" value="#{tacheBean.personnels_add}" var="pers" 
-                                        itemValue="#{pers}" itemLabel="#{pers.nom}" converter="personnelConverter" >  
+                                            itemValue="#{pers}" itemLabel="#{pers.nom}" converter="personnelConverter" showSourceFilter="true" >  
 
                                 <f:facet name="sourceCaption">Disponibles</f:facet>  
                                 <f:facet name="targetCaption">Sélectionnés</f:facet>   

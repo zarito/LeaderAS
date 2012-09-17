@@ -26,7 +26,7 @@ public class DetailsDemandeArticleDataModel extends LazyDataModel<Detailsdemande
     @Override
     public Detailsdemandearticle getRowData(String rowKey) {
         for(Detailsdemandearticle article : datasource) {
-            if(rowKey.equals(article.getId().getIdarticle()))
+            if(rowKey.equals(article.getArticle().getIdarticle()))
                 return article;
         }
 
@@ -35,7 +35,7 @@ public class DetailsDemandeArticleDataModel extends LazyDataModel<Detailsdemande
 
     @Override
     public Object getRowKey(Detailsdemandearticle article) {
-        return article.getId().getIdarticle();
+        return article.getArticle().getIdarticle();
     }
 
     @Override

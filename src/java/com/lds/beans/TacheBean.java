@@ -6,19 +6,21 @@ package com.lds.beans;
 
 import com.lds.persistance.*;
 import com.lds.vo.*;
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DualListModel;
-import org.primefaces.model.UploadedFile;
 
 public class TacheBean implements Serializable {
 
     private List<Tache> filteredTaches;
     private List<Tache> taches;
     private DualListModel<Personnel> personnels_add;
-    private List<Soustache> soustaches;    
+    private List<Soustache> soustaches;
     private Soustache soustache;
     private Soustache selectedSt;
     private List<Personnel> personnels;
@@ -40,17 +42,18 @@ public class TacheBean implements Serializable {
     private String pers;
     private Date aff_dated;
     private Date aff_datef;
-    private UploadedFile filed;
+    private String filed;
+    private List<Detailssortiearticle> mesmateriels = new ArrayList<Detailssortiearticle>();     
 
     public TacheBean() {
 
 
         //fournisseurs
-        List<Personnel> source = new ArrayList<Personnel>();
+        List<Personnel> source ;
         List<Personnel> target = new ArrayList<Personnel>();
 
         soustaches = new ArrayList<Soustache>();
-        daost = new SousTacheHDao();        
+        daost = new SousTacheHDao();
         soustache = new Soustache();
         soustaches = new ArrayList<Soustache>();
         daop = new PersonnelHDao();
@@ -65,7 +68,7 @@ public class TacheBean implements Serializable {
         dtpersonnels = new ArrayList<Detailstachepersonnel>();
         personnels = new ArrayList<Personnel>();
         mediumDPersModel = new DTPersonnelDataModel(dtpersonnels);
-        mediumStModel = new SousTacheDataModel(soustaches);
+        mediumStModel = new SousTacheDataModel(soustaches);        
 
     }
 
@@ -96,11 +99,11 @@ public class TacheBean implements Serializable {
         this.soustache = soustache;
     }
 
-    public UploadedFile getFiled() {
+    public String getFiled() {
         return filed;
     }
 
-    public void setFiled(UploadedFile filed) {
+    public void setFiled(String filed) {
         this.filed = filed;
     }
 
@@ -126,7 +129,7 @@ public class TacheBean implements Serializable {
 
     public void setSelectedSt(Soustache selectedSt) {
         this.selectedSt = selectedSt;
-    }   
+    }
 
     public Detailstachepersonnel getDtp() {
         return dtp;
@@ -166,7 +169,7 @@ public class TacheBean implements Serializable {
 
     public void setMediumPersModel(PersonnelDataModel mediumPersModel) {
         this.mediumPersModel = mediumPersModel;
-    }
+    }      
 
     public SousTacheDataModel getMediumStModel() {
         return mediumStModel;
@@ -256,6 +259,40 @@ public class TacheBean implements Serializable {
         this.selectedDTPersonnel = selectedDTPersonnel;
     }
 
+    public List<Detailssortiearticle> getMesmateriels() {
+        return mesmateriels;
+    }
+
+    public void setMesmateriels(List<Detailssortiearticle> mesmateriels) {
+        this.mesmateriels = mesmateriels;
+    }
+    
+    
+
+    public void handleFileUpload(FileUploadEvent event) {
+          String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/files");
+
+        try {
+            File targetFolder = new File(path);
+            InputStream inputStream = event.getFile().getInputstream();
+            OutputStream out = new FileOutputStream(new File(targetFolder,
+                    event.getFile().getFileName()));
+            int read = 0;
+            byte[] bytes = new byte[1024];
+            while ((read = inputStream.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+            inputStream.close();
+            out.flush();
+            out.close();
+            filed = "../../files/" + event.getFile().getFileName();                        
+        } catch (IOException e) {
+            e.printStackTrace();
+
+
+        }
+    }
+
     public void supprimer() {
         if (selectedTache == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir une tâche", "Selectionnez une ligne !"));
@@ -277,20 +314,20 @@ public class TacheBean implements Serializable {
     }
 
     public void ajouterSt() {
-        Soustache st = new Soustache();        
+        Soustache st = new Soustache();
         st.setIdsousprojet(soustache.getIdsousprojet());
         st.setDescsousprojet(soustache.getDescsousprojet());
         soustaches.add(st);
         mediumStModel = new SousTacheDataModel(soustaches);
         mediumStModel1 = new SousTacheDataModel(soustaches);
     }
-    
-       public void enleverSt() {        
+
+    public void enleverSt() {
         if (selectedSt == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir une sous-tache", "Selectionnez une ligne !"));
         }
 
-        soustaches.remove(selectedSt);        
+        soustaches.remove(selectedSt);
         mediumStModel = new SousTacheDataModel(soustaches);
         mediumStModel1 = new SousTacheDataModel(soustaches);
     }
@@ -332,9 +369,9 @@ public class TacheBean implements Serializable {
 
         }
 
-        if (filed != null) {
-            tache.setLienschema(filed.getFileName());
-        }
+
+        tache.setLienschema(filed);
+
         tache.setSoustaches(sst);
         //insertion dans la base              
         dao.insert(tache);
@@ -346,46 +383,43 @@ public class TacheBean implements Serializable {
 
     }
 
-    public String details() {
-        if (selectedTache == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir une tâche", "Selectionnez une ligne !"));
-            return "";
-        } else {
-
-            //Affichage des personnels   
-            List<Personnel> persos = new ArrayList<Personnel>();
-            DetailstachepersonnelDao daod = new DetailstachepersonnelHDao();
-            List<Detailstachepersonnel> l = daod.getAllDetailstachepersonnel();
-            Iterator<Detailstachepersonnel> li = l.iterator();
-            while (li.hasNext()) {
-                //Recupération objet
-                Detailstachepersonnel dda = (Detailstachepersonnel) li.next();
-                if (dda.getTache().getNumtache().equals(selectedTache.getNumtache())) {
-                    aff_dated = dda.getDatedebut();
-                    aff_datef = dda.getDatefin();
-                    persos.add(dda.getPersonnel());
-                }
+    public void details() {
+     
+        //Affichage des personnels   
+        List<Personnel> persos = new ArrayList<Personnel>();
+        DetailstachepersonnelDao daod = new DetailstachepersonnelHDao();
+        List<Detailstachepersonnel> l = daod.getAllDetailstachepersonnel();
+        Iterator<Detailstachepersonnel> li = l.iterator();
+        while (li.hasNext()) {
+            //Recupération objet
+            Detailstachepersonnel dda = (Detailstachepersonnel) li.next();
+            if (dda.getTache().getNumtache().equals(selectedTache.getNumtache())) {
+                aff_dated = dda.getDatedebut();
+                aff_datef = dda.getDatefin();
+                persos.add(dda.getPersonnel());
             }
-            personnels_add.setTarget(persos);
-            dtp.setDatedebut(aff_dated);
-            dtp.setDatefin(aff_datef);
-            
-            //Affichage des Sous-taches
-            List<Soustache> soustaches1= new ArrayList<Soustache>();
-            List<Soustache> lst = daost.getAllSoustache();
-            Iterator<Soustache> it = lst.iterator();
-            while (it.hasNext()) {
-                //Recupération objet
-                Soustache dda = (Soustache) it.next();
-                if (dda.getTache().getNumtache().equals(selectedTache.getNumtache())) {
-                    soustaches1.add(dda);
-                }
-            }
-            soustaches = soustaches1;
-            mediumStModel1 = new SousTacheDataModel(soustaches1);
-
-            return "details_tache";
         }
+        personnels_add.setTarget(persos);
+        dtp.setDatedebut(aff_dated);
+        dtp.setDatefin(aff_datef);
+
+        //Affichage des Sous-taches
+        List<Soustache> soustaches1 = new ArrayList<Soustache>();
+        List<Soustache> lst = daost.getAllSoustache();
+        Iterator<Soustache> it = lst.iterator();
+        while (it.hasNext()) {
+            //Recupération objet
+            Soustache dda = (Soustache) it.next();
+            if (dda.getTache().getNumtache().equals(selectedTache.getNumtache())) {
+                soustaches1.add(dda);
+            }
+        }
+        soustaches = soustaches1;
+        mediumStModel1 = new SousTacheDataModel(soustaches1);
+
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) fc.getApplication().getNavigationHandler();
+        nav.performNavigation("details_tache");        
     }
 
     public String enrModif() {
@@ -421,18 +455,42 @@ public class TacheBean implements Serializable {
         }
 
         selectedTache.setSoustaches(sst);
-        if (filed != null) {
-            selectedTache.setLienschema(filed.getFileName());
-        }
+        selectedTache.setLienschema(filed);
         //insertion dans la base              
         dao.insert(selectedTache);
         //initialisation             
-        soustaches = new ArrayList<Soustache>();        
+        soustaches = new ArrayList<Soustache>();
         taches = dao.getAllTache();
         mediumTacheModel = new TacheDataModel(taches);
         return "succesAjout";
 
     }
-
- 
+    
+      public List<Tache> getAllTaches() {
+        Iterator li = taches.iterator();
+        List<Tache> allRef = new ArrayList<Tache>();
+        while (li.hasNext()) {
+            //recupération du projet
+            Tache dp = (Tache) li.next();
+            //Recuperation de l'affaire enregistree            
+            if (!dp.getTypetache().equals("intervention")) {
+                allRef.add(dp);
+            }
+        }
+        return allRef;
+    }
+      
+       public void materiels() {
+        List<Detailssortiearticle> materiels = new ArrayList<Detailssortiearticle>();
+        DetailsSortieArticleDao dsad = new DetailsSortieArticleHDao();
+        Iterator it = dsad.getAllDetailssortiearticles().iterator();
+        while (it.hasNext()) {
+            Detailssortiearticle dsa = (Detailssortiearticle) it.next();
+            if (dsa.getBonsortie().getTache().getNumtache().equals(selectedTache.getNumtache())) {
+                materiels.add(dsa);
+            }
+        }
+       mesmateriels =  materiels;
+    }
+           
 }

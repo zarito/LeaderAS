@@ -7,41 +7,46 @@ package com.lds.beans;
 import com.lds.persistance.ArticleHDao;
 import com.lds.persistance.BonCommandeHDao;
 import com.lds.persistance.DetailsBcArticleHDao;
-import com.lds.persistance.DetailsBcFournitureHDao;
 import com.lds.persistance.FournisseurHDao;
-import com.lds.persistance.FournitureHDao;
 import com.lds.persistance.ProjetHDao;
 import com.lds.vo.Article;
 import com.lds.vo.Boncommande;
 import com.lds.vo.Detailsbcarticle;
 import com.lds.vo.DetailsbcarticleId;
-import com.lds.vo.Detailsbcfourniture;
-import com.lds.vo.DetailsbcfournitureId;
 import com.lds.vo.Fournisseur;
-import com.lds.vo.Fourniture;
 import com.lds.vo.Projet;
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 
 public class BcBean implements Serializable {
 
     private List<Boncommande> filteredBoncommandes;
     private List<Boncommande> boncommandes;
     private Boncommande selectedBoncommande;
-    private Boncommande[] selectedBoncommandes;
     private Boncommande elt;
     private BonCommandeHDao dao;
     private BoncommandeDataModel mediumBoncommandesModel;
     private String id_fournisseur;
     private String id_projet;
     private BcarticleDataModel mediumBoncommandesModel_article;
-    private BcfournitureDataModel mediumBoncommandesModel_fourniture;
     private Detailsbcarticle selectedBoncommande_article;
-    private Detailsbcfourniture selectedBoncommande_fourniture;
     private String id_article;
     private String qnt_commande;
     private String prix_unitaire;
@@ -49,9 +54,7 @@ public class BcBean implements Serializable {
     private String prix_fourniture;
     private String qnt_fourniture;
     private ArticleHDao article_dao;
-    private FournitureHDao fourniture_dao;
     private DetailsBcArticleHDao article_details_dao;
-    private DetailsBcFournitureHDao fourniture_details_dao;
 
     public BcBean() {
         elt = new Boncommande();
@@ -60,12 +63,39 @@ public class BcBean implements Serializable {
         //populateRandomCars(cars, 50);  
         dao = new BonCommandeHDao();
         boncommandes = dao.getAllBonCommandes();
+        ArrayList<Boncommande> all = new ArrayList<Boncommande>();
+        Iterator li = boncommandes.iterator();
+        while (li.hasNext()) {
+            //Recupération objet
+            Boncommande pu = (Boncommande) li.next();
+            if (pu.getProjet().getTypeprojet().equals("1")) {
+                pu.setType_projet("Affaire");
+            } else {
+                pu.setType_projet("Intervention");
+            }
+            all.add(pu);
+        }
+        boncommandes = all;
         mediumBoncommandesModel = new BoncommandeDataModel(boncommandes);
         article_dao = new ArticleHDao();
         article_details_dao = new DetailsBcArticleHDao();
-        fourniture_details_dao = new DetailsBcFournitureHDao();
-        fourniture_dao = new FournitureHDao();
 
+    }
+
+    public List<Boncommande> affiche_type_projet(List<Boncommande> bes) {
+        ArrayList<Boncommande> all = new ArrayList<Boncommande>();
+        Iterator li = boncommandes.iterator();
+        while (li.hasNext()) {
+            //Recupération objet
+            Boncommande pu = (Boncommande) li.next();
+            if (pu.getProjet().getTypeprojet().equals("1")) {
+                pu.setType_projet("Projet");
+            } else {
+                pu.setType_projet("Intervention");
+            }
+            all.add(pu);
+        }
+        return all;
     }
 
     public String getId_fourniture() {
@@ -132,28 +162,12 @@ public class BcBean implements Serializable {
         this.mediumBoncommandesModel_article = mediumBoncommandesModel_article;
     }
 
-    public BcfournitureDataModel getMediumBoncommandesModel_fourniture() {
-        return mediumBoncommandesModel_fourniture;
-    }
-
-    public void setMediumBoncommandesModel_fourniture(BcfournitureDataModel mediumBoncommandesModel_fourniture) {
-        this.mediumBoncommandesModel_fourniture = mediumBoncommandesModel_fourniture;
-    }
-
     public Detailsbcarticle getSelectedBoncommande_article() {
         return selectedBoncommande_article;
     }
 
     public void setSelectedBoncommande_article(Detailsbcarticle selectedBoncommande_article) {
         this.selectedBoncommande_article = selectedBoncommande_article;
-    }
-
-    public Detailsbcfourniture getSelectedBoncommande_fourniture() {
-        return selectedBoncommande_fourniture;
-    }
-
-    public void setSelectedBoncommande_fourniture(Detailsbcfourniture selectedBoncommande_fourniture) {
-        this.selectedBoncommande_fourniture = selectedBoncommande_fourniture;
     }
 
     public List<String> allprojet() {
@@ -242,11 +256,15 @@ public class BcBean implements Serializable {
         if (selectedBoncommande == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir un boncommande", "Selectionnez une ligne !"));
         }
-
-        dao.delete(selectedBoncommande.getNumbc());
-        //dao1.delete(selectedBoncommande.getId().getIdboncommande());
-        boncommandes = dao.getAllBonCommandes();
-        mediumBoncommandesModel = new BoncommandeDataModel(boncommandes);
+        try {
+            dao.delete(selectedBoncommande.getNumbc());
+            //dao1.delete(selectedBoncommande.getId().getIdboncommande());
+            boncommandes = dao.getAllBonCommandes();
+            boncommandes = this.affiche_type_projet(boncommandes);
+            mediumBoncommandesModel = new BoncommandeDataModel(boncommandes);
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Impossible de supprimer le bon de commande", "Bon déja utilisé !"));
+        }
 
     }
 
@@ -256,7 +274,7 @@ public class BcBean implements Serializable {
         for (Boncommande boncommande : boncommandes) {
             if (boncommande.getNumbc().equals(elt.getNumbc())) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Ce boncommande existe dejà !", "Veuillez changer le Code de boncommande."));
-                return "boncommande_ajout";
+                return "";
             }
         }
         //elt.setIdboncommande(id_boncommande);
@@ -266,10 +284,11 @@ public class BcBean implements Serializable {
         elt.setFournisseur(four_dao.getFournisseur_nom(id_fournisseur));
         elt.setProjet(projet_dao.getProjet(id_projet));
         elt.setPrixht(0.0);
-        
+
         dao.insert(elt);
         elt = new Boncommande();
         boncommandes = dao.getAllBonCommandes();
+        boncommandes = this.affiche_type_projet(boncommandes);
         id_boncommande = new String();
         id_projet = "";
         id_fournisseur = "";
@@ -278,65 +297,60 @@ public class BcBean implements Serializable {
 
     }
 
-    public String modif() {
-        if (selectedBoncommande == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir un boncommande", "Selectionnez une ligne !"));
-            return "";
-        } else {
-            //typeUser=selectedBoncommande.getTypeuser().getTypeuser();
-            id_projet = selectedBoncommande.getProjet().getIdprojet();
-            FournisseurHDao four_dao = new FournisseurHDao();
-            id_fournisseur = selectedBoncommande.getFournisseur().getIdfournisseur();
-            id_fournisseur = four_dao.getFournisseur(id_fournisseur).getNom();
-            return "modif";
-        }
+    public void modif() {        
+        id_projet = selectedBoncommande.getProjet().getIdprojet();
+        FournisseurHDao four_dao = new FournisseurHDao();
+        id_fournisseur = selectedBoncommande.getFournisseur().getIdfournisseur();
+        id_fournisseur = four_dao.getFournisseur(id_fournisseur).getNom();
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) fc.getApplication().getNavigationHandler();
+        nav.performNavigation("modif");
+
     }
 
-    public String enrModif() {
-        //selectedBoncommande.setTypeuser(new Typeuser(typeUser));
+    public String enrModif() {        
         FournisseurHDao four_dao = new FournisseurHDao();
         ProjetHDao projet_dao = new ProjetHDao();
         selectedBoncommande.setProjet(projet_dao.getProjet(id_projet));
         selectedBoncommande.setFournisseur(four_dao.getFournisseur_nom(id_fournisseur));
         dao.update(selectedBoncommande);
         boncommandes = dao.getAllBonCommandes();
+        boncommandes = this.affiche_type_projet(boncommandes);
         mediumBoncommandesModel = new BoncommandeDataModel(boncommandes);
         return "succesAjout";
     }
 
-    public String enrDetails() {
-        //System.out.println("wakkkkkkkwakkkkkkk");
+    public String enrDetails() {        
         Article article = article_dao.getArticle(id_article);
         if (article == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "N° article n'exist pas  !", "Veuillez changer le Code d'article."));
-            System.err.println("ggg");
-            return "details_bc";
+            //System.err.println("ggg");
+            return "";
         } else {
             Integer t = new Integer(0);
             try {
                 //  System.out.println(qnt_besoin+"hhh");
                 t = new Integer(qnt_commande);
             } catch (Exception e) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "N° article n'exist pas  !", "Veuillez changer le Code d'article."));
-                System.err.println("aaaaaaaaa");
-                return "details_bc";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Qnt doit être entier !", "Veuillez changer la Qnt."));
+                //System.err.println("aaaaaaaaa");
+                return "";
             }
             Double d = new Double(0);
             try {
                 d = new Double(prix_unitaire);
             } catch (Exception e) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "N° article n'exist pas  !", "Veuillez changer le Code d'article."));
-                System.err.println("aaaaaaaaa");
-                return "details_bc";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "le Prix doit être double  !", "Veuillez le prix."));                
+                return "";
 
             }
-            // Article a = article_dao.getArticle(id_article);
+            
             List<Detailsbcarticle> details_list_article = article_details_dao.getAllDetailsbcarticles();
-            Detailsbcarticle details = new Detailsbcarticle(new DetailsbcarticleId(selectedBoncommande.getNumbc(), id_article), selectedBoncommande, article, d, t,new Integer(0));
+            Detailsbcarticle details = new Detailsbcarticle(new DetailsbcarticleId(selectedBoncommande.getNumbc(), id_article), selectedBoncommande, article, d, t, new Integer(0));
             for (Detailsbcarticle des : details_list_article) {
                 if (des.getId().equals(details.getId())) {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Ce article existe dejà !", "Veuillez changer le Code de article."));
-                    return "details_bc";
+                    return "";
                 }
             }
 
@@ -353,14 +367,12 @@ public class BcBean implements Serializable {
         }
     }
 
-    public void supprimer_details() {
-        System.out.println("mmmmmmmmmmm");
+    public void supprimer_details() {        
         if (selectedBoncommande_article == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir une article", "Selectionnez une ligne !"));
-            System.out.println("gggggggg");
+            
         }
-        //System.out.println(selecteddetailssortiearticle.getId().getIdarticle());
-        //dao.delete(selectedBonsortie.getIdsortie());
+        
         selectedBoncommande.setPrixht(selectedBoncommande.getPrixht() - (selectedBoncommande_article.getPrixunitaire() * selectedBoncommande_article.getQntcommande()));
         dao.update(selectedBoncommande);
         article_details_dao.delete(selectedBoncommande_article.getId());
@@ -368,85 +380,56 @@ public class BcBean implements Serializable {
 
     }
 
-    public String enrDetails_four() {
-        //System.out.println("wakkkkkkkwakkkkkkk");
-        Fourniture fourniture = fourniture_dao.getFourniture(id_fourniture);
-        if (fourniture == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "N° fourniture n'exist pas  !", "Veuillez changer le Code de fourniture."));
-            System.err.println("ggg");
-            return "details_bc";
-        } else {
-            Integer t = new Integer(0);
-            try {
-                //  System.out.println(qnt_besoin+"hhh");
-                t = new Integer(qnt_fourniture);
-            } catch (Exception e) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "N° article n'exist pas  !", "Veuillez changer le Code d'article."));
-                System.err.println("aaaaaaaaa");
-                return "details_bc";
-            }
-            Double d = new Double(0);
-            try {
-                d = new Double(prix_fourniture);
-            } catch (Exception e) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "N° article n'exist pas  !", "Veuillez changer le Code d'article."));
-                System.err.println("aaaaaaaaa");
-                return "details_bc";
-
-            }
-            // Article a = article_dao.getArticle(id_article);
-            List<Detailsbcfourniture> details_list_fourniture = fourniture_details_dao.getAllDetailsbcfournitures();
-            Detailsbcfourniture details = new Detailsbcfourniture(new DetailsbcfournitureId(selectedBoncommande.getNumbc(), id_fourniture), d,t,new Integer(0));
-            for (Detailsbcfourniture des : details_list_fourniture) {
-                if (des.getId().equals(details.getId())) {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Ce article existe dejà !", "Veuillez changer le Code de article."));
-                    return "details_bc";
-                }
-            }
-
-            fourniture_details_dao.insert(details);
-            selectedBoncommande.setPrixht(selectedBoncommande.getPrixht() + d * t);
-            dao.update(selectedBoncommande);
-            // Integer  = article_dao.getArticle(id_article);
-            mediumBoncommandesModel_fourniture = new BcfournitureDataModel(fourniture_details_dao.getDetailsbcfournitures_id(selectedBoncommande.getNumbc()));
-id_fourniture="";
-qnt_fourniture="";
-prix_fourniture="";
-            return "details_bc";
-
-        }
-    }
-
-    public void supprimer_details_four() {
-        System.out.println("mmmmmmmmmmm");
-        if (selectedBoncommande_fourniture == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir une fourniture", "Selectionnez une ligne !"));
-            System.out.println("gggggggg");
-        }
-        //System.out.println(selecteddetailssortiearticle.getId().getIdarticle());
-        //dao.delete(selectedBonsortie.getIdsortie());
-        selectedBoncommande.setPrixht(selectedBoncommande.getPrixht() - (selectedBoncommande_fourniture.getPrixunitaire() * selectedBoncommande_fourniture.getQntcommande()));
-        dao.update(selectedBoncommande);
-        fourniture_details_dao.delete(selectedBoncommande_fourniture.getId());
-        mediumBoncommandesModel_fourniture = new BcfournitureDataModel(fourniture_details_dao.getDetailsbcfournitures_id(selectedBoncommande.getNumbc()));
-
-    }
-
-    public String details() {
+    public void details() {
         if (selectedBoncommande == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir un BC", "Selectionnez une ligne avec les cercles!"));
-            return "";
-        } else {
-            //typeUser=selectedBesoin.getTypeuser().getTypeuser();
-            //id_projet=selectedBesoin.getProjet().getIdprojet();
+
+        } else {          
             id_projet = selectedBoncommande.getProjet().getIdprojet();
             FournisseurHDao four_dao = new FournisseurHDao();
             id_fournisseur = selectedBoncommande.getFournisseur().getIdfournisseur();
             id_fournisseur = four_dao.getFournisseur(id_fournisseur).getNom();
 
             mediumBoncommandesModel_article = new BcarticleDataModel(article_details_dao.getDetailsbcarticles_id(selectedBoncommande.getNumbc()));
-            mediumBoncommandesModel_fourniture = new BcfournitureDataModel(fourniture_details_dao.getDetailsbcfournitures_id(selectedBoncommande.getNumbc()));
-            return "details_bc";
+            FacesContext fc = FacesContext.getCurrentInstance();
+            ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) fc.getApplication().getNavigationHandler();
+            nav.performNavigation("details_bc");
+
+        }
+    }
+
+    public void etat_bc() throws ClassNotFoundException, SQLException, JRException, IOException {
+    /*    if (selectedBoncommande == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Veuillez choisir un Bon de commande", "Selectionnez une ligne !"));
+        }*/
+        Class.forName("org.postgresql.Driver");
+        Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/lds_db", "postgres", "lds");
+
+
+        java.io.InputStream in = getClass().getResourceAsStream("boncommande.jasper");
+        Map paramettres = new HashMap();
+        paramettres.put("num_bc", selectedBoncommande.getNumbc());
+        paramettres.put("date_bc", selectedBoncommande.getDateboncommande());
+        paramettres.put("contact", selectedBoncommande.getFournisseur().getContact());
+        paramettres.put("fournisseur", "(" + selectedBoncommande.getFournisseur().getNom() + ")");
+        if (selectedBoncommande.getUrgent()) {
+            paramettres.put("urgent", "(Urgent)");
+        } else {
+            paramettres.put("urgent", "");
+        }
+
+        URL in3 = getClass().getResource("boncommande.jrxml");
+        String url11 = in3.getPath();
+        String url2[] = url11.split("boncommande.jrxml");
+
+        paramettres.put("lien_image", url2[0] + "logo.png");
+        JasperPrint editer = JasperFillManager.fillReport(in, paramettres, con);
+        HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+        httpServletResponse.addHeader("Content-disposition", "attachment; filename=demande_" + selectedBoncommande.getNumbc() + ".pdf");
+        //ServletOutputStream servletOutputStream=httpServletResponse.getOutputStream();
+        try {
+            JasperExportManager.exportReportToPdfStream(editer, httpServletResponse.getOutputStream());
+        } catch (Exception e) {
         }
     }
 }

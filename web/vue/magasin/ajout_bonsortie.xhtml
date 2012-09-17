@@ -57,46 +57,45 @@
 
         <div id="wrapper">
             <div id="content">
-                <h2 class="title">Gestion  de Bon sortie : </h2><br/> <br/> 
+                <h2 class="title">Gestion  de Stocks : </h2><br/> <br/> 
                 <h:form >  
 
                     <p:panel>  
                         <p:dataTable transient="true" emptyMessage="" >
                             <f:facet name="header">  
-                                Ajout de Bon Sortie  
+                                Ajout d'un bon de sortie  
                             </f:facet>  
                         </p:dataTable> 
 
                         <p:messages id="messages" />
 
                         <h:panelGrid columns="2" cellpadding="5" >  
-                            <h:outputText value="Numéro du Bon : *" />  
-                            <p:inputText value="#{sortieBean.sortie.idsortie}" required="true" requiredMessage="Veuillez saisir le numéro  de Bon!">  
-                             <f:ajax render="@form"/>
-                             </p:inputText>
-                            <h:outputText value="Déscription : " />  
-                            <p:inputText value="#{sortieBean.sortie.descsortie}" >                             
-                            <f:ajax render="@form"/>
-                             </p:inputText>
-                          
-                             <h:outputText value="N° Projet " />  
+                            <h:outputText value="N° Projet " />  
                             <p:selectOneMenu value="#{sortieBean.id_projet}"  required="true" requiredMessage="Veuillez choisir un nom de Personnel" >  
                                 <f:selectItem itemLabel="Choisir" itemValue="" />  
                                 <f:selectItems value="#{sortieBean.allprojet()}"  /> 
-                                <f:ajax render="@form"/>
+                                <f:ajax render="@form" />
                                 </p:selectOneMenu> 
                               <h:outputText value="N° Tache " />  
                             <p:selectOneMenu value="#{sortieBean.id_tache}" required="true" requiredMessage="Veuillez choisir un nom de Personnel" >  
                                 <f:selectItem itemLabel="Choisir" itemValue="" />  
                                 <f:selectItems value="#{sortieBean.alltache()}"  /> 
-                                <f:ajax render="@form"/>
+                                <f:ajax render="@form" />
                               </p:selectOneMenu>
                              <h:outputText value="Nom Personnel:: " />  
                             <p:selectOneMenu value="#{sortieBean.id_pers}" required="true" requiredMessage="Veuillez choisir un nom de Personnel" >  
                                 <f:selectItem itemLabel="Choisir" itemValue="" />  
                                 <f:selectItems value="#{sortieBean.allpersonnel()}"  /> 
-                                <f:ajax render="@form"/>
+                                <f:ajax render="@form" />
                               </p:selectOneMenu> 
+                             
+                            <h:outputText value="Numéro du Bon : *" />  
+                            <p:inputText value="#{sortieBean.sortie.idsortie}" required="true" requiredMessage="Veuillez saisir le numéro  de Bon!">  
+                             </p:inputText>
+                            <h:outputText value="Description : " />  
+                            <p:inputText value="#{sortieBean.sortie.descsortie}" >                             
+                             </p:inputText>
+                          
                               <h:outputText value="Date : " />  
                             <p:calendar value="#{sortieBean.sortie.datesortie}"  id="popupCal" locale="fr" pattern="dd/MM/yyyy" >                               
                                 <f:convertDateTime pattern="dd/MM/yyyy" />

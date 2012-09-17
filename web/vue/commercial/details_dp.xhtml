@@ -16,32 +16,33 @@
     <h:body>
         <div id="menu">
             <ul>
-                <li><a href="../accueil.xhtml" accesskey="1">Accueil</a></li>
-                <li class="active"><a href="details_dp.xhtml?id=1" accesskey="2">Actualiser</a></li>
+                 <li><a href="../accueil.xhtml" accesskey="1">Accueil</a></li>
+                <li class="active"><a href="details_besoin.xhtml?id=2" accesskey="2">Actualiser</a></li>
                 <li><a href="../paramCompte.xhtml" accesskey="3">Compte</a></li>
                 <li><a href="../help.xhtml" accesskey="4">Aide</a></li>
+
             </ul>
         </div>
         <div id="header">
             <h1>Leader Automation Systems</h1>
             <h2>Une passion pour un m&eacute;tier , Un travail de Qualit&eacute; !</h2>
         </div>
-        <div id="links">
+              <div id="links">
             <ul>
                 <li>
                     <h2>Compte</h2>
                     <ul>
-                        <li><img src="../../images/user2.png" id="user1" /></li>
-                        <li>  
-                            <h:form>
+                           <li><img src="../../images/user2.png" id="user1" /></li>
+                            <li>  
+                                <h:form>
                                 <p:commandLink id="ajax"  action="#{personBean.logout()}" style="margin-right:20px;">  
-                                    <h:outputText value="Déconnexion" />  
-                                </p:commandLink>  </h:form></li>
-                        <li> <h:form>
+                                         <h:outputText value="Déconnexion" />  
+                                    </p:commandLink>  </h:form></li>
+                             <li> <h:form>
                                 <p:commandLink id="ajax1"  action="paramCompte" style="margin-right:20px;" >  
-                                    <h:outputText value="Paramètres du Compte" />  
-                                </p:commandLink>  </h:form></li>
-                    </ul>
+                                         <h:outputText value="Paramètres du Compte" />  
+                                    </p:commandLink>  </h:form></li>
+                        </ul>
                 </li>
                 <li>
                     <h2>MENU</h2>
@@ -80,8 +81,8 @@
                             </p:calendar>                                                                                
 
                             <h:outputText value="Articles : " />                              
-                            <p:dataTable id="articleTable" widgetVar="articleTable" var="arti" value="#{dprixBean.mediumArtModel1}" rows="10"   
-                                         selection="#{dprixBean.selectedDDArticle}" selectionMode="single" rowKey="#{arti.id.idarticle}" lazy="true" >                             
+                            <p:dataTable id="articleTable"  var="arti" value="#{dprixBean.mediumArtModel1}" rows="10"   
+                                         selection="#{dprixBean.selectedDDArticle}" selectionMode="single" rowKey="#{arti.article.idarticle}" lazy="true" >                             
 
                                 <p:column headerText="N° Article "  id="id_article"  >  
                                     <h:outputText value="#{arti.article.idarticle}"  />
@@ -123,9 +124,8 @@
                            
                         </h:panelGrid>                        
                         <p:commandButton value="Enregistrer" action="#{dprixBean.enrModif()}" ajax="false" type="submit" icon="ui-icon-disk" /> 
-                        <p:commandButton id="showDialogButto" value="Imprimer" onclick="confirmation.show()" type="button" icon="ui-icon-trash" />  
-                        <p:commandButton id="pdfButton" value="Visualiser PDF"  action="#{dprixBean.etat_demandeprix}" />
-                            
+                        <p:commandButton value="Imprimer" actionListener="#{dprixBean.etat_demandeprix}" ajax="false" type="submit" icon="ui-icon-disk" /> 
+                        <p:commandButton value="Retour" action="succesAjout" ajax="false" type="submit" icon="ui-icon-disk" />                            
 
 
                     </p:panel> 
@@ -162,12 +162,21 @@
                             <h:outputLabel for="id_fournisseur1" value="N° Fournisseur :" />  
                             <p:selectOneMenu id="id_fournisseur1" value="#{dprixBean.fourn}" required="true" requiredMessage="Veuillez choisir un fournisseur" >  
                                 <f:selectItem itemLabel="Choisir" itemValue="" />  
-                                <f:selectItems value="#{fournisseurBean.allNomFournisseurs()}"/>  
+                                <f:selectItems value="#{fournisseurBean.allNomFournisseurs()}"  />  
                             </p:selectOneMenu>                             
                         </h:panelGrid>                                        
                         <p:commandButton id="submitButton11" value="Valider" type="submit" oncomplete="dlg11.hide();" ajax="true" actionListener="#{dprixBean.ajouterFourn()}" update=":form:fournTable"/>  
                     </h:form>
-                </p:dialog>                          
+                </p:dialog>
+                
+            <!--    <p:dialog  header="Enlever un Fournisseur" widgetVar="dlg12" resizable="false">
+                    <h:form>                        
+                        <p:commandButton id="submitButton12" value="OUI" type="submit" oncomplete="dlg12.hide();" ajax="true" actionListener="" update=":form:fournTable" />                                           
+                        <p:commandButton id="submitButton22" value="NON" type="submit" oncomplete="dlg12.hide();" />                                           
+                    </h:form>
+
+                </p:dialog> -->
+
 
             </div>
 

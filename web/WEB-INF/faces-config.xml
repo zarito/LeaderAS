@@ -41,11 +41,6 @@
             <to-view-id>vue/paramCompte.xhtml?id=-1</to-view-id> 
             <redirect />
         </navigation-case> 
-        <navigation-case> 
-            <from-outcome>help</from-outcome> 
-            <to-view-id>vue/help.xhtml?id=-1</to-view-id> 
-            <redirect />
-        </navigation-case> 
     </navigation-rule> 
     
     <navigation-rule> 
@@ -169,11 +164,6 @@
             <redirect />
         </navigation-case>     
         <navigation-case> 
-            <from-outcome>ajoutAff</from-outcome> 
-            <to-view-id>vue/commercial/ajout_aff.xhtml?id=1</to-view-id> 
-            <redirect />
-        </navigation-case>   
-        <navigation-case> 
             <from-outcome>details_bc</from-outcome> 
             <to-view-id>vue/commercial/details_bc.xhtml?id=1</to-view-id> 
             <redirect />
@@ -187,7 +177,47 @@
             <from-outcome>modif</from-outcome> 
             <to-view-id>vue/commercial/modif_bc.xhtml?id=1</to-view-id> 
             <redirect />
-        </navigation-case>      
+        </navigation-case> 
+        <navigation-case> 
+            <from-outcome>details</from-outcome> 
+            <to-view-id>vue/commercial/details_besoin.xhtml?id=1</to-view-id> 
+            <redirect />
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>affaire</from-outcome> 
+            <to-view-id>vue/commercial/trie_affaire.xhtml?id=1</to-view-id> 
+            <redirect />
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>intervention</from-outcome> 
+            <to-view-id>vue/commercial/trie_intervention.xhtml?id=1</to-view-id> 
+            <redirect />
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>article</from-outcome> 
+            <to-view-id>vue/commercial/trie_article.xhtml?id=1</to-view-id> 
+            <redirect />
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>fourniture</from-outcome> 
+            <to-view-id>vue/commercial/trie_fourniture.xhtml?id=1</to-view-id> 
+            <redirect />
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>details_affaire</from-outcome> 
+            <to-view-id>vue/commercial/trie_affaire_details.xhtml?id=1</to-view-id> 
+            <redirect />
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>details_intervention</from-outcome> 
+            <to-view-id>vue/commercial/trie_intervention_details.xhtml?id=1</to-view-id> 
+            <redirect />
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>ajoutAff</from-outcome> 
+            <to-view-id>vue/commercial/ajout_aff.xhtml?id=1</to-view-id> 
+            <redirect />
+        </navigation-case>
         <navigation-case> 
             <from-outcome>modif_aff</from-outcome> 
             <to-view-id>vue/commercial/modif_aff.xhtml?id=1</to-view-id> 
@@ -216,7 +246,7 @@
             <from-outcome>article_ajout_four</from-outcome> 
             <to-view-id>vue/technique/ajout_stock_four.xhtml?id=2</to-view-id> 
             <redirect />
-        </navigation-case> 
+        </navigation-case>
         <navigation-case> 
             <from-outcome>tache_ajout</from-outcome> 
             <to-view-id>vue/technique/ajout_tache.xhtml?id=2</to-view-id> 
@@ -226,7 +256,7 @@
             <from-outcome>interv_ajout</from-outcome> 
             <to-view-id>vue/technique/ajout_interv.xhtml?id=2</to-view-id> 
             <redirect />
-        </navigation-case> 
+        </navigation-case>     
         <navigation-case> 
             <from-outcome>details</from-outcome> 
             <to-view-id>vue/technique/details_besoin.xhtml?id=2</to-view-id> 
@@ -247,7 +277,7 @@
             <to-view-id>vue/technique/modif_stock_four.xhtml?id=2</to-view-id> 
             <redirect />
         </navigation-case> 
-         <navigation-case> 
+        <navigation-case> 
             <from-outcome>modif_interv</from-outcome> 
             <to-view-id>vue/technique/modif_interv.xhtml?id=2</to-view-id> 
             <redirect />
@@ -258,7 +288,18 @@
             <redirect />
         </navigation-case>
     </navigation-rule> 
+        
+    <managed-bean> 
+        <managed-bean-name>projetBean</managed-bean-name> 
+        <managed-bean-class>com.lds.beans.ProjetBean</managed-bean-class>          
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
     
+    <managed-bean> 
+        <managed-bean-name>tacheBean</managed-bean-name> 
+        <managed-bean-class>com.lds.beans.TacheBean</managed-bean-class>          
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>    
     
     <managed-bean> 
         <managed-bean-name>personBean</managed-bean-name> 
@@ -277,61 +318,61 @@
         <managed-bean-class>com.lds.beans.PersonnelBean</managed-bean-class> 
         <managed-bean-scope>session</managed-bean-scope> 
     </managed-bean>
+        
     <managed-bean> 
         <managed-bean-name>clientBean</managed-bean-name> 
         <managed-bean-class>com.lds.beans.ClientBean</managed-bean-class> 
         <managed-bean-scope>session</managed-bean-scope> 
     </managed-bean>
+    
     <managed-bean> 
         <managed-bean-name>fournisseurBean</managed-bean-name> 
         <managed-bean-class>com.lds.beans.FournisseurBean</managed-bean-class> 
         <managed-bean-scope>session</managed-bean-scope> 
     </managed-bean>
+    
     <managed-bean> 
         <managed-bean-name>articleBean</managed-bean-name> 
         <managed-bean-class>com.lds.beans.ArticleBean</managed-bean-class> 
         <managed-bean-scope>session</managed-bean-scope> 
     </managed-bean>
+    
     <managed-bean> 
         <managed-bean-name>fournitureBean</managed-bean-name> 
         <managed-bean-class>com.lds.beans.FournitureBean</managed-bean-class> 
         <managed-bean-scope>session</managed-bean-scope> 
     </managed-bean>
+    
     <managed-bean> 
         <managed-bean-name>sortieBean</managed-bean-name> 
         <managed-bean-class>com.lds.beans.SortieBean</managed-bean-class> 
         <managed-bean-scope>session</managed-bean-scope> 
     </managed-bean>
+    
     <managed-bean> 
         <managed-bean-name>boninputBean</managed-bean-name> 
         <managed-bean-class>com.lds.beans.BoninputBean</managed-bean-class> 
         <managed-bean-scope>session</managed-bean-scope> 
     </managed-bean>
+    
     <managed-bean> 
         <managed-bean-name>besoinBean</managed-bean-name> 
         <managed-bean-class>com.lds.beans.BesoinBean</managed-bean-class> 
         <managed-bean-scope>session</managed-bean-scope> 
     </managed-bean>
+    
     <managed-bean> 
         <managed-bean-name>bcBean</managed-bean-name> 
         <managed-bean-class>com.lds.beans.BcBean</managed-bean-class> 
         <managed-bean-scope>session</managed-bean-scope> 
     </managed-bean>
+    
     <managed-bean> 
         <managed-bean-name>dprixBean</managed-bean-name> 
         <managed-bean-class>com.lds.beans.DPrixBean</managed-bean-class> 
         <managed-bean-scope>session</managed-bean-scope> 
     </managed-bean>
-    <managed-bean> 
-        <managed-bean-name>projetBean</managed-bean-name> 
-        <managed-bean-class>com.lds.beans.ProjetBean</managed-bean-class> 
-        <managed-bean-scope>session</managed-bean-scope> 
-    </managed-bean>
-     <managed-bean> 
-        <managed-bean-name>tacheBean</managed-bean-name> 
-        <managed-bean-class>com.lds.beans.TacheBean</managed-bean-class> 
-        <managed-bean-scope>session</managed-bean-scope> 
-    </managed-bean>
+    
     
     <converter>
         <converter-id>clientConverter</converter-id>
@@ -345,9 +386,8 @@
         <converter-id>personnelConverter</converter-id>
         <converter-class>com.lds.beans.PersonnelConverter</converter-class>
     </converter>
-     <converter>
+    <converter>
         <converter-id>projetConverter</converter-id>
         <converter-class>com.lds.beans.ProjetConverter</converter-class>
     </converter>
-    
 </faces-config>

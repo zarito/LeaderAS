@@ -17,6 +17,8 @@ public class Boncommande  implements java.io.Serializable {
      private Projet projet;
      private Date dateboncommande;
      private Double prixht;
+     private Boolean urgent;
+     private String type_projet;
      private Set detailsbcarticles = new HashSet(0);
      private Set bonreceptions = new HashSet(0);
 
@@ -37,6 +39,22 @@ public class Boncommande  implements java.io.Serializable {
        this.prixht = prixht;
        this.detailsbcarticles = detailsbcarticles;
        this.bonreceptions = bonreceptions;
+    }
+
+    public Boolean getUrgent() {
+        return urgent;
+    }
+
+    public void setUrgent(Boolean urgent) {
+        this.urgent = urgent;
+    }
+
+    public String getType_projet() {
+        return type_projet;
+    }
+
+    public void setType_projet(String type_projet) {
+        this.type_projet = type_projet;
     }
    
     public String getNumbc() {

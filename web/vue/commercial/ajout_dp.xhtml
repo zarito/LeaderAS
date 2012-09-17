@@ -56,7 +56,7 @@
 
         <div id="wrapper">
             <div id="content">
-                <h2 class="title">Gestion Commerciale : </h2><br/> <br/> 
+                <h2 class="title">Demandes de Prix : </h2><br/> <br/> 
 
 
                 <h:form id="form" >  
@@ -64,7 +64,7 @@
 
                         <p:dataTable transient="true" emptyMessage="" >
                             <f:facet name="header">  
-                                Effectuer une nouvelle Demande  
+                                Effectuer une nouvelle demande  
                             </f:facet>                              
                         </p:dataTable>  
 
@@ -80,8 +80,8 @@
                             </p:calendar>                                                                                
 
                             <h:outputText value="Articles : " />                              
-                            <p:dataTable id="articleTable" widgetVar="articleTable" var="arti" value="#{dprixBean.mediumArtModel}" rows="10"   
-                                         selection="#{dprixBean.selectedDDArticle}" selectionMode="single" rowKey="#{arti.id.idarticle}" lazy="true" >                             
+                            <p:dataTable id="articleTable"  var="arti" value="#{dprixBean.mediumArtModel}" rows="10"   
+                                         selection="#{dprixBean.selectedDDArticle}" selectionMode="single" rowKey="#{arti.article.idarticle}" lazy="true" >                             
 
                                 <p:column headerText="N° Article "  id="id_article"  >  
                                     <h:outputText value="#{arti.article.idarticle}"  />
@@ -103,7 +103,8 @@
 
                             <h:outputText value="Fournisseurs : " />  
                             <p:pickList id="pickList1" value="#{dprixBean.fournisseurs_add}" var="fourns" 
-                                        itemValue="#{fourns}" itemLabel="#{fourns.nom}" required="true"  converter="fournisseurConverter"  >  
+                                        itemValue="#{fourns.idfournisseur}" itemLabel="#{fourns.idfournisseur}" required="true"                                          
+                                        showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" >  
 
                                 <f:facet name="sourceCaption">Disponibles</f:facet>  
                                 <f:facet name="targetCaption">Sélectionnés</f:facet>   

@@ -29,6 +29,9 @@
         <property name="categorie" type="string">
             <column name="categorie" length="254" />
         </property>
+                <property name="fourniture" type="string">
+            <column name="fourniture" length="254" />
+        </property>
         <set name="detailssortiearticles" inverse="true">
             <key>
                 <column name="idarticle" length="254" not-null="true" />

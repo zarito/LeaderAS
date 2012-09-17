@@ -57,13 +57,13 @@
 
         <div id="wrapper">
             <div id="content">
-                <h2 class="title">Gestion  de Bon sortie : </h2><br/> <br/> 
+                <h2 class="title">Gestion de Stocks : </h2><br/> <br/> 
                 <h:form >  
 
                     <p:panel>  
                         <p:dataTable transient="true" emptyMessage="" >
                             <f:facet name="header">  
-                                Ajout de Bon Sortie  
+                                Ajout de Bon Livraison  
                             </f:facet>  
                         </p:dataTable> 
 
@@ -73,8 +73,8 @@
                             <h:outputText value="Numéro du Bon : *" />  
                             <p:inputText value="#{boninputBean.elt.numreception}" required="true" requiredMessage="Veuillez saisir le numéro  de Bon!"/>  
                           <h:outputText value="Date : " />  
-                            <p:calendar value="#{boninputBean.elt.datereception}" id="popupCal" locale="fr" pattern="dd/MM/yyyy" >                               
-                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            <p:calendar value="#{boninputBean.elt.datereception}" >                               
+                              <f:convertDateTime dateStyle="short" timeZone="Europe/Paris" type="date" />
                             </p:calendar> 
                             
                              <h:outputText value="N° Bon de commande " />  

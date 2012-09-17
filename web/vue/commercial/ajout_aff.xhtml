@@ -58,7 +58,7 @@
         <div id="wrapper">
             <div id="content">
                 <h2 class="title">Gestion Commerciale : </h2><br/> <br/> 
-                <h:form >  
+                <h:form id="form1">  
 
                     <p:panel>  
                         <p:dataTable transient="true" emptyMessage="" >
@@ -88,29 +88,87 @@
                             <p:inputText value="#{projetBean.affaire.numdevis}"  />                                                            
 
                             <h:outputText value="Date Devis: " />  
-                            <p:calendar value="#{projetBean.affaire.datedebutaffaire}" id="popupCald" locale="fr" pattern="dd/MM/yyyy" >                               
+                            <p:calendar value="#{projetBean.affaire.datedevis}" id="popupCald" locale="fr" pattern="dd/MM/yyyy" >                               
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </p:calendar>
 
                             <h:outputText value="Montant Devis : " />  
-                            <p:inputMask value="#{projetBean.affaire.montantdevis}" mask="999 999,99"  />                                                            
-                            
+                            <p:inputText value="#{projetBean.affaire.montantdevis}"  />                                                            
+
                             <h:outputText value="Lien Devis : " />
-                            <p:fileUpload value="#{projetBean.filed}" mode="simple"/>
+                            <h:form enctype="multipart/form-data">  
+
+                                <p:fileUpload fileUploadListener="#{projetBean.handleFileUpload}"                                                                                               
+                                              auto="true"                                                  
+                                              allowTypes="/(\.|\/)(doc|pdf)$/"/>                                  
+
+                            </h:form>  
 
                             <h:outputText value="N° Facture : " />  
                             <p:inputText value="#{projetBean.affaire.numfacture}"  />
 
                             <h:outputText value="Date Facture: " />  
-                            <p:calendar value="#{projetBean.affaire.datedebutaffaire}" id="popupCalf" locale="fr" pattern="dd/MM/yyyy" >                               
+                            <p:calendar value="#{projetBean.affaire.datefacture}" id="popupCalf" locale="fr" pattern="dd/MM/yyyy" >                               
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </p:calendar>
-                            
+
                             <h:outputText value="Montant Facture : " />  
-                            <p:inputMask value="#{projetBean.affaire.montantfacture}" mask="999 999,99"  />                                                            
-                            
+                            <p:inputText value="#{projetBean.affaire.montantfacture}"  />                                                            
+
                             <h:outputText value="Lien Facture : " />
-                            <p:fileUpload value="#{projetBean.filef}" mode="simple"/>
+                            <h:form enctype="multipart/form-data">  
+
+                                <p:fileUpload fileUploadListener="#{projetBean.handleFileUpload1}"                                                                                               
+                                              auto="true"                                                  
+                                              allowTypes="/(\.|\/)(doc|pdf)$/"/>                                  
+
+                            </h:form >  
+
+                            <h:outputText value="Bons de commande Clients: " />  
+
+                            <h:form id="form">
+                                <p:panel>
+                                    <h:panelGrid columns="2" id="grid">  
+                                        <h:outputLabel value="N° Bon :" for="txt_title"/>
+                                        <p:inputText id="txt_title" value="#{projetBean.boncc.numboncc}" />  
+
+                                        <h:outputLabel value="Date Bon : " for="cal" />
+                                        <p:calendar value="#{projetBean.boncc.dateboncc}" locale="fr" pattern="dd/MM/yyyy" id="cal" >                               
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </p:calendar>  
+
+                                        <p:commandButton id="btn_add" value="Ajouter" update="books @parent" process="books @parent" action="#{projetBean.reinit}" >  
+                                            <p:collector value="#{projetBean.boncc}" addTo="#{projetBean.bonccs}" />  
+                                        </p:commandButton>  
+                                    </h:panelGrid>                              
+                                    <p:outputPanel id="books">  
+                                        <p:dataTable id="booksTable" value="#{projetBean.bonccs}" var="boncc">  
+
+                                            <p:column>  
+                                                <f:facet name="header">  
+                                                    <h:outputText value="N° Bon" />  
+                                                </f:facet>  
+                                                <h:outputText value="#{boncc.numboncc}" />  
+                                            </p:column>  
+                                            <p:column>  
+                                                <f:facet name="header">  
+                                                    <h:outputText value="Date Bon" />  
+                                                </f:facet>  
+                                                <h:outputText value="#{boncc.dateboncc}" />  
+                                            </p:column>  
+
+                                            <p:column>  
+                                                <f:facet name="header">  
+                                                    <h:outputText value="Opération" />  
+                                                </f:facet>  
+                                                <p:commandLink value="Enlever" update=":form1:form:books" process=":form1:form:books">  
+                                                    <p:collector value="#{boncc}" removeFrom="#{projetBean.bonccs}" />  
+                                                </p:commandLink>  
+                                            </p:column>  
+                                        </p:dataTable>  
+                                    </p:outputPanel> 
+                                </p:panel>
+                            </h:form>
 
                             <h:outputText value="Description: " />  
                             <p:inputTextarea value="#{projetBean.affaire.descprojet}"  /> 
