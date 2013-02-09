@@ -33,8 +33,8 @@ public class ArticleHDao implements ArticleDao {
             session.close();
         }
     }
-    
-        public List getAllArticle_four() {
+
+    public List getAllArticle_four() {
         Session session = HibernateUtil.getSession();
         try {
             session.beginTransaction();
@@ -46,7 +46,6 @@ public class ArticleHDao implements ArticleDao {
             session.close();
         }
     }
-
 
     @Override
     public Article getArticle(String id) {

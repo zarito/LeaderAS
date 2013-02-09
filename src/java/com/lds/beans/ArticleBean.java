@@ -17,7 +17,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.model.LazyDataModel;
   
  
-  
+//Pour donner un autre nom à mon bean : @ManagedBean("autrenom")  
 public class ArticleBean implements Serializable {  
  
   

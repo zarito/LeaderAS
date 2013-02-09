@@ -4,7 +4,6 @@
  */
 package com.lds.persistance;
 
-
 import com.lds.vo.Detailsbrarticle;
 import com.lds.vo.Detailsbrarticle;
 import com.lds.vo.DetailsbrarticleId;
@@ -19,7 +18,8 @@ import org.hibernate.Transaction;
  * @author zarito
  */
 public class DetailsInputArticleHDao implements DetailsInputArticleDao {
-     private List<Detailsbrarticle> detailsbrarticleList;
+
+    private List<Detailsbrarticle> detailsbrarticleList;
     private Detailsbrarticle detailsbrarticle;
 
     @Override
@@ -35,11 +35,12 @@ public class DetailsInputArticleHDao implements DetailsInputArticleDao {
             session.close();
         }
     }
-  public List getAllDetailsbrarticles_id(String id) {
+
+    public List getAllDetailsbrarticles_id(String id) {
         Session session = HibernateUtil.getSession();
         try {
             session.beginTransaction();
-            detailsbrarticleList = session.createQuery("from Detailsbrarticle where numreception='"+id+"'").list();
+            detailsbrarticleList = session.createQuery("from Detailsbrarticle where numreception='" + id + "'").list();
             return detailsbrarticleList;
         } catch (HibernateException e) {
             throw e;
@@ -119,4 +120,3 @@ public class DetailsInputArticleHDao implements DetailsInputArticleDao {
 
     }
 }
-

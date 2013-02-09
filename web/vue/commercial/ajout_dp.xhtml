@@ -117,7 +117,7 @@
                             </p:pickList> 
 
                         </h:panelGrid>  
-                        <p:commandButton value="Réinitialiser" type="reset" icon="ui-icon-arrowrefresh-1-w" />  
+                        <p:commandButton value="Réinitialiser" type="reset" icon="ui-icon-arrowrefresh-1-w" immediate="true" />  
                         <p:commandButton value="Enregistrer" action="#{dprixBean.ajouter}" ajax="false" type="submit" icon="ui-icon-disk" /> 
                         <p:commandButton value="Imprimer" icon="ui-icon-print" action="#{dprixBean.print}" update="growl" ajax="false" /> 
 

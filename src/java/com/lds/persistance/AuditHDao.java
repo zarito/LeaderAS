@@ -15,13 +15,14 @@ import org.hibernate.Transaction;
  *
  * @author ELKAOUMI
  */
-public class AuditHDao  implements AuditDao{
+public class AuditHDao implements AuditDao {
+
     private List<Audit> auditList;
     private Audit audit;
 
     @Override
     public List getAllAudit() {
-       Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         try {
             session.beginTransaction();
             auditList = session.createQuery("from Audit").list();
@@ -35,7 +36,7 @@ public class AuditHDao  implements AuditDao{
 
     @Override
     public Audit getAudit(String id) {
-         Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         try {
             session.beginTransaction();
             Query q = session.createQuery("from Audit as c where c.idaudit=:id");
@@ -48,7 +49,7 @@ public class AuditHDao  implements AuditDao{
 
     @Override
     public void update(Audit audit) {
-         Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -66,7 +67,7 @@ public class AuditHDao  implements AuditDao{
 
     @Override
     public void insert(Audit audit) {
-       Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -84,7 +85,7 @@ public class AuditHDao  implements AuditDao{
 
     @Override
     public void delete(String id) {
-         Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -100,5 +101,4 @@ public class AuditHDao  implements AuditDao{
             session.close();
         }
     }
-    
 }

@@ -4,7 +4,6 @@
  */
 package com.lds.persistance;
 
-
 import com.lds.vo.Detailsbcarticle;
 import com.lds.vo.DetailsbcarticleId;
 import java.util.List;
@@ -18,7 +17,8 @@ import org.hibernate.Transaction;
  * @author zarito
  */
 public class DetailsBcArticleHDao implements DetailsBcArticleDao {
-     private List<Detailsbcarticle> detailsbcarticleList;
+
+    private List<Detailsbcarticle> detailsbcarticleList;
     private Detailsbcarticle detailsbcarticle;
 
     @Override
@@ -34,11 +34,12 @@ public class DetailsBcArticleHDao implements DetailsBcArticleDao {
             session.close();
         }
     }
- public List getDetailsbcarticles_id(String id_bc) {
+
+    public List getDetailsbcarticles_id(String id_bc) {
         Session session = HibernateUtil.getSession();
         try {
             session.beginTransaction();
-            detailsbcarticleList = session.createQuery("from Detailsbcarticle where numbc='"+id_bc+"'").list();
+            detailsbcarticleList = session.createQuery("from Detailsbcarticle where numbc='" + id_bc + "'").list();
             return detailsbcarticleList;
         } catch (HibernateException e) {
             throw e;
@@ -118,4 +119,3 @@ public class DetailsBcArticleHDao implements DetailsBcArticleDao {
 
     }
 }
-

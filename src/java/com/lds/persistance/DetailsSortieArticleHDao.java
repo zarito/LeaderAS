@@ -4,7 +4,6 @@
  */
 package com.lds.persistance;
 
-
 import com.lds.vo.Detailssortiearticle;
 import com.lds.vo.Detailssortiearticle;
 import com.lds.vo.DetailssortiearticleId;
@@ -19,7 +18,8 @@ import org.hibernate.Transaction;
  * @author zarito
  */
 public class DetailsSortieArticleHDao implements DetailsSortieArticleDao {
-     private List<Detailssortiearticle> detailssortiearticleList;
+
+    private List<Detailssortiearticle> detailssortiearticleList;
     private Detailssortiearticle detailssortiearticle;
 
     @Override
@@ -35,11 +35,12 @@ public class DetailsSortieArticleHDao implements DetailsSortieArticleDao {
             session.close();
         }
     }
-  public List getAllDetailssortiearticles_id(String id) {
+
+    public List getAllDetailssortiearticles_id(String id) {
         Session session = HibernateUtil.getSession();
         try {
             session.beginTransaction();
-            detailssortiearticleList = session.createQuery("from Detailssortiearticle where idsortie='"+id+"'").list();
+            detailssortiearticleList = session.createQuery("from Detailssortiearticle where idsortie='" + id + "'").list();
             return detailssortiearticleList;
         } catch (HibernateException e) {
             throw e;
@@ -119,4 +120,3 @@ public class DetailsSortieArticleHDao implements DetailsSortieArticleDao {
 
     }
 }
-

@@ -15,9 +15,9 @@ import org.hibernate.Transaction;
  *
  * @author zarito
  */
-public class ClientHDao implements ClientDao{
+public class ClientHDao implements ClientDao {
 
-   private List<Client> clientList;
+    private List<Client> clientList;
     private Client client;
 
     @Override

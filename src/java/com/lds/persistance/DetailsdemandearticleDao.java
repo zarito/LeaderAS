@@ -13,7 +13,7 @@ import java.util.List;
  * @author zarito
  */
 public interface DetailsdemandearticleDao {
-    
+
     public List getAllDetailsdemandearticle();
 
     public Detailsdemandearticle getDetailsdemandearticle(DetailsdemandearticleId id);
@@ -23,5 +23,4 @@ public interface DetailsdemandearticleDao {
     public void insert(Detailsdemandearticle detailsdemandearticle);
 
     public void delete(DetailsdemandearticleId id);
-    
 }

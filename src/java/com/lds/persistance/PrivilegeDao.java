@@ -12,7 +12,8 @@ import java.util.List;
  * @author zarito
  */
 public interface PrivilegeDao {
-     public List getAllPrivileges();
+
+    public List getAllPrivileges();
 
     public Privilege getPrivilege(String id);
 
@@ -21,5 +22,4 @@ public interface PrivilegeDao {
     public void insert(Privilege privilege);
 
     public void delete(String id);
-    
 }

@@ -10,17 +10,19 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
 /**
  *
  * @author ELKAOUMI
  */
 public class ProjetHDao implements ProjetDao {
+
     private List<Projet> projetList;
     private Projet projet;
 
     @Override
     public List getAllProjet() {
-       Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         try {
             session.beginTransaction();
             projetList = session.createQuery("from Projet").list();
@@ -34,7 +36,7 @@ public class ProjetHDao implements ProjetDao {
 
     @Override
     public Projet getProjet(String id) {
-       Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         try {
             session.beginTransaction();
             Query q = session.createQuery("from Projet as c where c.idprojet=:id");
@@ -47,7 +49,7 @@ public class ProjetHDao implements ProjetDao {
 
     @Override
     public void update(Projet projet) {
-         Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -65,7 +67,7 @@ public class ProjetHDao implements ProjetDao {
 
     @Override
     public void insert(Projet projet) {
-       Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -83,7 +85,7 @@ public class ProjetHDao implements ProjetDao {
 
     @Override
     public void delete(String id) {
-         Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -99,5 +101,4 @@ public class ProjetHDao implements ProjetDao {
             session.close();
         }
     }
-    
 }

@@ -12,6 +12,7 @@ import java.util.List;
  * @author ELKAOUMI
  */
 public interface AuditDao {
+
     public List getAllAudit();
 
     public Audit getAudit(String id);

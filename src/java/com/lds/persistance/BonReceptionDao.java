@@ -12,7 +12,8 @@ import java.util.List;
  * @author zarito
  */
 public interface BonReceptionDao {
-     public List getAllBonReceptions();
+
+    public List getAllBonReceptions();
 
     public Bonreception getBonReception(String id);
 
@@ -21,5 +22,4 @@ public interface BonReceptionDao {
     public void insert(Bonreception bonreception);
 
     public void delete(String id);
-    
 }

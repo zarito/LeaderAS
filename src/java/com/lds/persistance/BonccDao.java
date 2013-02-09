@@ -12,8 +12,8 @@ import java.util.List;
  * @author zarito
  */
 public interface BonccDao {
-    
-     public List getAllBoncc();
+
+    public List getAllBoncc();
 
     public Boncc getBoncc(String id);
 
@@ -22,5 +22,4 @@ public interface BonccDao {
     public void insert(Boncc boncc);
 
     public void delete(String id);
-    
 }

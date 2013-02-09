@@ -12,7 +12,8 @@ import java.util.List;
  * @author zarito
  */
 public interface SousTacheDao {
-       public List getAllSoustache();
+
+    public List getAllSoustache();
 
     public Soustache getSoustache(String id);
 
@@ -21,5 +22,4 @@ public interface SousTacheDao {
     public void insert(Soustache soustache);
 
     public void delete(String id);
-    
 }

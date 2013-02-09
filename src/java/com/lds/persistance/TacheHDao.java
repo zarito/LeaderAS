@@ -16,11 +16,13 @@ import org.hibernate.Transaction;
  * @author ELKAOUMI
  */
 public class TacheHDao implements TacheDao {
-     private List<Tache> tacheList;
+
+    private List<Tache> tacheList;
     private Tache tache;
+
     @Override
     public List getAllTache() {
-    Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         try {
             session.beginTransaction();
             tacheList = session.createQuery("from Tache").list();
@@ -31,11 +33,12 @@ public class TacheHDao implements TacheDao {
             session.close();
         }
     }
- public List getAllTache_id(String id_projet) {
-    Session session = HibernateUtil.getSession();
+
+    public List getAllTache_id(String id_projet) {
+        Session session = HibernateUtil.getSession();
         try {
             session.beginTransaction();
-            tacheList = session.createQuery("from Tache where idprojet='"+id_projet+"'").list();
+            tacheList = session.createQuery("from Tache where idprojet='" + id_projet + "'").list();
             return tacheList;
         } catch (HibernateException e) {
             throw e;
@@ -43,6 +46,7 @@ public class TacheHDao implements TacheDao {
             session.close();
         }
     }
+
     @Override
     public Tache getTache(String id) {
         Session session = HibernateUtil.getSession();
@@ -55,13 +59,14 @@ public class TacheHDao implements TacheDao {
             session.close();
         }
     }
-     public Tache getTache_nom(String id,String id_projet) {
+
+    public Tache getTache_nom(String id, String id_projet) {
         Session session = HibernateUtil.getSession();
         try {
             session.beginTransaction();
             Query q = session.createQuery("from Tache  where designationtache=:id and idprojet=:idprojet");
             q.setString("id", id);
-             q.setString("idprojet", id_projet);
+            q.setString("idprojet", id_projet);
             return (Tache) q.uniqueResult();
         } finally {
             session.close();
@@ -70,7 +75,7 @@ public class TacheHDao implements TacheDao {
 
     @Override
     public void update(Tache tache) {
-         Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -88,7 +93,7 @@ public class TacheHDao implements TacheDao {
 
     @Override
     public void insert(Tache tache) {
-       Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -106,7 +111,7 @@ public class TacheHDao implements TacheDao {
 
     @Override
     public void delete(String id) {
-      Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -122,5 +127,4 @@ public class TacheHDao implements TacheDao {
             session.close();
         }
     }
-    
 }

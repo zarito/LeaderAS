@@ -19,9 +19,10 @@ public class FournisseurHDao implements FournisseurDao {
 
     private List<Fournisseur> fournisseurList;
     private Fournisseur fournissseur;
+
     @Override
     public List getAllFournisseur() {
-        
+
         Session session = HibernateUtil.getSession();
         try {
             session.beginTransaction();
@@ -46,7 +47,8 @@ public class FournisseurHDao implements FournisseurDao {
             session.close();
         }
     }
-     public Fournisseur getFournisseur_nom(String id) {
+
+    public Fournisseur getFournisseur_nom(String id) {
         Session session = HibernateUtil.getSession();
         try {
             session.beginTransaction();
@@ -112,5 +114,4 @@ public class FournisseurHDao implements FournisseurDao {
             session.close();
         }
     }
-    
 }

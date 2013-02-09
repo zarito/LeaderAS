@@ -16,6 +16,7 @@ import org.hibernate.Transaction;
  * @author zarito
  */
 public class PersonnelHDao implements PersonnelDao {
+
     private List<Personnel> personnelList;
     private Personnel personnel;
 
@@ -45,8 +46,9 @@ public class PersonnelHDao implements PersonnelDao {
             session.close();
         }
     }
+
     @Override
-     public Personnel getNomPersonnel(String id) {
+    public Personnel getNomPersonnel(String id) {
         Session session = HibernateUtil.getSession();
         try {
             session.beginTransaction();
@@ -115,4 +117,3 @@ public class PersonnelHDao implements PersonnelDao {
 
     }
 }
-

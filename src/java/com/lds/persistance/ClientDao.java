@@ -22,5 +22,4 @@ public interface ClientDao {
     public void insert(Client client);
 
     public void delete(String id);
-    
 }

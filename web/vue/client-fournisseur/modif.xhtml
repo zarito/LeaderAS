@@ -97,7 +97,7 @@
                             <h:outputText value="Description : " /> 
                             <p:inputTextarea rows="5" cols="30" maxlength="50"  value="#{clientBean.selectedClient.description}" autoResize="false" /> 
 
-                            <p:commandButton value="Réinitialiser" type="reset" icon="ui-icon-arrowrefresh-1-w" />  
+                            <p:commandButton value="Réinitialiser" type="reset" icon="ui-icon-arrowrefresh-1-w" immediate="true" />  
                             <p:commandButton value="Enregistrer" action="#{clientBean.enrModif}" ajax="false" type="submit" icon="ui-icon-disk" />  
 
                         </h:panelGrid>   

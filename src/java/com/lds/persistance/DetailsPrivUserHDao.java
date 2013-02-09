@@ -4,7 +4,6 @@
  */
 package com.lds.persistance;
 
-
 import com.lds.vo.Detailsprivuser;
 import com.lds.vo.DetailsprivuserId;
 import java.util.List;
@@ -18,7 +17,8 @@ import org.hibernate.Transaction;
  * @author zarito
  */
 public class DetailsPrivUserHDao implements DetailsPrivUserDao {
-     private List<Detailsprivuser> detailsPrivUserList;
+
+    private List<Detailsprivuser> detailsPrivUserList;
     private Detailsprivuser detailsPrivUser;
 
     @Override
@@ -34,7 +34,6 @@ public class DetailsPrivUserHDao implements DetailsPrivUserDao {
             session.close();
         }
     }
-
 
     @Override
     public Detailsprivuser getDetailsPrivUser(DetailsprivuserId id) {
@@ -107,4 +106,3 @@ public class DetailsPrivUserHDao implements DetailsPrivUserDao {
 
     }
 }
-

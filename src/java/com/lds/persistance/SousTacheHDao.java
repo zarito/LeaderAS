@@ -16,11 +16,13 @@ import org.hibernate.Transaction;
  * @author ELKAOUMI
  */
 public class SousTacheHDao implements SousTacheDao {
-     private List<Soustache> soustacheList;
+
+    private List<Soustache> soustacheList;
     private Soustache soustache;
+
     @Override
     public List getAllSoustache() {
-    Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         try {
             session.beginTransaction();
             soustacheList = session.createQuery("from Soustache").list();
@@ -31,8 +33,7 @@ public class SousTacheHDao implements SousTacheDao {
             session.close();
         }
     }
-    
-    
+
     @Override
     public Soustache getSoustache(String id) {
         Session session = HibernateUtil.getSession();
@@ -45,11 +46,10 @@ public class SousTacheHDao implements SousTacheDao {
             session.close();
         }
     }
-     
 
     @Override
     public void update(Soustache soustache) {
-         Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -67,7 +67,7 @@ public class SousTacheHDao implements SousTacheDao {
 
     @Override
     public void insert(Soustache soustache) {
-       Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -85,7 +85,7 @@ public class SousTacheHDao implements SousTacheDao {
 
     @Override
     public void delete(String id) {
-      Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -101,5 +101,4 @@ public class SousTacheHDao implements SousTacheDao {
             session.close();
         }
     }
-    
 }

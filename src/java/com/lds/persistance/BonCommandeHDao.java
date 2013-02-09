@@ -15,10 +15,10 @@ import org.hibernate.Transaction;
  *
  * @author zarito
  */
-public class BonCommandeHDao implements BonCommandeDao{
+public class BonCommandeHDao implements BonCommandeDao {
 
- private List<Boncommande> boncommandeList;
- private Boncommande boncommande;
+    private List<Boncommande> boncommandeList;
+    private Boncommande boncommande;
 
     @Override
     public List getAllBonCommandes() {

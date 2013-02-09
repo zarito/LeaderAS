@@ -17,8 +17,8 @@ import org.hibernate.Transaction;
  * @author zarito
  */
 public class DetailsdemandearticleHDao implements DetailsdemandearticleDao {
-    
-       private List<Detailsdemandearticle> detailsdemandearticleList;
+
+    private List<Detailsdemandearticle> detailsdemandearticleList;
     private Detailsdemandearticle detailsdemandearticle;
 
     @Override
@@ -87,7 +87,7 @@ public class DetailsdemandearticleHDao implements DetailsdemandearticleDao {
 
     @Override
     public void delete(DetailsdemandearticleId id) {
-       Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -103,5 +103,4 @@ public class DetailsdemandearticleHDao implements DetailsdemandearticleDao {
             session.close();
         }
     }
-    
 }

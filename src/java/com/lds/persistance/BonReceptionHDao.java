@@ -16,6 +16,7 @@ import org.hibernate.Transaction;
  * @author zarito
  */
 public class BonReceptionHDao implements BonReceptionDao {
+
     private List<Bonreception> bonreceptionList;
     private Bonreception bonreception;
 
@@ -102,5 +103,4 @@ public class BonReceptionHDao implements BonReceptionDao {
         }
 
     }
-    
 }

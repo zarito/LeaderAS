@@ -22,7 +22,7 @@ public class DemandePrixHDao implements DemandePrixDao {
 
     @Override
     public List getAllDevis() {
-          Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         try {
             session.beginTransaction();
             DemandePrixList = session.createQuery("from Demandeprix").list();
@@ -36,7 +36,7 @@ public class DemandePrixHDao implements DemandePrixDao {
 
     @Override
     public Demandeprix getDevis(String id) {
-         Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         try {
             session.beginTransaction();
             Query q = session.createQuery("from Demandeprix as c where c.numdemandeprix=:id");
@@ -85,7 +85,7 @@ public class DemandePrixHDao implements DemandePrixDao {
 
     @Override
     public void delete(String id) {
-          Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();

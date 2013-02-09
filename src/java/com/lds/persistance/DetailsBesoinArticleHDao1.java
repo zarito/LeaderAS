@@ -4,8 +4,6 @@
  */
 package com.lds.persistance;
 
-
-
 import com.lds.vo.Detailsarticlbesoin;
 import com.lds.vo.DetailsarticlbesoinId;
 import java.util.ArrayList;
@@ -21,9 +19,10 @@ import org.hibernate.Transaction;
  * @author zarito
  */
 public class DetailsBesoinArticleHDao1 implements DetailsBesoinArticleDao {
+
     private List<Detailsarticlbesoin> detailsarticlebesoinList;
     private Detailsarticlbesoin detailsarticlebesoin;
-    
+
     @Override
     public List getAllDetailsarticlebesoins() {
         Session session = HibernateUtil.getSession();
@@ -37,11 +36,12 @@ public class DetailsBesoinArticleHDao1 implements DetailsBesoinArticleDao {
             session.close();
         }
     }
- public List getDetailsarticlbesoins_id(String id_bc) {
+
+    public List getDetailsarticlbesoins_id(String id_bc) {
         Session session = HibernateUtil.getSession();
         try {
             session.beginTransaction();
-            detailsarticlebesoinList = session.createQuery("from Detailsarticlbesoin where idbesoin='"+id_bc+"'").list();
+            detailsarticlebesoinList = session.createQuery("from Detailsarticlbesoin where idbesoin='" + id_bc + "'").list();
             return detailsarticlebesoinList;
         } catch (HibernateException e) {
             throw e;
@@ -49,23 +49,24 @@ public class DetailsBesoinArticleHDao1 implements DetailsBesoinArticleDao {
             session.close();
         }
     }
- public List getDetailsarticlbesoins_id1(String id_bc) {
+
+    public List getDetailsarticlbesoins_id1(String id_bc) {
         Session session = HibernateUtil.getSession();
         try {
             session.beginTransaction();
-            detailsarticlebesoinList = session.createQuery("from Detailsarticlbesoin where idbesoin='"+id_bc+"'").list();
-           // List<Detailsarticlbesoin> details=details_article_dao.getDetailsarticlbesoins_id(selectedBesoin.getIdbesoin());
-       List<Detailsarticlbesoin> all = new ArrayList<Detailsarticlbesoin>();
-        Iterator li = detailsarticlebesoinList.iterator();
-        ArticleHDao article_dao=new ArticleHDao();
-        while (li.hasNext()) {
-            //Recupération objet
-            
-            Detailsarticlbesoin pu = (Detailsarticlbesoin) li.next();
-            pu.setNom_article(article_dao.getArticle(pu.getId().getIdarticle()).getDescarticle());
-            pu.setQntarticle(article_dao.getArticle(pu.getId().getIdarticle()).getQntarticle());
-            all.add(pu);
-        }
+            detailsarticlebesoinList = session.createQuery("from Detailsarticlbesoin where idbesoin='" + id_bc + "'").list();
+            // List<Detailsarticlbesoin> details=details_article_dao.getDetailsarticlbesoins_id(selectedBesoin.getIdbesoin());
+            List<Detailsarticlbesoin> all = new ArrayList<Detailsarticlbesoin>();
+            Iterator li = detailsarticlebesoinList.iterator();
+            ArticleHDao article_dao = new ArticleHDao();
+            while (li.hasNext()) {
+                //Recupération objet
+
+                Detailsarticlbesoin pu = (Detailsarticlbesoin) li.next();
+                pu.setNom_article(article_dao.getArticle(pu.getId().getIdarticle()).getDescarticle());
+                pu.setQntarticle(article_dao.getArticle(pu.getId().getIdarticle()).getQntarticle());
+                all.add(pu);
+            }
             return all;
         } catch (HibernateException e) {
             throw e;
@@ -73,7 +74,7 @@ public class DetailsBesoinArticleHDao1 implements DetailsBesoinArticleDao {
             session.close();
         }
     }
- 
+
     @Override
     public Detailsarticlbesoin getDetailsarticlebesoin(DetailsarticlbesoinId id) {
         Session session = HibernateUtil.getSession();
@@ -144,19 +145,20 @@ public class DetailsBesoinArticleHDao1 implements DetailsBesoinArticleDao {
         }
 
     }
+
     public void deleteAll(String id) {
         Session session = HibernateUtil.getSession();
         Transaction tx = null;
-        int i=0;
+        int i = 0;
         try {
-            List<Detailsarticlbesoin> l=this.getDetailsarticlbesoins_id(id);
-            do{
-            tx = session.beginTransaction();
-            //detailsarticlebesoin = (Detailsarticlbesoin) session.get(Detailsarticlbesoin.class, id);
-            session.delete(l.get(i));
-            tx.commit();
-            i++;
-            }while(i<l.size());
+            List<Detailsarticlbesoin> l = this.getDetailsarticlbesoins_id(id);
+            do {
+                tx = session.beginTransaction();
+                //detailsarticlebesoin = (Detailsarticlbesoin) session.get(Detailsarticlbesoin.class, id);
+                session.delete(l.get(i));
+                tx.commit();
+                i++;
+            } while (i < l.size());
         } catch (RuntimeException e) {
             if (tx != null) {
                 tx.rollback();
@@ -168,4 +170,3 @@ public class DetailsBesoinArticleHDao1 implements DetailsBesoinArticleDao {
 
     }
 }
-

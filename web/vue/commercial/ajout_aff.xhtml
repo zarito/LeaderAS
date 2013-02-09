@@ -173,7 +173,7 @@
                             <h:outputText value="Description: " />  
                             <p:inputTextarea value="#{projetBean.affaire.descprojet}"  /> 
 
-                            <p:commandButton value="Réinitialiser"  type="reset"  icon="ui-icon-arrowrefresh-1-w" />  
+                            <p:commandButton value="Réinitialiser"  type="reset"  icon="ui-icon-arrowrefresh-1-w" immediate="true" />  
                             <p:commandButton value="Enregistrer" action="#{projetBean.ajouterAffaire}" ajax="false" type="submit" icon="ui-icon-disk" update="messages" />  
 
                         </h:panelGrid>                           

@@ -15,8 +15,8 @@ import org.hibernate.Transaction;
  *
  * @author zarito
  */
-public class BonccHDao implements BonccDao{
-    
+public class BonccHDao implements BonccDao {
+
     private List<Boncc> bonccList;
     private Boncc boncc;
 
@@ -101,5 +101,4 @@ public class BonccHDao implements BonccDao{
             session.close();
         }
     }
-    
 }

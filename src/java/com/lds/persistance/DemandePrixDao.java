@@ -12,7 +12,8 @@ import java.util.List;
  * @author ELKAOUMI
  */
 public interface DemandePrixDao {
-    public  List getAllDevis();
+
+    public List getAllDevis();
 
     public Demandeprix getDevis(String id);
 
@@ -21,5 +22,4 @@ public interface DemandePrixDao {
     public void insert(Demandeprix demandePrix);
 
     public void delete(String id);
-    
 }

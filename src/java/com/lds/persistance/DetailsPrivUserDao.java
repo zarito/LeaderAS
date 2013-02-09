@@ -13,15 +13,14 @@ import java.util.List;
  * @author zarito
  */
 public interface DetailsPrivUserDao {
-    
-     public List getAllDetailsPrivUsers();
+
+    public List getAllDetailsPrivUsers();
 
     public Detailsprivuser getDetailsPrivUser(DetailsprivuserId id);
-    
+
     public void update(Detailsprivuser detailsPrivUser);
 
     public void insert(Detailsprivuser detailsPrivUser);
 
     public void delete(DetailsprivuserId id);
-    
 }

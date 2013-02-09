@@ -13,15 +13,14 @@ import java.util.List;
  * @author zarito
  */
 public interface DetailsBcArticleDao {
-    
-     public List getAllDetailsbcarticles();
+
+    public List getAllDetailsbcarticles();
 
     public Detailsbcarticle getDetailsbcarticle(DetailsbcarticleId id);
-    
+
     public void update(Detailsbcarticle detailsbcarticle);
 
     public void insert(Detailsbcarticle detailsbcarticle);
 
     public void delete(DetailsbcarticleId id);
-    
 }

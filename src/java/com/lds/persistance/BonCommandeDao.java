@@ -12,7 +12,8 @@ import java.util.List;
  * @author zarito
  */
 public interface BonCommandeDao {
-     public List getAllBonCommandes();
+
+    public List getAllBonCommandes();
 
     public Boncommande getBonCommande(String id);
 

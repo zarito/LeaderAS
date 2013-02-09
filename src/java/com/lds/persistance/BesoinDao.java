@@ -4,15 +4,16 @@
  */
 package com.lds.persistance;
 
-
 import com.lds.vo.Besoin;
 import java.util.List;
+
 /**
  *
  * @author ELKAOUMI
  */
 public interface BesoinDao {
-     public List getAllBesoin();
+
+    public List getAllBesoin();
 
     public Besoin getBesoin(String id);
 
@@ -21,5 +22,4 @@ public interface BesoinDao {
     public void insert(Besoin besoin);
 
     public void delete(String id);
-    
 }

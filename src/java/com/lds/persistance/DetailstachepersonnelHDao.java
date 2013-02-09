@@ -12,12 +12,12 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-
 /**
  *
  * @author ELKAOUMI
  */
-public class DetailstachepersonnelHDao implements DetailstachepersonnelDao{
+public class DetailstachepersonnelHDao implements DetailstachepersonnelDao {
+
     private List<Detailstachepersonnel> detailsTachePersonnelList;
     private Detailstachepersonnel detailsTachePersonnel;
 
@@ -87,7 +87,7 @@ public class DetailstachepersonnelHDao implements DetailstachepersonnelDao{
 
     @Override
     public void delete(DetailstachepersonnelId id) {
-       Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -103,5 +103,4 @@ public class DetailstachepersonnelHDao implements DetailstachepersonnelDao{
             session.close();
         }
     }
-    
 }

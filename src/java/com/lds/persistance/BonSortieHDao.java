@@ -15,8 +15,8 @@ import org.hibernate.Transaction;
  *
  * @author zarito
  */
-public class BonSortieHDao implements BonSortieDao{
-    
+public class BonSortieHDao implements BonSortieDao {
+
     private List<Bonsortie> bonsortieList;
     private Bonsortie bonsortie;
 
@@ -103,5 +103,4 @@ public class BonSortieHDao implements BonSortieDao{
         }
 
     }
-    
 }

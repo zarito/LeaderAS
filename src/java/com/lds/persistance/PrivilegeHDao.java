@@ -15,7 +15,8 @@ import org.hibernate.Transaction;
  *
  * @author zarito
  */
-public class PrivilegeHDao implements PrivilegeDao{
+public class PrivilegeHDao implements PrivilegeDao {
+
     private List<Privilege> privilegeList;
     private Privilege privilege;
 
@@ -35,7 +36,7 @@ public class PrivilegeHDao implements PrivilegeDao{
 
     @Override
     public Privilege getPrivilege(String id) {
-        
+
         Session session = HibernateUtil.getSession();
         try {
             session.beginTransaction();
@@ -47,8 +48,8 @@ public class PrivilegeHDao implements PrivilegeDao{
         }
     }
 
-     public Privilege getnom_to_Privilege(String nom) {
-        
+    public Privilege getnom_to_Privilege(String nom) {
+
         Session session = HibernateUtil.getSession();
         try {
             session.beginTransaction();
@@ -59,6 +60,7 @@ public class PrivilegeHDao implements PrivilegeDao{
             session.close();
         }
     }
+
     @Override
     public void update(Privilege privilege) {
         Session session = HibernateUtil.getSession();
@@ -116,4 +118,3 @@ public class PrivilegeHDao implements PrivilegeDao{
 
     }
 }
-

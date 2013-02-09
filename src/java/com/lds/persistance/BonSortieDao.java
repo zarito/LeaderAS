@@ -12,8 +12,8 @@ import java.util.List;
  * @author zarito
  */
 public interface BonSortieDao {
-    
-     public List getAllBonSorties();
+
+    public List getAllBonSorties();
 
     public Bonsortie getBonSortie(String id);
 
@@ -22,5 +22,4 @@ public interface BonSortieDao {
     public void insert(Bonsortie bonsortie);
 
     public void delete(String id);
-    
 }
